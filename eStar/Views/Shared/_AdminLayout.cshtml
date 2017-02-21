@@ -21,8 +21,15 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active">@Html.ActionLink("Home", "StudentIndex", "Homepages")</li>
-                    <li>@Html.ActionLink("eStore", "#", "#")</li>
+                    <li class="active">@Html.ActionLink("Home", "AdminIndex", "Homepages")</li>
+                    <li>
+                        <a href="#">Users <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Students", "Index", "Students")</li>
+                            <li>@Html.ActionLink("Staff", "Index", "Staff")</li>
+                            <li>@Html.ActionLink("Guardians", "Index", "Students")</li>
+                        </ul>
+                    </li>
                     <li>@Html.ActionLink("About You", "#", "#")</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -46,3 +53,4 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+

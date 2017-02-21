@@ -21,19 +21,32 @@ namespace eStar.Controllers
         {
             return View();
         }
-
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
         //Check correct log in details provided
         [HttpPost]
         public ActionResult Login(AccountViewModel avm, AccountModel am)
         {
+            if(am.findPassword(avm.Account.Email) == true)
+            {
+                ViewBag.Error = "You have not set up a password for your account";
+                return View("Index");
+            }
             if (string.IsNullOrEmpty(avm.Account.Email) || string.IsNullOrEmpty(avm.Account.Password) || am.login(avm.Account.Email, avm.Account.Password) == false)
             {
                 ViewBag.Error = "Log in details invalid";
                 return View("Index");
             }
-            SessionPersister.Username = am.find(avm.Account.Email).First_Name;
-            SessionPersister.UserType = am.find(avm.Account.Email).User_Type;
+            Session["Email"] = avm.Account.Email;
+            Session["Username"] = am.find(avm.Account.Email).First_Name;
+            Session["UserType"] = am.find(avm.Account.Email).User_Type;
+
+            string usertype = Session["UserType"].ToString();
             return View("Success");
+            //return View("~/Views/Homepages/"+usertype+"Index.cshtml");
+            
         }
 
         //For new users to set up their password once their account has been created
@@ -56,14 +69,29 @@ namespace eStar.Controllers
             return View("Register");
         }
 
-        //Editing account
+        //Setting Password
         [HttpPost]
-        public ActionResult SetPassword(RegisterPasswordViewModel rpvm, AccountModel am)
+        public ActionResult SetPassword(PasswordViewModel pvm, ChangePasswordView cpv, AccountModel am)
         {
-            string usertype = am.find(SessionPersister.Email).User_Type;
-            int userId = am.find(SessionPersister.Email).User_ID;
+            int userId = am.find(Session["Email"].ToString()).User_ID;
+            //if there is already a set password and it is uncorrect
+            if (am.findPassword(Session["Email"].ToString()) == false && string.IsNullOrEmpty(cpv.OldPassword) || am.findPassword(Session["Email"].ToString()) == false && am.login(Session["Email"].ToString(), cpv.OldPassword) == false)
+            {
 
-            if (usertype == "Student")
+                ViewBag.Error = "Incorrect password";
+                return View("ChangePassword");                
+
+            }
+            
+            if (pvm.Password != pvm.ConfirmPassword)
+            {
+                ViewBag.Error = "Password and confirm password must match.";
+                if(cpv.OldPassword == null)
+                {
+                    return View("Register");
+                }
+            }
+            else
             {
                 //update query
                 var query = from acc in db.Accounts
@@ -72,24 +100,30 @@ namespace eStar.Controllers
 
                 foreach (Account acc in query)
                 {
-                    acc.Password = Hashing.ComputeHash(rpvm.Password);
+                    acc.Password = Hashing.ComputeHash(pvm.Password);
                 }
 
                 try
                 {
                     db.SaveChanges();
-                    ViewBag.Message = "You are now registered!  Please log in.";
+                    if (string.IsNullOrEmpty(cpv.OldPassword))
+                    {
+                        ViewBag.Message = "You have now registered your password!  Please log in.";
+                        return View("Index");
+                    }
+
+                    ViewBag.Message = "You have reset your password!  Please log in.";
                     return View("Index");
+
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
                 }
-            }           
-            
-            return View("Register");
+            }
+            return View("ChangePassword");
         }
-        
+      
         public ActionResult Logout()
         {
             SessionPersister.Email = string.Empty;

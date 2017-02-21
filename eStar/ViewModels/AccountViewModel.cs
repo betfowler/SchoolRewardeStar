@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using eStar.Models;
 using System.ComponentModel.DataAnnotations;
+using FluentValidation;
+using FluentValidation.Attributes;
 
 namespace eStar.ViewModels
 {
@@ -12,21 +14,31 @@ namespace eStar.ViewModels
         public Account Account { get; set; }
     }
 
-    public class RegisterPasswordViewModel
+    public class PasswordViewModel
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
-        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+
+    public class RegisterPasswordView : PasswordViewModel
+    {
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+    }
+
+    public class ChangePasswordView : PasswordViewModel
+    {
+        [DataType(DataType.Password)]
+        [Display(Name = "Old Password")]
+        public string OldPassword { get; set; }
+        
+    }
+
 }

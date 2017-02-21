@@ -57,28 +57,14 @@ namespace eStar.Controllers
                 db.SaveChanges();
 
                 //send email
-                var message = new MailMessage();
                 var body = "<p>Hi {0}, </p><p>An account has been set up for the email address: {1} with eStar.</p><p>Please go to the eStar site and register a password. </p><p> Account details:<ul><li>Name: {2} {3} {4}</li><li>User: {5}</li></ul></p><p>Thank you.</p><p>eStar</p>";
-                message.Body = string.Format(body, student.First_Name, student.Email, student.Prefix, student.First_Name, student.Surname, student.User_Type);
-                message.To.Add(new MailAddress("bethany.fowler14@gmail.com"));
-                message.From = new MailAddress("estar.smtp.fowler@gmail.com");
-                message.Subject = "eStar Account Registration";
-                message.IsBodyHtml = true;
+                string messageBody = string.Format(body, student.First_Name, student.Email, student.Prefix, student.First_Name, student.Surname, student.User_Type);
+                string to = "bethany.fowler14@gmail.com";
+                string from = "estar.smtp.fowler@gmail.com";
+                string subject = "eStar Account Registration";
 
-                using (var smtp = new SmtpClient())
-                {
-                    var credential = new NetworkCredential
-                    {
-                        UserName = "estar.smtp.fowler@gmail.com",
-                        Password = "16eStar17"
-                    };
-                    smtp.Credentials = credential;
-                    smtp.Host = "smtp.gmail.com";
-                    smtp.Port = 587;
-                    smtp.EnableSsl = true;
+                await SendMessage(to, from, messageBody, subject);
 
-                    await smtp.SendMailAsync(message);
-                }
                 return RedirectToAction("Index");
             }
             return View(student);
@@ -104,12 +90,22 @@ namespace eStar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "User_ID,Email,Password,Prefix,First_Name,Surname,User_Type,Year_Group,Tutor_Group,Total_Points,Balance")] Student student)
+        public async Task<ActionResult> Edit([Bind(Include = "User_ID,Email,Password,Prefix,First_Name,Surname,User_Type,Year_Group,Tutor_Group,Total_Points,Balance")] Student student)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(student).State = EntityState.Modified;
                 db.SaveChanges();
+
+                //send email
+                var body = "<p>Hi {0}, </p><p>The following changes have been made to the following account: {1} with eStar.</p><p>Account details:<ul><li>Name: {2} {3} {4}</li><li>User: {5}</li></ul></p><p>Thank you.</p><p>eStar</p>";
+                string messageBody = string.Format(body, student.First_Name, student.Email, student.Prefix, student.First_Name, student.Surname, student.User_Type);
+                string to = "bethany.fowler14@gmail.com";
+                string from = "estar.smtp.fowler@gmail.com";
+                string subject = "eStar Account Changes";
+
+                await SendMessage(to, from, messageBody, subject);
+
                 return RedirectToAction("Index");
             }
             return View(student);
@@ -138,6 +134,33 @@ namespace eStar.Controllers
             Student student = db.Accounts.OfType<Student>().SingleOrDefault(s => s.User_ID == id);
             db.Accounts.Remove(student);
             db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> SendMessage(string to, string from, string body, string subject)
+        {
+            //send email
+            var message = new MailMessage();
+            message.Body = body;
+            message.To.Add(new MailAddress(to));
+            message.From = new MailAddress(from);
+            message.Subject = subject;
+            message.IsBodyHtml = true;
+
+            using (var smtp = new SmtpClient())
+            {
+                var credential = new NetworkCredential
+                {
+                    UserName = "estar.smtp.fowler@gmail.com",
+                    Password = "16eStar17"
+                };
+                smtp.Credentials = credential;
+                smtp.Host = "smtp.gmail.com";
+                smtp.Port = 587;
+                smtp.EnableSsl = true;
+
+                await smtp.SendMailAsync(message);
+            }
             return RedirectToAction("Index");
         }
 

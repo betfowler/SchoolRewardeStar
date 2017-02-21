@@ -241,13 +241,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Homepages\About.cshtml" />
+    <Content Include="Views\Homepages\GuardianIndex.cshtml" />
     <Content Include="Views\Homepages\StaffIndex.cshtml" />
     <Content Include="Views\Homepages\StudentIndex.cshtml" />
-    <Content Include="Views\Account\Create.cshtml" />
-    <Content Include="Views\Account\Delete.cshtml" />
-    <Content Include="Views\Account\Details.cshtml" />
-    <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Students\Create.cshtml" />
     <Content Include="Views\Students\Delete.cshtml" />
@@ -262,6 +258,11 @@
     <Content Include="Views\Account\Success.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_StudentLayout.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Homepages\AdminIndex.cshtml" />
+    <Content Include="Views\Shared\_StaffLayout.cshtml" />
+    <Content Include="Views\Shared\_GuardianLayout.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

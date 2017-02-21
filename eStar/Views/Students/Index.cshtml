@@ -5,21 +5,6 @@
 }
 
 <h2>Students</h2>
-
-@{ if (ViewBag.Error != null)
-    {
-        <div class="alert alert-danger">
-            <strong>Error!</strong> @ViewBag.Error
-        </div>
-    }
-    if (ViewBag.Message != null)
-    {
-        <div class="alert alert-success">
-            <strong>Success!</strong> @ViewBag.Message
-        </div>
-    }
-}
-
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>

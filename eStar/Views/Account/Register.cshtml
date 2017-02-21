@@ -1,8 +1,16 @@
-﻿@model eStar.ViewModels.RegisterPasswordViewModel
+﻿@model eStar.ViewModels.RegisterPasswordView
 @using eStar.Security
 
 @{
     ViewBag.Title = "Register";
+}
+
+@{ if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">
+            <strong>Error!</strong> @ViewBag.Error
+        </div>
+    }
 }
 
 <h2>Register Your Password</h2>
@@ -16,14 +24,14 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Password, new {@class="col-md-2 control-label"})
                 <div class="col-md-10">
-                    @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control" }) 
                 </div>
             </div>
             <br /><br />
             <div class="form-group">
                 @Html.LabelFor(model => model.ConfirmPassword, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" })
+                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" }) 
                 </div>
             </div>
             <br /><br />

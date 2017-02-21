@@ -47,9 +47,8 @@ namespace eStar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "User_ID,Email,Password,Prefix,First_Name,Surname,User_Type,Job_Role,Weekly_Points,Remaining_Points")] Staff staff)
+        public ActionResult Create([Bind(Include = "User_ID,Email,Password,Prefix,First_Name,Surname,User_Type,Job_Role,Weekly_Points,Remaining_Points,Admin")] Staff staff)
         {
-            staff.Password = Hashing.ComputeHash(staff.Password);
             if (ModelState.IsValid)
             {
                 db.Accounts.Add(staff);
