@@ -166,6 +166,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HomePageController.cs" />
     <Compile Include="Controllers\StaffsController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -263,6 +264,10 @@
     <Content Include="Views\Shared\_StaffLayout.cshtml" />
     <Content Include="Views\Shared\_GuardianLayout.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\HomePage\StudentIndex.cshtml" />
+    <Content Include="Views\HomePage\StaffIndex.cshtml" />
+    <Content Include="Views\HomePage\GuardianIndex.cshtml" />
+    <Content Include="Views\HomePage\AdminIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

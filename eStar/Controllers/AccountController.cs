@@ -44,7 +44,7 @@ namespace eStar.Controllers
             Session["UserType"] = am.find(avm.Account.Email).User_Type;
 
             //return View("Success");
-            return View("~/Views/Homepages/"+Session["UserType"].ToString()+"Index.cshtml");
+            return View("~/Views/HomePage/"+Session["UserType"].ToString()+"Index.cshtml");
             
         }
 
@@ -59,6 +59,7 @@ namespace eStar.Controllers
                 return View("Index");
             }
             //Check password for email == null
+
             if (am.findPassword(avm.Account.Email) == false)
             {
                 ViewBag.Error = "There is already a password set for this account.  Please use the log in section.";
