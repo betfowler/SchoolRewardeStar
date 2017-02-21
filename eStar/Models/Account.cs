@@ -28,7 +28,7 @@ namespace eStar.Models
         [Display(Name = "User Type")]
         public string User_Type { get; set; }
     }
-
+    [Validator(typeof(AccountValidator))]
     public class Student : Account
     {
         [Display(Name = "Year Group")]
