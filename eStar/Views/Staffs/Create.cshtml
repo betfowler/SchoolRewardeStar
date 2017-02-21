@@ -7,10 +7,10 @@
 <h2>Add New Staff Member</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Staff</h4>
         <hr />
@@ -50,7 +50,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Admin, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.CheckBoxFor(model => model.Admin, new { htmlAttributes = new { @class = "form-control"} })
+                <input type="checkbox" id="Admin" name="Admin" value="true"/>
+                
                 @Html.ValidationMessageFor(model => model.Admin, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -58,7 +59,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Job_Role, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Job_Role, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Job_Role, "", new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Job_Role, "", new { @class = "text-danger" })
             </div>
         </div>

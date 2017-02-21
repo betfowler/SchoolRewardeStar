@@ -39,7 +39,7 @@ namespace eStar.Models
         [Display(Name = "Current Balance")]
         public int Balance { get; set; }
     }
-   
+
     public class Staff : Account
     {
         [Display(Name = "Job Role")]
@@ -48,7 +48,7 @@ namespace eStar.Models
         public int Weekly_Points { get; set; }
         [Display(Name = "Remaining Points")]
         public int Remaining_Points { get; set; }
-        public bool Admin { get; set; }
+        public bool? Admin { get; set; }
     }
 
     public class Guardian : Account

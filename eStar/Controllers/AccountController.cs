@@ -43,9 +43,8 @@ namespace eStar.Controllers
             Session["Username"] = am.find(avm.Account.Email).First_Name;
             Session["UserType"] = am.find(avm.Account.Email).User_Type;
 
-            string usertype = Session["UserType"].ToString();
-            return View("Success");
-            //return View("~/Views/Homepages/"+usertype+"Index.cshtml");
+            //return View("Success");
+            return View("~/Views/Homepages/"+Session["UserType"].ToString()+"Index.cshtml");
             
         }
 
@@ -66,62 +65,89 @@ namespace eStar.Controllers
                 return View("Index");
             }
             SessionPersister.Email = avm.Account.Email;
+            Session["Email"] = avm.Account.Email;
             return View("Register");
         }
 
         //Setting Password
         [HttpPost]
-        public ActionResult SetPassword(PasswordViewModel pvm, ChangePasswordView cpv, AccountModel am)
+        public ActionResult ChangePassword(PasswordViewModel pvm, ChangePasswordView cpv, AccountModel am)
         {
-            int userId = am.find(Session["Email"].ToString()).User_ID;
-            //if there is already a set password and it is uncorrect
-            if (am.findPassword(Session["Email"].ToString()) == false && string.IsNullOrEmpty(cpv.OldPassword) || am.findPassword(Session["Email"].ToString()) == false && am.login(Session["Email"].ToString(), cpv.OldPassword) == false)
+            string email = Session["Email"].ToString();
+            int userID = am.find(email).User_ID;
+            if (string.IsNullOrEmpty(cpv.OldPassword) || am.login(email, cpv.OldPassword) == false)
             {
-
                 ViewBag.Error = "Incorrect password";
-                return View("ChangePassword");                
+                return View("ChangePassword");
+            }
+            if (pvm.Password != pvm.ConfirmPassword)
+            {
+                ViewBag.Error = "Password and confirm password must match.";
+                if (cpv.OldPassword == null)
+                {
+                    return View("ChangePassword");
+                }
+            }
+            //update query
+            var query = from acc in db.Accounts
+                        where acc.User_ID == userID
+                        select acc;
+
+            foreach (Account acc in query)
+            {
+                acc.Password = Hashing.ComputeHash(pvm.Password);
+            }
+
+            try
+            {
+                db.SaveChanges();
+                ViewBag.Message = "You have reset your password!  Please log in.";
+                return View("Index");
 
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return View("ChangePassword");
+        }
+
+
+
+        [HttpPost]
+        public ActionResult SetPassword(PasswordViewModel pvm, AccountModel am)
+        {
+            string email = Session["Email"].ToString();
+            int userId = am.find(email).User_ID;
             
             if (pvm.Password != pvm.ConfirmPassword)
             {
                 ViewBag.Error = "Password and confirm password must match.";
-                if(cpv.OldPassword == null)
-                {
-                    return View("Register");
-                }
             }
-            else
+
+            //update query
+            var query = from acc in db.Accounts
+                        where acc.User_ID == userId
+                        select acc;
+
+            foreach (Account acc in query)
             {
-                //update query
-                var query = from acc in db.Accounts
-                            where acc.User_ID == userId
-                            select acc;
-
-                foreach (Account acc in query)
-                {
-                    acc.Password = Hashing.ComputeHash(pvm.Password);
-                }
-
-                try
-                {
-                    db.SaveChanges();
-                    if (string.IsNullOrEmpty(cpv.OldPassword))
-                    {
-                        ViewBag.Message = "You have now registered your password!  Please log in.";
-                        return View("Index");
-                    }
-
-                    ViewBag.Message = "You have reset your password!  Please log in.";
-                    return View("Index");
-
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
+                acc.Password = Hashing.ComputeHash(pvm.Password);
             }
-            return View("ChangePassword");
+
+            try
+            {
+                db.SaveChanges();
+                    
+                ViewBag.Message = "You have now registered your password!  Please log in.";
+                return View("Index");
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return View("Register");
         }
       
         public ActionResult Logout()

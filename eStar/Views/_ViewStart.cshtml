@@ -1,19 +1,23 @@
-﻿@using eStar.Security;
+﻿@{
+    string usertype = null;
+    if(Session["UserType"] != null)
+    {
+        usertype = Session["UserType"].ToString();
+    }
 
-@{
-    if (SessionPersister.UserType == "Student")
+    if (usertype == "Student")
     {
         Layout = "~/Views/Shared/_StudentLayout.cshtml";
     }
-    else if (SessionPersister.UserType == "Staff")
+    else if (usertype == "Staff")
     {
         Layout = "~/Views/Shared/_StaffLayout.cshtml";
     }
-    else if (SessionPersister.UserType == "Guardian")
+    else if (usertype == "Guardian")
     {
         Layout = "~/Views/Shared/_GuardianLayout.cshtml";
     }
-    else if (SessionPersister.UserType == "Admin")
+    else if (usertype == "Admin")
     {
         Layout = "~/Views/Shared/_AdminLayout.cshtml";
     }
