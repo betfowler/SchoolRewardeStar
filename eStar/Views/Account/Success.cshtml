@@ -1,0 +1,21 @@
+﻿@using eStar.Security
+@{
+    ViewBag.Title = "Success";
+
+}
+
+<h2>Success</h2>
+
+Welcome!  @SessionPersister.Email @SessionPersister.UserType
+Add new student @Html.ActionLink("here!", "Create", "Students")
+</br>
+View all students @Html.ActionLink("here!", "Index", "Students")
+</br>
+</br>
+Add new staff member @Html.ActionLink("here!", "Create", "Staffs")
+</br>
+View all staff @Html.ActionLink("here!", "Index", "Staffs")
+  
+</br>
+</br>
+Register @Html.ActionLink("here!", "Register", "Account")

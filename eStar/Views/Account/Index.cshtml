@@ -1,0 +1,78 @@
+﻿@model eStar.ViewModels.AccountViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Welcome to eStar</h2>
+
+@{ if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">
+            <strong>Error!</strong> @ViewBag.Error
+        </div>
+    }
+    if (ViewBag.Message != null)
+    {
+        <div class="alert alert-success">
+            <strong>Success!</strong> @ViewBag.Message
+        </div>
+    }
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+            {
+                <h4>Log in here</h4>
+                <h5></h5>
+                <hr />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Account.Email, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Account.Email, new { @class = "form-control"}) @Html.ValidationMessageFor(model => model.Account.Email)
+                    </div>
+                </div>
+                <br /><br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Account.Password, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(model => model.Account.Password, new { @class = "form-control"})
+                    </div>
+                </div>
+                <br /><br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Login" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+    <div class="col-md-6">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+        {
+            <h4>Your first time logging in?</h4>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Account.Email, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Account.Email, new { @class = "form-control" }) @Html.ValidationMessageFor(model => model.Account.Email)
+                </div>
+            </div>
+            <br /><br />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Submit" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<hr />
+<div class="row">
+    Not registered?  Request an account here. 
+</div>
+

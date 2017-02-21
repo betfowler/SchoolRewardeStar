@@ -1,0 +1,24 @@
+﻿@using eStar.Security;
+
+@{
+    if (SessionPersister.UserType == "Student")
+    {
+        Layout = "~/Views/Shared/_StudentLayout.cshtml";
+    }
+    else if (SessionPersister.UserType == "Staff")
+    {
+        Layout = "~/Views/Shared/_StaffLayout.cshtml";
+    }
+    else if (SessionPersister.UserType == "Guardian")
+    {
+        Layout = "~/Views/Shared/_GuardianLayout.cshtml";
+    }
+    else if (SessionPersister.UserType == "Admin")
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}

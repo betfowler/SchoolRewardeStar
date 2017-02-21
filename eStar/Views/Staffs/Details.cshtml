@@ -1,0 +1,90 @@
+﻿@model eStar.Models.Staff
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Staff</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Prefix)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Prefix)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.First_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.First_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User_Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User_Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Job_Role)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Job_Role)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Weekly_Points)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Weekly_Points)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remaining_Points)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remaining_Points)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.User_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
