@@ -199,6 +199,7 @@
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\eStarContext.cs" />
+    <Compile Include="Models\SendEmail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\CustomPrincipals.cs" />
     <Compile Include="Security\Hashing.cs" />

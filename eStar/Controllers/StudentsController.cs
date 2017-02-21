@@ -7,8 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using eStar.Models;
-using eStar.Security;
-using System.Net.Mail;
+using eStar.Controllers;
 
 namespace eStar.Controllers
 {
@@ -48,7 +47,7 @@ namespace eStar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<ActionResult> Create([Bind(Include = "User_ID,Email,Password,Prefix,First_Name,Surname,User_Type,Year_Group,Tutor_Group,Total_Points,Balance")] Student student)
+        public ActionResult Create([Bind(Include = "User_ID,Email,Password,Prefix,First_Name,Surname,User_Type,Year_Group,Tutor_Group,Total_Points,Balance")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -57,30 +56,21 @@ namespace eStar.Controllers
                 db.SaveChanges();
 
                 //send email
-                var body = "<p>Email From: eStar {0} </p><p>Hi {1}, </p><p>An account has been set up for the email address: {2} with eStar.</p><p>Please go to the eStar site and register a password. </p><p> Account details:<ul><li>Name: {3} {4} {5}</li><li>User: {6}</li></ul></p><p>Thank you.</p><p>eStar</p>";
-                var message = new MailMessage();
-                message.To.Add(new MailAddress("bethany.fowler14@gmail.com"));
-                message.From = new MailAddress("estar.smtp.fowler@gmail.com");
-                message.Subject = "eStar email";
-                message.Body = string.Format(body, message.From, student.First_Name, student.Email, student.Prefix, student.First_Name, student.Surname, student.User_Type);
+                var body = "<p>Hi {0}, </p><p>An account has been set up for the email address: {1} with eStar.</p><p>Please go to the eStar site and register a password. </p><p> Account details:<ul><li>Name: {2} {3} {4}</li><li>User: {5}</li></ul></p><p>Thank you.</p><p>eStar</p>";
+                string messageBody = string.Format(body, student.First_Name, student.Email, student.Prefix, student.First_Name, student.Surname, student.User_Type);
+                string to = "bethany.fowler14@gmail.com";
+                string from = "estar.smtp.fowler@gmail.com";
+                string subject = "eStar Account Registration";
 
-                message.IsBodyHtml = true;
-
-                using (var smtp = new SmtpClient())
+                string response = SendEmail.Message(to, from, messageBody, subject).ToString();
+                if(response != "Error")
                 {
-                    var credential = new NetworkCredential
-                    {
-                        UserName = "estar.smtp.fowler@gmail.com",
-                        Password = "16eStar17"
-                    };
-                    smtp.Credentials = credential;
-                    smtp.Host = "smtp.gmail.com";
-                    smtp.Port = 587;
-                    smtp.EnableSsl = true;
-                    await smtp.SendMailAsync(message);
+                    ViewBag.Message = "A registration email was deliverd to " + response;
                 }
-
-
+                else
+                {
+                    ViewBag.Error = "Email to " + response + " could not be sent.";
+                }
                 return RedirectToAction("Index");
             }
 
