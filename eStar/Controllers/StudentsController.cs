@@ -94,16 +94,22 @@ namespace eStar.Controllers
         {
             if (ModelState.IsValid)
             {
+                var body = "";
+
                 if(Request.Form["reset"] != null)
                 {
                     student.Password = null;
+                    body = "<p>Hi {0}, </p><p>The password for the email address: {1} has been reset.</p><p>Please go to the eStar site and register a new password. </p><p> Account details:<ul><li>Name: {2} {0} {3}</li><li>User type: {4}</li><li>Year Group: {5}</li><li>Tutor Group: {6}</li></ul></p><p>Thank you.</p><p>eStar</p>";
+                }
+                else
+                {
+                    body = "<p>Hi {0}, </p><p>The following changes have been made to the account: {1} with eStar.</p><p>Account details:<ul><li>Name: {2} {0} {3}</li><li>User type: {4}</li><li>Year Group: {5}</li><li>Tutor Group: {6}</li><li>Total Points: {7}</li><li>Current Balance: {8}</li></ul></p><p>Thank you.</p><p>eStar</p>";
                 }
 
                 db.Entry(student).State = EntityState.Modified;
                 db.SaveChanges();
 
                 //send email
-                var body = "<p>Hi {0}, </p><p>The following changes have been made to the account: {1} with eStar.</p><p>Account details:<ul><li>Name: {2} {0} {3}</li><li>User type: {4}</li><li>Year Group: {5}</li><li>Tutor Group: {6}</li><li>Total Points: {7}</li><li>Current Balance: {8}</li></ul></p><p>Thank you.</p><p>eStar</p>";
                 string messageBody = string.Format(body, student.First_Name, student.Email, student.Prefix, student.Surname, student.User_Type, student.Year_Group, student.Tutor_Group, student.Total_Points, student.Balance);
                 string to = "bethany.fowler14@gmail.com"; //Change to student.Email when finished testing
                 string from = "estar.smtp.fowler@gmail.com";
