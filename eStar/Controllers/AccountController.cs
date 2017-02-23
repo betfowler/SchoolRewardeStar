@@ -84,10 +84,7 @@ namespace eStar.Controllers
             if (pvm.Password != pvm.ConfirmPassword)
             {
                 ViewBag.Error = "Password and confirm password must match.";
-                if (cpv.OldPassword == null)
-                {
-                    return View("ChangePassword");
-                }
+                return View("ChangePassword");
             }
             //update query
             var query = from acc in db.Accounts
@@ -103,6 +100,7 @@ namespace eStar.Controllers
             {
                 db.SaveChanges();
                 ViewBag.Message = "You have reset your password!  Please log in.";
+                Logout();
                 return View("Index");
 
             }
@@ -124,6 +122,7 @@ namespace eStar.Controllers
             if (pvm.Password != pvm.ConfirmPassword)
             {
                 ViewBag.Error = "Password and confirm password must match.";
+                return View("Register");
             }
 
             //update query
@@ -150,7 +149,7 @@ namespace eStar.Controllers
             }
             return View("Register");
         }
-      
+        
         public ActionResult Logout()
         {
             SessionPersister.Email = string.Empty;

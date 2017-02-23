@@ -7,108 +7,106 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using eStar.Models;
-using System.Net.Mail;
 using System.Threading.Tasks;
+using System.Net.Mail;
 
 namespace eStar.Controllers
 {
-    public class StaffsController : Controller
+    public class GuardiansController : Controller
     {
         private eStarContext db = new eStarContext();
 
-        // GET: Staffs
+        // GET: Guardians
         public ActionResult Index()
         {
-            return View(db.Accounts.OfType<Staff>().ToList());
+            return View(db.Accounts.OfType<Guardian>().ToList());
         }
 
-        // GET: Staffs/Details/5
+        // GET: Guardians/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Staff staff = db.Accounts.OfType<Staff>().SingleOrDefault(s => s.User_ID == id);
-            if (staff == null)
+            Guardian guardian = db.Accounts.OfType<Guardian>().SingleOrDefault(g => g.User_ID == id);
+            if (guardian == null)
             {
                 return HttpNotFound();
             }
-            return View(staff);
+            return View(guardian);
         }
 
-        // GET: Staffs/Create
+        // GET: Guardians/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Staffs/Create
+        // POST: Guardians/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<ActionResult> Create([Bind(Include = "User_ID,Email,Password,Prefix,First_Name,Surname,User_Type,Job_Role,Weekly_Points,Remaining_Points,Admin")] Staff staff)
+        public async Task<ActionResult> Create([Bind(Include = "User_ID,Email,Password,Prefix,First_Name,Surname,User_Type")] Guardian guardian)
         {
             if (ModelState.IsValid)
             {
-
-                if (staff.Admin.Equals(true))
-                    staff.User_Type = "Admin";
-                else
-                    staff.User_Type = "Staff";
-                db.Accounts.Add(staff);
+                guardian.User_Type = "Guardian";
+                db.Accounts.Add(guardian);
                 db.SaveChanges();
 
                 //send email
-                var body = "<p>Hi {0}, </p><p>An account has been set up for the email address: {1} with eStar.</p><p>Please go to the eStar site and register a password. </p><p> Account details:<ul><li>Name: {2} {0} {3}</li><li>User type: {4}</li><li>Job Role: {5}</li><li>Weekly Point Allocation: {6}</li><li>Remaining Points: {7}</li></ul></p><p>Thank you.</p><p>eStar</p>";
-                string messageBody = string.Format(body, staff.First_Name, staff.Email, staff.Prefix, staff.Surname, staff.User_Type, staff.Job_Role, staff.Weekly_Points, staff.Remaining_Points);
-                string to = "bethany.fowler14@gmail.com"; //Change to staff.Email when finished testing
+                var body = "<p>Hi {0}, </p><p>An account has been set up for the email address: {1} with eStar.</p><p>Please go to the eStar site and register a password. </p><p> Account details:<ul><li>Name: {2} {0} {3}</li><li>User type: {4}</li></ul></p><p>Thank you.</p><p>eStar</p>";
+                string messageBody = string.Format(body, guardian.First_Name, guardian.Email, guardian.Prefix, guardian.Surname, guardian.User_Type);
+                string to = "bethany.fowler14@gmail.com"; //change to guardian.Email when finished testing
                 string from = "estar.smtp.fowler@gmail.com";
                 string subject = "eStar Account Registration";
 
                 await SendMessage(to, from, messageBody, subject);
+
                 return RedirectToAction("Index");
             }
 
-            return View(staff);
+            return View(guardian);
         }
 
-        // GET: Staffs/Edit/5
+        // GET: Guardians/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Staff staff = db.Accounts.OfType<Staff>().SingleOrDefault(s => s.User_ID == id);
-            if (staff == null)
+            Guardian guardian = db.Accounts.OfType<Guardian>().SingleOrDefault(g => g.User_ID == id);
+            if (guardian == null)
             {
                 return HttpNotFound();
             }
-            return View(staff);
+            return View(guardian);
         }
 
-        // POST: Staffs/Edit/5
+        // POST: Guardians/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<ActionResult> Edit([Bind(Include = "User_ID,Email,Password,Prefix,First_Name,Surname,User_Type,Job_Role,Weekly_Points,Remaining_Points")] Staff staff)
+        public async Task<ActionResult> Edit([Bind(Include = "User_ID,Email,Password,Prefix,First_Name,Surname,User_Type")] Guardian guardian)
         {
             if (ModelState.IsValid)
             {
                 //if password reset selected
                 if (Request.Form["reset"] != null)
-                    staff.Password = null;
-
-                db.Entry(staff).State = EntityState.Modified;
+                {
+                    guardian.Password = null;
+                }
+                db.Entry(guardian).State = EntityState.Modified;
                 db.SaveChanges();
 
                 //send email
-                var body = "<p>Hi {0}, </p><p>The following changes have been made to this account: {1} with eStar.</p><p> Account details:<ul><li>Name: {2} {0} {3}</li><li>User type: {4}</li><li>Job Role: {5}</li><li>Weekly Point Allocation: {6}</li><li>Remaining Points: {7}</li></ul></p><p>Thank you.</p><p>eStar</p>";
-                string messageBody = string.Format(body, staff.First_Name, staff.Email, staff.Prefix, staff.Surname, staff.User_Type, staff.Job_Role, staff.Weekly_Points, staff.Remaining_Points);
-                string to = "bethany.fowler14@gmail.com"; //Change to staff.Email when finished testing
+                var body = "<p>Hi {0}, </p><p>The following changes have been made to the account: {1} with eStar.</p><p>Account details:<ul><li>Name: {2} {0} {3}</li><li>User: {4}</li></ul></p><p>Thank you.</p><p>eStar</p>";
+                string messageBody = string.Format(body, guardian.First_Name, guardian.Email, guardian.Prefix, guardian.Surname, guardian.User_Type);
+                string to = "bethany.fowler14@gmail.com"; //change to guardian.Email when finished testing
                 string from = "estar.smtp.fowler@gmail.com";
                 string subject = "eStar Account Changes";
 
@@ -116,32 +114,31 @@ namespace eStar.Controllers
 
                 return RedirectToAction("Index");
             }
-            return View(staff);
+            return View(guardian);
         }
 
-        // GET: Staffs/Delete/5
+        // GET: Guardians/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Staff staff = db.Accounts.OfType<Staff>().SingleOrDefault(s => s.User_ID == id);
-            if (staff == null)
+            Guardian guardian = db.Accounts.OfType<Guardian>().SingleOrDefault(g => g.User_ID == id);
+            if (guardian == null)
             {
                 return HttpNotFound();
             }
-            return View(staff);
+            return View(guardian);
         }
 
-
-        // POST: Staffs/Delete/5
+        // POST: Guardians/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Staff staff = db.Accounts.OfType<Staff>().SingleOrDefault(s => s.User_ID == id);
-            db.Accounts.Remove(staff);
+            Guardian guardian = db.Accounts.OfType<Guardian>().SingleOrDefault(g => g.User_ID == id);
+            db.Accounts.Remove(guardian);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
