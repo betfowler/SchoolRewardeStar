@@ -62,9 +62,15 @@ namespace eStar.Models
             RuleFor(Account => Account.Email).Must(IsUniqueEmail).WithMessage("Email already exists");
         }
 
-        private bool IsUniqueEmail(string email)
+        private bool IsUniqueEmail(Account account, string email)
         {
             var db = new eStarContext();
+
+            if(account.User_ID > 0)
+            {
+                if (db.Accounts.Where(acc => acc.User_ID == account.User_ID).FirstOrDefault().Email == email) return true;
+            }
+
             if (db.Accounts.Where(acc => acc.Email == email).FirstOrDefault() == null) return true;
             return false;
         }
