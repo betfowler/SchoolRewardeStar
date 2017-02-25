@@ -38,7 +38,35 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Tutor_Group)
             </td>
+            <td>
+                <a data-toggle="modal" data-target="#awardPoints">Award</a>
+            </td>
         </tr>
     }
 
 </table>
+
+<!--modal for password reset-->
+<div class="form-group">
+
+        <div class="modal fade" id="awardPoints" role="alert">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dissmiss="modal">&times;</button>
+                        <h4 class="modal-title">
+                            @RenderSection("title", false)
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <p style="text-align: center">The user will be alerted that their password has been reset and they will have to use the 'first time logging in' section.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" name="reset" value="Yes, reset" class="btn btn-default" />
+                        <input type="button" value="No, close" data-dissmiss="modal" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

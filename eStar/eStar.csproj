@@ -273,6 +273,7 @@
     <Content Include="Views\Index\GuardianIndex.cshtml" />
     <Content Include="Views\Index\Index.cshtml" />
     <Content Include="Views\StudentAward\Index.cshtml" />
+    <Content Include="Views\StudentAward\Award.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

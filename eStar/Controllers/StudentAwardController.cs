@@ -16,5 +16,9 @@ namespace eStar.Controllers
         {
             return View(db.Accounts.OfType<Student>().ToList());
         }
+        public ActionResult Award()
+        {
+            return View();
+        }
     }
 }
