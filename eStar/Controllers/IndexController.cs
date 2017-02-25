@@ -6,21 +6,25 @@ using System.Web.Mvc;
 
 namespace eStar.Controllers
 {
-    public class HomeController : Controller
+    public class IndexController : Controller
     {
+        public ActionResult Index()
+        {
+            return View();
+        }
+        // GET: Index
         public ActionResult StudentIndex()
         {
             return View();
         }
 
         public ActionResult StaffIndex()
-        { 
+        {
             return View();
         }
 
         public ActionResult GuardianIndex()
         {
-
             return View();
         }
 

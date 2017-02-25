@@ -166,9 +166,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\GuardiansController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\HomePageController.cs" />
+    <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\StaffsController.cs" />
+    <Compile Include="Controllers\StudentAwardController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -244,9 +244,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Homepages\GuardianIndex.cshtml" />
-    <Content Include="Views\Homepages\StaffIndex.cshtml" />
-    <Content Include="Views\Homepages\StudentIndex.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Students\Create.cshtml" />
     <Content Include="Views\Students\Delete.cshtml" />
@@ -262,19 +259,20 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_StudentLayout.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
-    <Content Include="Views\Homepages\AdminIndex.cshtml" />
     <Content Include="Views\Shared\_StaffLayout.cshtml" />
     <Content Include="Views\Shared\_GuardianLayout.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
-    <Content Include="Views\HomePage\StudentIndex.cshtml" />
-    <Content Include="Views\HomePage\StaffIndex.cshtml" />
-    <Content Include="Views\HomePage\GuardianIndex.cshtml" />
-    <Content Include="Views\HomePage\AdminIndex.cshtml" />
     <Content Include="Views\Guardians\Create.cshtml" />
     <Content Include="Views\Guardians\Delete.cshtml" />
     <Content Include="Views\Guardians\Details.cshtml" />
     <Content Include="Views\Guardians\Edit.cshtml" />
     <Content Include="Views\Guardians\Index.cshtml" />
+    <Content Include="Views\Index\AdminIndex.cshtml" />
+    <Content Include="Views\Index\StudentIndex.cshtml" />
+    <Content Include="Views\Index\StaffIndex.cshtml" />
+    <Content Include="Views\Index\GuardianIndex.cshtml" />
+    <Content Include="Views\Index\Index.cshtml" />
+    <Content Include="Views\StudentAward\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

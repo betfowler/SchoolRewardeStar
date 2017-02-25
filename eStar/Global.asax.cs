@@ -19,5 +19,12 @@ namespace eStar
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             FluentValidationModelValidatorProvider.Configure();
         }
+        protected void Application_BeginRequest()
+        {
+            Response.Cache.SetValidUntilExpires(false);
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
+            Response.Cache.SetNoStore();
+        }
     }
 }

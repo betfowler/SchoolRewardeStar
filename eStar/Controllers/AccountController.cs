@@ -19,6 +19,13 @@ namespace eStar.Controllers
         // GET: Account
         public ActionResult Index()
         {
+            if(SessionPersister.Email != null)
+            {
+                if(SessionPersister.Email != "")
+                {
+                    return View("~/Views/Index/" + Session["UserType"].ToString() + "Index.cshtml");
+                }
+            }
             return View();
         }
         public ActionResult ChangePassword()
@@ -44,7 +51,7 @@ namespace eStar.Controllers
             Session["UserType"] = am.find(avm.Account.Email).User_Type;
 
             //return View("Success");
-            return View("~/Views/HomePage/"+Session["UserType"].ToString()+"Index.cshtml");
+            return View("~/Views/Index/"+Session["UserType"].ToString()+"Index.cshtml");
             
         }
 
@@ -149,13 +156,17 @@ namespace eStar.Controllers
             }
             return View("Register");
         }
-        
+
+        [OutputCache(NoStore = true, Duration = 0)]
         public ActionResult Logout()
         {
             SessionPersister.Email = string.Empty;
             SessionPersister.UserType = string.Empty;
             SessionPersister.Username = string.Empty;
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Account");
+
+
+            
         }
     }
 }
