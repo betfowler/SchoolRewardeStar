@@ -11,6 +11,7 @@ namespace eStar.Models
         private eStarContext db = new eStarContext();
 
         public AccountModel() { }
+        
 
         public Account find(string email)
         {

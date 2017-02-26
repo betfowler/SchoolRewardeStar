@@ -36,12 +36,7 @@ namespace eStar.Controllers
         [HttpPost]
         public ActionResult Login(AccountViewModel avm, AccountModel am)
         {
-            if(am.findPassword(avm.Account.Email) == true)
-            {
-                ViewBag.Error = "You have not set up a password for your account";
-                return View("Index");
-            }
-            if (string.IsNullOrEmpty(avm.Account.Email) || string.IsNullOrEmpty(avm.Account.Password) || am.login(avm.Account.Email, avm.Account.Password) == false)
+            if (string.IsNullOrEmpty(avm.Account.Email) || string.IsNullOrEmpty(avm.Account.Password) || am.findPassword(avm.Account.Email) == true || am.login(avm.Account.Email, avm.Account.Password) == false)
             {
                 ViewBag.Error = "Log in details invalid";
                 return View("Index");
@@ -144,6 +139,7 @@ namespace eStar.Controllers
 
             try
             {
+
                 db.SaveChanges();
                     
                 ViewBag.Message = "You have now registered your password!  Please log in.";

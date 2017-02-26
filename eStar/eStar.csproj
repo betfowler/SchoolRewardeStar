@@ -165,8 +165,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AwardsController.cs" />
     <Compile Include="Controllers\GuardiansController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Controllers\RewardCategoriesController.cs" />
     <Compile Include="Controllers\StaffsController.cs" />
     <Compile Include="Controllers\StudentAwardController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
@@ -197,15 +199,31 @@
     <Compile Include="Migrations\201702201901015_Accounts2.Designer.cs">
       <DependentUpon>201702201901015_Accounts2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702261633337_Award.cs" />
+    <Compile Include="Migrations\201702261633337_Award.Designer.cs">
+      <DependentUpon>201702261633337_Award.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702261646076_RewardCategory.cs" />
+    <Compile Include="Migrations\201702261646076_RewardCategory.Designer.cs">
+      <DependentUpon>201702261646076_RewardCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702261729117_ForeignKey.cs" />
+    <Compile Include="Migrations\201702261729117_ForeignKey.Designer.cs">
+      <DependentUpon>201702261729117_ForeignKey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountModel.cs" />
+    <Compile Include="Models\Award.cs" />
+    <Compile Include="Models\eStarContextDb.cs" />
     <Compile Include="Models\eStarContext.cs" />
+    <Compile Include="Models\RewardCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\CustomPrincipals.cs" />
     <Compile Include="Security\Hashing.cs" />
     <Compile Include="Security\SessionPersister.cs" />
     <Compile Include="ViewModels\AccountViewModel.cs" />
+    <Compile Include="ViewModels\AwardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -274,6 +292,16 @@
     <Content Include="Views\Index\Index.cshtml" />
     <Content Include="Views\StudentAward\Index.cshtml" />
     <Content Include="Views\StudentAward\Award.cshtml" />
+    <Content Include="Views\Awards\Create.cshtml" />
+    <Content Include="Views\Awards\Delete.cshtml" />
+    <Content Include="Views\Awards\Details.cshtml" />
+    <Content Include="Views\Awards\Edit.cshtml" />
+    <Content Include="Views\Awards\Index.cshtml" />
+    <Content Include="Views\RewardCategories\Create.cshtml" />
+    <Content Include="Views\RewardCategories\Delete.cshtml" />
+    <Content Include="Views\RewardCategories\Details.cshtml" />
+    <Content Include="Views\RewardCategories\Edit.cshtml" />
+    <Content Include="Views\RewardCategories\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -304,6 +332,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702201901015_Accounts2.resx">
       <DependentUpon>201702201901015_Accounts2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702261633337_Award.resx">
+      <DependentUpon>201702261633337_Award.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702261646076_RewardCategory.resx">
+      <DependentUpon>201702261646076_RewardCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702261729117_ForeignKey.resx">
+      <DependentUpon>201702261729117_ForeignKey.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

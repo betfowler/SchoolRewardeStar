@@ -1,0 +1,58 @@
+﻿@model eStar.Models.Award
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Award</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Student_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Staff_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Staff_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Num_Points)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Num_Points)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Reward_Category_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reward_Category_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Reward_Comment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reward_Comment)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Award_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
