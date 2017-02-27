@@ -8,9 +8,16 @@ namespace eStar.Models
 {
     public class AccountModel
     {
-        private eStarContext db = new eStarContext();
 
+        //private eStarContext db = new eStarContext();
+        //modify the type of the db field
+        private IeStarContext db = new eStarContext();
+        //add constructors
         public AccountModel() { }
+        public AccountModel(IeStarContext context)
+        {
+            db = context;
+        }
         
 
         public Account find(string email)

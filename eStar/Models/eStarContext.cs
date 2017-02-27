@@ -6,7 +6,7 @@ using System.Web;
 
 namespace eStar.Models
 {
-    public class eStarContext : DbContext
+    public class eStarContext : DbContext, IeStarContext
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 
@@ -24,5 +24,12 @@ namespace eStar.Models
         public System.Data.Entity.DbSet<eStar.Models.Award> Awards { get; set; }
 
         public System.Data.Entity.DbSet<eStar.Models.RewardCategory> RewardCategories { get; set; }
+
+        public void MarkAsModified(Account item)
+        {
+            Entry(item).State = EntityState.Modified;
+        }
+
+        public System.Data.Entity.DbSet<eStar.Models.StudentAward> StudentAwards { get; set; }
     }
 }

@@ -10,8 +10,6 @@ namespace eStar.Models
     {
         [Key]
         public int Award_ID { get; set; }
-        [Display(Name = "Student Name")]
-        public int Student_ID { get; set; }
         [Display(Name = "Staff Name")]
         public int Staff_ID { get; set; }
         [Display(Name = "Number Points")]

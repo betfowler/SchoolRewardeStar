@@ -1,0 +1,51 @@
+﻿@model IEnumerable<eStar.Models.Student>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<h2>Students</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Surname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Year_Group)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tutor_Group)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        @Html.HiddenFor(modelItem => item.User_ID)
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.First_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year_Group)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tutor_Group)
+            </td>
+            <td>
+                @Html.ActionLink("Award", "Create", new { studentid = item.User_ID })
+            </td>
+        </tr>
+    }
+
+</table>

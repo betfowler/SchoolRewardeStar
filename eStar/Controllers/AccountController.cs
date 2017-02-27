@@ -14,7 +14,15 @@ namespace eStar.Controllers
 {
     public class AccountController : Controller
     {
-        private eStarContext db = new eStarContext();
+        //private eStarContext db = new eStarContext();
+        //modify the type of the db field
+        private IeStarContext db = new eStarContext();
+        //add constructors
+        public AccountController() { }
+        public AccountController(IeStarContext context)
+        {
+            db = context;
+        }
 
         // GET: Account
         public ActionResult Index()
@@ -41,12 +49,13 @@ namespace eStar.Controllers
                 ViewBag.Error = "Log in details invalid";
                 return View("Index");
             }
+            ViewBag.Success = "Yes!";
             Session["Email"] = avm.Account.Email;
             Session["Username"] = am.find(avm.Account.Email).First_Name;
             Session["UserType"] = am.find(avm.Account.Email).User_Type;
 
-            //return View("Success");
-            return View("~/Views/Index/"+Session["UserType"].ToString()+"Index.cshtml");
+            return View("Success");
+            //return View("~/Views/Index/"+Session["UserType"].ToString()+"Index.cshtml");
             
         }
 
