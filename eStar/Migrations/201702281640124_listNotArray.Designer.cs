@@ -7,13 +7,13 @@ namespace eStar.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ForeignKey : IMigrationMetadata
+    public sealed partial class listNotArray : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ForeignKey));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(listNotArray));
         
         string IMigrationMetadata.Id
         {
-            get { return "201702261729117_ForeignKey"; }
+            get { return "201702281640124_listNotArray"; }
         }
         
         string IMigrationMetadata.Source

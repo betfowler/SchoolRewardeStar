@@ -19,6 +19,11 @@ namespace eStar.Models
         public virtual RewardCategory RewardCategory { get; set; }
         [Display(Name = "Comment")]
         public string Reward_Comment { get; set; }
+        public List<int> Students { get; set; } 
+        public int StudentCount { get; set; }
 
+        public virtual ICollection<StudentAward> StudentAwards { get; set; }
+        public virtual ICollection<RewardCategory> RewardCategories { get; set; }
+        public virtual Staff Staff { get; set; }
     }
 }

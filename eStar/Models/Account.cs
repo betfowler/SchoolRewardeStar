@@ -27,6 +27,11 @@ namespace eStar.Models
         public string Surname { get; set; }
         [Display(Name = "User Type")]
         public string User_Type { get; set; }
+
+        public string FullName
+        {
+            get { return First_Name + " " + Surname; }
+        }
     }
     public class Student : Account
     {
@@ -38,6 +43,9 @@ namespace eStar.Models
         public int Total_Points { get; set; }
         [Display(Name = "Current Balance")]
         public int Balance { get; set; }
+
+        public virtual ICollection<StudentAward> StudentAwards { get; set; }
+
     }
 
     public class Staff : Account
@@ -49,6 +57,8 @@ namespace eStar.Models
         [Display(Name = "Remaining Points")]
         public int Remaining_Points { get; set; }
         public bool? Admin { get; set; }
+
+        public virtual ICollection<Award> Awards { get; set; }
     }
 
     public class Guardian : Account

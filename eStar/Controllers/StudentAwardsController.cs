@@ -17,6 +17,7 @@ namespace eStar.Controllers
         // GET: StudentAwards
         public ActionResult Index()
         {
+            var studentAwards = db.StudentAwards.Include(s => s.Award);
             return View(db.Accounts.OfType<Student>().ToList());
         }
 
@@ -36,13 +37,10 @@ namespace eStar.Controllers
         }
 
         // GET: StudentAwards/Create
-        public ActionResult Create(int? studentid)
+        public ActionResult Create()
         {
-            StudentAward sAward = new StudentAward
-            {
-                Student_ID = Convert.ToInt32(studentid)
-            };
-            return View(sAward);
+            ViewBag.Award_ID = new SelectList(db.Awards, "Award_ID", "Reward_Comment");
+            return View();
         }
 
         // POST: StudentAwards/Create
@@ -59,6 +57,7 @@ namespace eStar.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.Award_ID = new SelectList(db.Awards, "Award_ID", "Reward_Comment", studentAward.Award_ID);
             return View(studentAward);
         }
 
@@ -74,6 +73,7 @@ namespace eStar.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Award_ID = new SelectList(db.Awards, "Award_ID", "Reward_Comment", studentAward.Award_ID);
             return View(studentAward);
         }
 
@@ -90,6 +90,7 @@ namespace eStar.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Award_ID = new SelectList(db.Awards, "Award_ID", "Reward_Comment", studentAward.Award_ID);
             return View(studentAward);
         }
 

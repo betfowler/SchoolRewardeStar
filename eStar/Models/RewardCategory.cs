@@ -12,5 +12,7 @@ namespace eStar.Models
         public int Reward_Category_ID { get; set; }
         [Display(Name = "Reward Category")]
         public string Reward_Category { get; set; }
+
+        public virtual Award Award { get; set; }
     }
 }

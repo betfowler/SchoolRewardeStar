@@ -51,11 +51,12 @@ namespace eStar.Controllers
             }
             ViewBag.Success = "Yes!";
             Session["Email"] = avm.Account.Email;
+            Session["UserID"] = am.find(avm.Account.Email).User_ID;
             Session["Username"] = am.find(avm.Account.Email).First_Name;
             Session["UserType"] = am.find(avm.Account.Email).User_Type;
 
-            return View("Success");
-            //return View("~/Views/Index/"+Session["UserType"].ToString()+"Index.cshtml");
+            //return View("Success");
+            return View("~/Views/Index/"+Session["UserType"].ToString()+"Index.cshtml");
             
         }
 

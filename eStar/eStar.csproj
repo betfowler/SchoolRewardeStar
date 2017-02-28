@@ -207,17 +207,33 @@
     <Compile Include="Migrations\201702261633337_Award.Designer.cs">
       <DependentUpon>201702261633337_Award.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201702261646076_RewardCategory.cs" />
-    <Compile Include="Migrations\201702261646076_RewardCategory.Designer.cs">
-      <DependentUpon>201702261646076_RewardCategory.cs</DependentUpon>
+    <Compile Include="Migrations\201702281328226_newAwards.cs" />
+    <Compile Include="Migrations\201702281328226_newAwards.Designer.cs">
+      <DependentUpon>201702281328226_newAwards.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201702261729117_ForeignKey.cs" />
-    <Compile Include="Migrations\201702261729117_ForeignKey.Designer.cs">
-      <DependentUpon>201702261729117_ForeignKey.cs</DependentUpon>
+    <Compile Include="Migrations\201702281333013_Awards.cs" />
+    <Compile Include="Migrations\201702281333013_Awards.Designer.cs">
+      <DependentUpon>201702281333013_Awards.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201702271219327_StudentAward.cs" />
-    <Compile Include="Migrations\201702271219327_StudentAward.Designer.cs">
-      <DependentUpon>201702271219327_StudentAward.cs</DependentUpon>
+    <Compile Include="Migrations\201702281548158_awardStudents.cs" />
+    <Compile Include="Migrations\201702281548158_awardStudents.Designer.cs">
+      <DependentUpon>201702281548158_awardStudents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702281555487_studentcount.cs" />
+    <Compile Include="Migrations\201702281555487_studentcount.Designer.cs">
+      <DependentUpon>201702281555487_studentcount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702281640124_listNotArray.cs" />
+    <Compile Include="Migrations\201702281640124_listNotArray.Designer.cs">
+      <DependentUpon>201702281640124_listNotArray.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702281651147_listStudent.cs" />
+    <Compile Include="Migrations\201702281651147_listStudent.Designer.cs">
+      <DependentUpon>201702281651147_listStudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702281741258_studentaward.cs" />
+    <Compile Include="Migrations\201702281741258_studentaward.Designer.cs">
+      <DependentUpon>201702281741258_studentaward.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
@@ -232,7 +248,6 @@
     <Compile Include="Security\Hashing.cs" />
     <Compile Include="Security\SessionPersister.cs" />
     <Compile Include="ViewModels\AccountViewModel.cs" />
-    <Compile Include="ViewModels\AwardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -348,14 +363,26 @@
     <EmbeddedResource Include="Migrations\201702261633337_Award.resx">
       <DependentUpon>201702261633337_Award.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702261646076_RewardCategory.resx">
-      <DependentUpon>201702261646076_RewardCategory.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702281328226_newAwards.resx">
+      <DependentUpon>201702281328226_newAwards.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702261729117_ForeignKey.resx">
-      <DependentUpon>201702261729117_ForeignKey.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702281333013_Awards.resx">
+      <DependentUpon>201702281333013_Awards.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702271219327_StudentAward.resx">
-      <DependentUpon>201702271219327_StudentAward.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702281548158_awardStudents.resx">
+      <DependentUpon>201702281548158_awardStudents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702281555487_studentcount.resx">
+      <DependentUpon>201702281555487_studentcount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702281640124_listNotArray.resx">
+      <DependentUpon>201702281640124_listNotArray.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702281651147_listStudent.resx">
+      <DependentUpon>201702281651147_listStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702281741258_studentaward.resx">
+      <DependentUpon>201702281741258_studentaward.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

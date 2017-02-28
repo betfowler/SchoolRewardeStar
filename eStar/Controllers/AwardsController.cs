@@ -38,9 +38,13 @@ namespace eStar.Controllers
         // GET: Awards/Create
         public ActionResult Create(int? id)
         {
-            ViewBag.Student = id;
-            ViewBag.RewardCategory = new SelectList(db.RewardCategories, "Reward_Category_ID", "Reward_Category");
-            return View();
+            Award award = new Award();
+            award.StudentCount = 1;
+
+            award.Students = new List<int>();
+            award.Students.Add(Convert.ToInt32(id));
+            award.Reward_Comment = "This is a test";
+            return View(award);
         }
 
         // POST: Awards/Create
@@ -48,12 +52,26 @@ namespace eStar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Award_ID,Student_ID,Staff_ID,Num_Points,Reward_Category_ID,Reward_Comment")] Award award)
+        public ActionResult Create([Bind(Include = "Award_ID,Staff_ID,Num_Points,Reward_Category_ID,Reward_Comment,Students,StudentCount")] Award award)
         {
+            int userID = Convert.ToInt32(Session["UserID"]);
+            award.Staff_ID = userID;
             if (ModelState.IsValid)
             {
+                //find staff balance
+                var balance = db.Accounts.Where(acc => acc.User_ID.Equals(userID)).FirstOrDefault();
+
+
                 db.Awards.Add(award);
                 db.SaveChanges();
+
+                //create new StudentAwards
+                StudentAward sAward = new StudentAward();
+                sAward.Award_ID = award.Award_ID;
+                sAward.Student_ID = award.Students[0];
+                db.StudentAwards.Add(sAward);
+                db.SaveChanges();
+                
                 return RedirectToAction("Index");
             }
 
@@ -80,7 +98,7 @@ namespace eStar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Award_ID,Student_ID,Staff_ID,Num_Points,Reward_Category_ID,Reward_Comment")] Award award)
+        public ActionResult Edit([Bind(Include = "Award_ID,Staff_ID,Num_Points,Reward_Category_ID,Reward_Comment")] Award award)
         {
             if (ModelState.IsValid)
             {

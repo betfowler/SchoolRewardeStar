@@ -13,6 +13,7 @@ namespace eStar.Models
         public int Student_ID { get; set; }
         public int Award_ID { get; set; }
 
-
+        public virtual Student Student { get; set; }
+        public virtual Award Award { get; set; }
     }
 }

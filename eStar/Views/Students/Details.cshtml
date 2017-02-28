@@ -92,6 +92,34 @@
 
     </dl>
 </div>
+
+<div class="display-label">
+    @Html.LabelFor(model => model.StudentAwards)
+</div>
+<div class="display-field">
+    <table>
+        <tr>
+            <th>Award Points</th>
+            <th>Reward Category</th>
+            <th>Staff Member</th>
+        </tr>
+        @foreach (var item in Model.StudentAwards)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Award.Num_Points)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Award.RewardCategory.Reward_Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Award.Staff.First_Name)
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.User_ID }) |
     @Html.ActionLink("Back to List", "Index")

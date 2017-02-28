@@ -6,8 +6,6 @@
 
 <h2>Index</h2>
 
-<h2>Students</h2>
-
 <table class="table">
     <tr>
         <th>
@@ -27,11 +25,9 @@
 
     @foreach (var item in Model)
     {
-        @Html.HiddenFor(modelItem => item.User_ID)
-
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.First_Name)
+                @Html.DisplayFor(modelItem => item.First_Name)                
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Surname)
