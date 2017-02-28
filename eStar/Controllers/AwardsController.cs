@@ -58,21 +58,44 @@ namespace eStar.Controllers
             award.Staff_ID = userID;
             if (ModelState.IsValid)
             {
-                //find staff balance
-                var balance = db.Accounts.Where(acc => acc.User_ID.Equals(userID)).FirstOrDefault();
+                int studentID = Convert.ToInt32(award.Students[0]);
 
+                //find staff remaining points
+                int remainingPoints = db.Accounts.Where(acc => acc.User_ID.Equals(userID)).OfType<Staff>().FirstOrDefault().Remaining_Points;
+                int points = award.Num_Points;
 
-                db.Awards.Add(award);
-                db.SaveChanges();
+                if(remainingPoints >= points)
+                {
+                    //update staff with new points value
+                    Staff staff = db.Accounts.OfType<Staff>().SingleOrDefault(s => s.User_ID == userID);
+                    staff.Remaining_Points = remainingPoints - points;
+                    db.Entry(staff).State = EntityState.Modified;
 
-                //create new StudentAwards
-                StudentAward sAward = new StudentAward();
-                sAward.Award_ID = award.Award_ID;
-                sAward.Student_ID = award.Students[0];
-                db.StudentAwards.Add(sAward);
-                db.SaveChanges();
-                
-                return RedirectToAction("Index");
+                    //save award
+                    db.Awards.Add(award);
+
+                    //create new StudentAwards
+                    StudentAward sAward = new StudentAward();
+                    sAward.Award_ID = award.Award_ID;
+                    sAward.Student_ID = studentID;
+                    db.StudentAwards.Add(sAward);
+
+                    //update student with new points value
+                    Student student = db.Accounts.OfType<Student>().SingleOrDefault(s => s.User_ID == studentID);
+                    int currentBalance = student.Balance + points;
+                    int totalPoints = student.Total_Points + points;
+                    student.Balance = currentBalance;
+                    student.Total_Points = totalPoints;
+
+                    db.Entry(student).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.Error = "You do not have enough points left this week to make this award, you have " + remainingPoints + " left.";
+                    return View(award);
+                }
             }
 
             return View(award);
