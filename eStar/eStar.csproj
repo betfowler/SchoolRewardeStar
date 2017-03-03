@@ -235,10 +235,17 @@
     <Compile Include="Migrations\201702281741258_studentaward.Designer.cs">
       <DependentUpon>201702281741258_studentaward.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703031452107_classEnrolment.cs" />
+    <Compile Include="Migrations\201703031452107_classEnrolment.Designer.cs">
+      <DependentUpon>201703031452107_classEnrolment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\Award.cs" />
+    <Compile Include="Models\Class.cs" />
+    <Compile Include="Models\ClassStaff.cs" />
+    <Compile Include="Models\Enrolment.cs" />
     <Compile Include="Models\eStarContext.cs" />
     <Compile Include="Models\IeStarContext.cs" />
     <Compile Include="Models\RewardCategory.cs" />
@@ -383,6 +390,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702281741258_studentaward.resx">
       <DependentUpon>201702281741258_studentaward.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703031452107_classEnrolment.resx">
+      <DependentUpon>201703031452107_classEnrolment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

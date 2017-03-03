@@ -6,19 +6,46 @@
 
 <h2>Student Awards</h2>
 
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                    All
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#" value="name">Name</a></li>
+                    <li><a href="#" value="yrGroup">Year Group</a></li>
+                    <li><a href="#" value="class">Class</a></li>
+                </ul>
+            @Html.TextBox("SearchString")
+            <input type="submit" value="Search" id="searchSubmit" />
+        </div>
+    </div>
+}
+
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.First_Name)
+            @Html.DisplayNameFor(model => model.Prefix)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Surname)
+            @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.FirstNameSortParm })
+            &#9662;
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Year_Group)
+            @Html.ActionLink("Surname", "Index", new { sortOrder = ViewBag.SurnameSortParm })
+            &#9662;
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Tutor_Group)
+            @Html.ActionLink("Year Group", "Index", new { sortOrder = ViewBag.YearGroupSortParm })
+            &#9662;
+        </th>
+        <th>
+            @Html.ActionLink("Tutor Group", "Index", new { sortOrder = ViewBag.TutorGroupSortParm })
+            &#9662;
         </th>
         <th></th>
     </tr>
@@ -26,6 +53,12 @@
     @foreach (var item in Model)
     {
         <tr>
+            <td>
+                @Html.CheckBox("toAward", false)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prefix)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.First_Name)
             </td>

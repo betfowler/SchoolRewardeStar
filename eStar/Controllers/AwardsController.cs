@@ -15,9 +15,55 @@ namespace eStar.Controllers
         private eStarContext db = new eStarContext();
 
         // GET: Awards
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString)
         {
-            return View(db.Accounts.OfType<Student>().ToList());
+            ViewBag.FirstNameSortParm = sortOrder == "FirstName" ? "FirstName_desc" : "FirstName";
+            ViewBag.SurnameSortParm = String.IsNullOrEmpty(sortOrder) ? "Surname_desc" : "";
+            ViewBag.YearGroupSortParm = sortOrder == "YearGroup" ? "YearGroup_desc" : "YearGroup";
+            ViewBag.TutorGroupSortParm = sortOrder == "TutorGroup" ? "TutorGroup_desc" : "TutorGroup";
+
+            var students = from s in db.Accounts.OfType<Student>()
+                           select s;
+
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                var search = searchString.ToUpper();
+
+                students = students.Where(s => s.Surname.ToUpper().Contains(search)
+                || s.First_Name.ToUpper().Contains(search)
+                || s.Year_Group.ToUpper().Contains(search)
+                || s.Tutor_Group.ToUpper().Contains(search));
+            }
+
+            switch (sortOrder)
+            {
+                case "FirstName_desc":
+                    students = students.OrderByDescending(s => s.First_Name);
+                    break;
+                case "FirstName":
+                    students = students.OrderBy(s => s.First_Name);
+                    break;
+                case "Surname_desc":
+                    students = students.OrderByDescending(s => s.Surname);
+                    break;
+                case "YearGroup_desc":
+                    students = students.OrderByDescending(s => s.Year_Group);
+                    break;
+                case "YearGroup":
+                    students = students.OrderBy(s => s.Year_Group);
+                    break;
+                case "TutorGroup_desc":
+                    students = students.OrderByDescending(s => s.Tutor_Group);
+                    break;
+                case "TutorGroup":
+                    students = students.OrderBy(s => s.Tutor_Group);
+                    break;
+                default:
+                    students = students.OrderBy(s => s.Surname);
+                    break;
+            }
+
+            return View(students.ToList());
         }
 
         // GET: Awards/Details/5

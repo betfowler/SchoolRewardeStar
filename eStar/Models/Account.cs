@@ -45,6 +45,7 @@ namespace eStar.Models
         public int Balance { get; set; }
 
         public virtual ICollection<StudentAward> StudentAwards { get; set; }
+        public virtual ICollection<Enrolment> Enrolments { get; set; }
 
     }
 
@@ -59,6 +60,7 @@ namespace eStar.Models
         public bool? Admin { get; set; }
 
         public virtual ICollection<Award> Awards { get; set; }
+        public virtual ICollection<ClassStaff> ClassStaff { get; set; }
     }
 
     public class Guardian : Account

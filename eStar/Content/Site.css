@@ -46,3 +46,11 @@ textarea {
 .body-content {
     padding-top: 70px;
 }
+
+#searchBar {
+    text-align: center;
+}
+
+#SearchString {
+    width: 100%;
+}
