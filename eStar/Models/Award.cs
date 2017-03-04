@@ -21,6 +21,7 @@ namespace eStar.Models
         public string Reward_Comment { get; set; }
         public List<int> Students { get; set; } 
         public int StudentCount { get; set; }
+        public List<string> StudentNames { get; set; }
 
         public virtual ICollection<StudentAward> StudentAwards { get; set; }
         public virtual ICollection<RewardCategory> RewardCategories { get; set; }

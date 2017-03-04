@@ -239,6 +239,14 @@
     <Compile Include="Migrations\201703031452107_classEnrolment.Designer.cs">
       <DependentUpon>201703031452107_classEnrolment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703032033357_selected.cs" />
+    <Compile Include="Migrations\201703032033357_selected.Designer.cs">
+      <DependentUpon>201703032033357_selected.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703041220133_removebool.cs" />
+    <Compile Include="Migrations\201703041220133_removebool.Designer.cs">
+      <DependentUpon>201703041220133_removebool.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountModel.cs" />
@@ -393,6 +401,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703031452107_classEnrolment.resx">
       <DependentUpon>201703031452107_classEnrolment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703032033357_selected.resx">
+      <DependentUpon>201703032033357_selected.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703041220133_removebool.resx">
+      <DependentUpon>201703041220133_removebool.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

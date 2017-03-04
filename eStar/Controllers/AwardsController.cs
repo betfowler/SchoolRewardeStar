@@ -82,15 +82,30 @@ namespace eStar.Controllers
         }
 
         // GET: Awards/Create
-        public ActionResult Create(int? id)
+        public ActionResult Create(List<int?> student)
         {
-            Award award = new Award();
-            award.StudentCount = 1;
+            if (student != null)
+            {
+                //add students to award
+                int selectedStudents = student.Count;
+                Award award = new Award();
+                AccountModel am = new AccountModel();
+                award.StudentCount = selectedStudents;
+                award.Students = new List<int>();
+                award.StudentNames = new List<string>();
 
-            award.Students = new List<int>();
-            award.Students.Add(Convert.ToInt32(id));
-            award.Reward_Comment = "This is a test";
-            return View(award);
+                for(var i = 0; i < selectedStudents; i++)
+                {
+                    int studentID = Convert.ToInt32(student[i]);
+                    award.Students.Add(studentID);
+                    award.StudentNames.Add(am.findUsingID(studentID).FullName);
+                }
+
+                award.Reward_Comment = "This is a test";
+                return View(award);
+            }
+
+            return RedirectToAction("Index");
         }
 
         // POST: Awards/Create
@@ -100,17 +115,17 @@ namespace eStar.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Award_ID,Staff_ID,Num_Points,Reward_Category_ID,Reward_Comment,Students,StudentCount")] Award award)
         {
+            //get staff userID
             int userID = Convert.ToInt32(Session["UserID"]);
             award.Staff_ID = userID;
-            if (ModelState.IsValid)
-            {
-                int studentID = Convert.ToInt32(award.Students[0]);
 
                 //find staff remaining points
                 int remainingPoints = db.Accounts.Where(acc => acc.User_ID.Equals(userID)).OfType<Staff>().FirstOrDefault().Remaining_Points;
                 int points = award.Num_Points;
+                int checkPoints = points * award.StudentCount;
 
-                if(remainingPoints >= points)
+                //if staff has enough points
+                if(remainingPoints >= checkPoints)
                 {
                     //update staff with new points value
                     Staff staff = db.Accounts.OfType<Staff>().SingleOrDefault(s => s.User_ID == userID);
@@ -120,20 +135,27 @@ namespace eStar.Controllers
                     //save award
                     db.Awards.Add(award);
 
-                    //create new StudentAwards
-                    StudentAward sAward = new StudentAward();
-                    sAward.Award_ID = award.Award_ID;
-                    sAward.Student_ID = studentID;
-                    db.StudentAwards.Add(sAward);
+                    //for number of students selected
+                    for (var i = 0; i < award.StudentCount; i++)
+                    {
+                        int studentID = Convert.ToInt32(award.Students[i]);
+                        //create new StudentAwards
+                        StudentAward sAward = new StudentAward();
+                        sAward.Award_ID = award.Award_ID;
+                        sAward.Student_ID = studentID;
+                        db.StudentAwards.Add(sAward);
 
-                    //update student with new points value
-                    Student student = db.Accounts.OfType<Student>().SingleOrDefault(s => s.User_ID == studentID);
-                    int currentBalance = student.Balance + points;
-                    int totalPoints = student.Total_Points + points;
-                    student.Balance = currentBalance;
-                    student.Total_Points = totalPoints;
+                        //update student with new points value
+                        Student student = db.Accounts.OfType<Student>().SingleOrDefault(s => s.User_ID == studentID);
+                        int currentBalance = student.Balance + points;
+                        int totalPoints = student.Total_Points + points;
+                        student.Balance = currentBalance;
+                        student.Total_Points = totalPoints;
 
-                    db.Entry(student).State = EntityState.Modified;
+                        db.Entry(student).State = EntityState.Modified;
+
+                    }
+
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
@@ -142,9 +164,6 @@ namespace eStar.Controllers
                     ViewBag.Error = "You do not have enough points left this week to make this award, you have " + remainingPoints + " left.";
                     return View(award);
                 }
-            }
-
-            return View(award);
         }
 
         // GET: Awards/Edit/5

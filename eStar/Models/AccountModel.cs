@@ -25,6 +25,11 @@ namespace eStar.Models
             return db.Accounts.Where(acc => acc.Email.Equals(email)).FirstOrDefault();
         }
 
+        public Account findUsingID(int id)
+        {
+            return db.Accounts.Where(acc => acc.User_ID.Equals(id)).FirstOrDefault();
+        }
+
         public bool findPassword(string email)
         {
             if (db.Accounts.Where(acc => acc.Email.Equals(email)).FirstOrDefault().Password == null)
