@@ -170,6 +170,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AwardsController.cs" />
+    <Compile Include="Controllers\ClassesController.cs" />
     <Compile Include="Controllers\GuardiansController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\RewardCategoriesController.cs" />
@@ -267,14 +268,18 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\Awards.png" />
+    <Content Include="Content\Images\Awards2.png" />
     <Content Include="Content\Images\Classes2.png" />
     <Content Include="Content\Images\Classes.png" />
+    <Content Include="Content\Images\Staff2.png" />
     <Content Include="Content\Images\StarLogo.png" />
     <Content Include="Content\Images\Students2.png" />
     <Content Include="Content\Images\Students.png" />
     <Content Include="Content\Images\Users.png" />
     <Content Include="Content\Images\Users2.png" />
     <Content Include="Content\Images\UsersGuardians.png" />
+    <Content Include="Content\Images\UsersGuardians2.png" />
     <Content Include="Content\Images\UsersStaff.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -352,6 +357,12 @@
     <Content Include="Views\StudentAwards\Details.cshtml" />
     <Content Include="Views\StudentAwards\Edit.cshtml" />
     <Content Include="Views\StudentAwards\Index.cshtml" />
+    <Content Include="Views\Classes\Create.cshtml" />
+    <Content Include="Views\Classes\Delete.cshtml" />
+    <Content Include="Views\Classes\Details.cshtml" />
+    <Content Include="Views\Classes\Edit.cshtml" />
+    <Content Include="Views\Classes\Index.cshtml" />
+    <Content Include="Views\Classes\getStudents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

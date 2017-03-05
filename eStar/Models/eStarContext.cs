@@ -31,5 +31,7 @@ namespace eStar.Models
         public System.Data.Entity.DbSet<eStar.Models.RewardCategory> RewardCategories { get; set; }
 
         public System.Data.Entity.DbSet<eStar.Models.StudentAward> StudentAwards { get; set; }
+
+        public System.Data.Entity.DbSet<eStar.Models.Class> Classes { get; set; }
     }
 }

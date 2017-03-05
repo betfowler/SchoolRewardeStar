@@ -1,31 +1,12 @@
 ﻿@model IEnumerable<eStar.Models.Student>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "getStudents";
 }
 
-<h2>Student Awards</h2>
+<h2>getStudents</h2>
 
-@using (Html.BeginForm())
-{
-    <div class="row">
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                All
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="#" value="name">Name</a></li>
-                <li><a href="#" value="yrGroup">Year Group</a></li>
-                <li><a href="#" value="class">Class</a></li>
-            </ul>
-            @Html.TextBox("SearchString")
-            <input class="btn btn-primary" type="submit" value="Search" id="searchSubmit" />
-        </div>
-    </div>
-}
-
-@using (Html.BeginForm("Create", "Awards", FormMethod.Get))
+@using (Html.BeginForm("getStaff", "Classes", FormMethod.Get))
 {
     <input class="btn btn-primary" type="submit" value="Award" id="awardStudents" />
     <table class="table">

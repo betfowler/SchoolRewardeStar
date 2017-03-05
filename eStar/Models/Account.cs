@@ -59,8 +59,8 @@ namespace eStar.Models
         public int Remaining_Points { get; set; }
         public bool? Admin { get; set; }
 
-        public virtual ICollection<Award> Awards { get; set; }
-        public virtual ICollection<ClassStaff> ClassStaff { get; set; }
+        public virtual List<Award> Awards { get; set; }
+        public virtual List<ClassStaff> ClassStaff { get; set; }
     }
 
     public class Guardian : Account

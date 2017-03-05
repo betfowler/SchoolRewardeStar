@@ -130,6 +130,8 @@ namespace eStar.Controllers
                     //update staff with new points value
                     Staff staff = db.Accounts.OfType<Staff>().SingleOrDefault(s => s.User_ID == userID);
                     staff.Remaining_Points = remainingPoints - points;
+                    staff.Awards.Add(award);
+
                     db.Entry(staff).State = EntityState.Modified;
 
                     //save award

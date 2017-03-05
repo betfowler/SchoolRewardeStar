@@ -67,6 +67,11 @@ textarea {
 }
 
 #users{
-    border: 5px solid #7030a0;
-    display: none;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+#homeIcons h3 {
+    color: grey;
+    text-align: center;
 }
