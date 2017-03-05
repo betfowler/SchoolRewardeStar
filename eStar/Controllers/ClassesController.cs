@@ -53,7 +53,49 @@ namespace eStar.Controllers
         {
             int classID = db.Classes.Where(cl => cl.Class_Name.Equals(className)).FirstOrDefault().Class_ID;
             var students = db.Accounts.OfType<Student>().ToList();
+            //want to pass className and students to the view
+            //getStaff to save to enrolments
             return View(students);
+        }
+
+        public ActionResult getStaff(List<int?> student, int classID)
+        {
+            var staff = db.Accounts.OfType<Staff>().ToList();
+            //save selected students and classID to enrolments
+            if(student != null)
+            {
+                //create enrolments
+                for(var i=0; i<student.Count; i++)
+                {
+                    Enrolment enrolment = new Enrolment();
+                    enrolment.Class.Class_ID = classID;
+                    enrolment.Student.User_ID = Convert.ToInt32(student[i]);
+                    //db.Enrolments.Add(enrolment);
+                }
+
+                //db.SaveChanges();
+                return View(staff);
+
+            }
+            return RedirectToAction("getStudents", new { className = classID });
+        }
+
+        public ActionResult completeClass(List<int?>staff, int classID)
+        {
+            if(staff != null)
+            {
+                for(var i=0; i<staff.Count; i++)
+                {
+                    ClassStaff classStaff = new ClassStaff();
+                    classStaff.Class.Class_ID = classID;
+                    classStaff.Staff.User_ID = Convert.ToInt32(staff);
+                    //db.ClassStaffs.Add(classStaff);
+                }
+                //db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("getStaff", new { className = classID });
         }
 
 
