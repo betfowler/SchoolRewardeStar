@@ -54,3 +54,19 @@ textarea {
 #SearchString {
     width: 100%;
 }
+
+#homeIcons img {
+    display: block;
+    margin: auto;
+    width: 90%;
+}
+
+.manageUsers img {
+    display: block;
+    width: 90%;
+}
+
+#users{
+    border: 5px solid #7030a0;
+    display: none;
+}

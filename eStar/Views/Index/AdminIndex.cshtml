@@ -3,19 +3,28 @@
     ViewBag.Title = "Admin";
 }
 
-<h2>Admin Homepage</h2>
+<h2>Welcome to eStar</h2>
 
-Welcome!  @Session["Username"]
-    Add new student @Html.ActionLink("here!", "Create", "Students")
-    </br>
-    View all students @Html.ActionLink("here!", "Index", "Students")
-    </br>
-    </br>
-    Add new staff member @Html.ActionLink("here!", "Create", "Staffs")
-    </br>
-    View all staff @Html.ActionLink("here!", "Index", "Staffs")
-
-    </br>
-    </br>
-    Register @Html.ActionLink("here!", "Register", "Account")
-
+<div class="row">
+    <div class="col-md-6" id="users">
+        <div class="row">
+            <h3>Manage Users</h3>
+        </div>
+        <div class="row">
+            <div class="col-md-4" id="homeIcons">
+                <img src="../Content/Images/Students2.png" />
+            </div>
+            <div class="col-md-4" id="homeIcons">
+                <img src="../Content/Images/UsersStaff.png" />
+            </div>
+            <div class="col-md-4" id="homeIcons">
+                <img src="../Content/Images/UsersGuardians.png" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="col-md-4">
+            Hello
+        </div>
+    </div>
+</div>
