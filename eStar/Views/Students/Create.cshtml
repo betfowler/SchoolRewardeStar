@@ -7,10 +7,10 @@
 <h2>Add A New Student</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -25,7 +25,13 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Prefix, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Prefix, new { htmlAttributes = new { @class = "form-control" } })
+                @{
+                    List<SelectListItem> prefixItems = new List<SelectListItem>();
+                    prefixItems.Add(new SelectListItem { Text = "Mr", Value = "Mr" });
+                    prefixItems.Add(new SelectListItem { Text = "Miss", Value = "Miss" });
+                }
+
+                @Html.DropDownListFor(model => model.Prefix, prefixItems, "Select Prefix")
                 @Html.ValidationMessageFor(model => model.Prefix, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -49,7 +55,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Year_Group, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Year_Group, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.RadioButtonFor(model => model.Year_Group, "Year 7", new { Value= 7}) @Html.Label("Year 7")
+                @Html.RadioButtonFor(model => model.Year_Group, "Year 8", new { Value = 8 }) @Html.Label("Year 8")
+                @Html.RadioButtonFor(model => model.Year_Group, "Year 9", new { Value = 9 }) @Html.Label("Year 9")
+                @Html.RadioButtonFor(model => model.Year_Group, "Year 10", new { Value = 10 }) @Html.Label("Year 10")
+                @Html.RadioButtonFor(model => model.Year_Group, "Year 11", new { Value = 11 }) @Html.Label("Year 11")
+                @Html.RadioButtonFor(model => model.Year_Group, "Sixth Form", new { Value = "Sixth Form" }) @Html.Label("Sixth Form")
                 @Html.ValidationMessageFor(model => model.Year_Group, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -57,7 +68,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Tutor_Group, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Tutor_Group, new { htmlAttributes = new { @class = "form-control" } })
+                @{
+                    List<SelectListItem> tutorGroups = new List<SelectListItem>();
+                    tutorGroups.Add(new SelectListItem { Text = "Estrella", Value = "Estrella" });
+                    tutorGroups.Add(new SelectListItem { Text = "Stella", Value = "Stella" });
+                    tutorGroups.Add(new SelectListItem { Text = "Étoile", Value = "Étoile" });
+                }
+
+                @Html.DropDownListFor(model => model.Tutor_Group, tutorGroups, "Select Tutor")
                 @Html.ValidationMessageFor(model => model.Tutor_Group, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -65,7 +83,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Total_Points, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Total_Points, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Total_Points, new { htmlAttributes = new { @class = "form-control"} })
                 @Html.ValidationMessageFor(model => model.Total_Points, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -73,7 +91,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Balance, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Balance, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Balance, new { htmlAttributes = new { @class = "form-control"} })
                 @Html.ValidationMessageFor(model => model.Balance, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -84,7 +102,7 @@
             </div>
         </div>
     </div>
-}
+                    }
 
 <div>
     @Html.ActionLink("Back to List", "Index")

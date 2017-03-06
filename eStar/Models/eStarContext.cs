@@ -26,12 +26,16 @@ namespace eStar.Models
             Entry(item).State = EntityState.Modified;
         }
 
-        public System.Data.Entity.DbSet<eStar.Models.Award> Awards { get; set; }
+        public DbSet<Award> Awards { get; set; }
 
-        public System.Data.Entity.DbSet<eStar.Models.RewardCategory> RewardCategories { get; set; }
+        public DbSet<RewardCategory> RewardCategories { get; set; }
 
-        public System.Data.Entity.DbSet<eStar.Models.StudentAward> StudentAwards { get; set; }
+        public DbSet<StudentAward> StudentAwards { get; set; }
 
-        public System.Data.Entity.DbSet<eStar.Models.Class> Classes { get; set; }
+        public DbSet<Class> Classes { get; set; }
+
+        public DbSet<Enrolment> Enrolments { get; set; }
+
+        public DbSet<ClassStaff> ClassStaffs { get; set; }
     }
 }

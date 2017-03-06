@@ -248,6 +248,18 @@
     <Compile Include="Migrations\201703041220133_removebool.Designer.cs">
       <DependentUpon>201703041220133_removebool.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703060952033_enrolment.cs" />
+    <Compile Include="Migrations\201703060952033_enrolment.Designer.cs">
+      <DependentUpon>201703060952033_enrolment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703060953018_enrolment2.cs" />
+    <Compile Include="Migrations\201703060953018_enrolment2.Designer.cs">
+      <DependentUpon>201703060953018_enrolment2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703061003070_classStaff.cs" />
+    <Compile Include="Migrations\201703061003070_classStaff.Designer.cs">
+      <DependentUpon>201703061003070_classStaff.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountModel.cs" />
@@ -264,6 +276,7 @@
     <Compile Include="Security\Hashing.cs" />
     <Compile Include="Security\SessionPersister.cs" />
     <Compile Include="ViewModels\AccountViewModel.cs" />
+    <Compile Include="ViewModels\EnrolmentViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -363,6 +376,7 @@
     <Content Include="Views\Classes\Edit.cshtml" />
     <Content Include="Views\Classes\Index.cshtml" />
     <Content Include="Views\Classes\getStudents.cshtml" />
+    <Content Include="Views\Classes\getStaff.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -426,6 +440,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703041220133_removebool.resx">
       <DependentUpon>201703041220133_removebool.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703060952033_enrolment.resx">
+      <DependentUpon>201703060952033_enrolment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703060953018_enrolment2.resx">
+      <DependentUpon>201703060953018_enrolment2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703061003070_classStaff.resx">
+      <DependentUpon>201703061003070_classStaff.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

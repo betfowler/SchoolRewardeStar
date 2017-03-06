@@ -1,19 +1,19 @@
 ﻿@model eStar.ViewModels.EnrolmentViewModel
 
 @{
-    ViewBag.Title = "getStudents";
+    ViewBag.Title = "getStaff";
 }
 
-<h2>getStudents</h2>
+<h2>Add Staff To Class</h2>
 
 @using (Html.BeginForm())
 {
     <input type="text" id="classID" name="classID" value="@Model.ClassID" />
-    <input class="btn btn-primary" type="submit" value="Add Students" id="awardStudents" />
+    <input class="btn btn-primary" type="submit" value="Add Staff" id="awardStudents" />
     <table class="table">
         <tr>
             <th>
-                Select to Award
+                Select Staff To Add
             </th>
             <th>
                 Prefix
@@ -37,11 +37,11 @@
             <th></th>
         </tr>
 
-        @foreach (var item in Model.Students)
+        @foreach (var item in Model.Staff)
         {
             <tr>
                 <td>
-                    <input type="checkbox" id="selectedStudent" name="student" value="@item.User_ID" />
+                    <input type="checkbox" id="selectedStudent" name="staff" value="@item.User_ID" />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Prefix)
@@ -51,12 +51,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Surname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Year_Group)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Tutor_Group)
                 </td>
             </tr>
         }

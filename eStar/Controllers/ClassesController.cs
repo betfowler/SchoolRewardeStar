@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using eStar.Models;
+using eStar.ViewModels;
 
 namespace eStar.Controllers
 {
@@ -21,10 +22,26 @@ namespace eStar.Controllers
 
             if(Session["UserType"].ToString() == "Staff")
             {
-                var userClasses = db.Accounts.OfType<Staff>().Where(acc => acc.User_ID.Equals(currentID)).FirstOrDefault().ClassStaff.ToList();
-                return View(userClasses);
-            }
+                List<Class> userClasses = new List<Class>();
+                List<int> classes = new List<int>();
+                foreach(var @class in db.ClassStaffs)
+                {
+                    if(@class.User_ID == currentID)
+                    {
+                        classes.Add(@class.Class_ID);
+                    }
+                }
 
+                if(classes.Count > 0)
+                {
+                    for(var i=0; i < classes.Count; i++)
+                    {
+                        int classID = Convert.ToInt32(classes[i]);
+                        userClasses.Add(db.Classes.Where(cl => cl.Class_ID.Equals(classID)).FirstOrDefault());
+                    }
+                    return View(userClasses.ToList());
+                }
+            }
             return View(db.Classes.ToList());
         }
 
@@ -49,55 +66,62 @@ namespace eStar.Controllers
             return View();
         }
 
-        public ActionResult getStudents(string className)
+        public ActionResult getStudents(int classID)
         {
-            int classID = db.Classes.Where(cl => cl.Class_Name.Equals(className)).FirstOrDefault().Class_ID;
-            var students = db.Accounts.OfType<Student>().ToList();
-            //want to pass className and students to the view
-            //getStaff to save to enrolments
-            return View(students);
+            EnrolmentViewModel evm = new EnrolmentViewModel();
+            evm.ClassID = classID;
+            evm.Students = db.Accounts.OfType<Student>().ToList();
+            return View(evm);
         }
 
-        public ActionResult getStaff(List<int?> student, int classID)
+        [HttpPost]
+        public ActionResult getStudents(List<int?> student, int? classID)
         {
-            var staff = db.Accounts.OfType<Staff>().ToList();
-            //save selected students and classID to enrolments
-            if(student != null)
+            if (student != null)
             {
                 //create enrolments
-                for(var i=0; i<student.Count; i++)
+                for (var i = 0; i < student.Count; i++)
                 {
                     Enrolment enrolment = new Enrolment();
-                    enrolment.Class.Class_ID = classID;
-                    enrolment.Student.User_ID = Convert.ToInt32(student[i]);
-                    //db.Enrolments.Add(enrolment);
+                    enrolment.Class_ID = Convert.ToInt32(classID);
+                    enrolment.User_ID = Convert.ToInt32(student[i]);
+                    db.Enrolments.Add(enrolment);
                 }
 
-                //db.SaveChanges();
-                return View(staff);
-
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("getStudents", new { className = classID });
+            return View();
         }
 
-        public ActionResult completeClass(List<int?>staff, int classID)
+        public ActionResult getStaff(string className)
+        {
+            EnrolmentViewModel evm = new EnrolmentViewModel();
+            evm.ClassID = db.Classes.Where(cl => cl.Class_Name.Equals(className)).FirstOrDefault().Class_ID;
+            evm.Staff = db.Accounts.OfType<Staff>().ToList();
+            return View(evm);
+        }
+        
+        [HttpPost]
+        public ActionResult getStaff(List<int?> staff, int? classID)
         {
             if(staff != null)
             {
+                //create classStaff
                 for(var i=0; i<staff.Count; i++)
                 {
                     ClassStaff classStaff = new ClassStaff();
-                    classStaff.Class.Class_ID = classID;
-                    classStaff.Staff.User_ID = Convert.ToInt32(staff);
-                    //db.ClassStaffs.Add(classStaff);
+                    classStaff.Class_ID = Convert.ToInt32(classID);
+                    classStaff.User_ID = Convert.ToInt32(staff[i]);
+                    db.ClassStaffs.Add(classStaff);
                 }
-                //db.SaveChanges();
-                return RedirectToAction("Index");
+
+                db.SaveChanges();
+                return RedirectToAction("getStudents", new { classID = classID });
+
             }
-
-            return RedirectToAction("getStaff", new { className = classID });
+            return View(classID);
         }
-
 
         // POST: Classes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -110,7 +134,7 @@ namespace eStar.Controllers
             {
                 db.Classes.Add(@class);
                 db.SaveChanges();
-                return RedirectToAction("getStudents", new { className = @class.Class_Name}); 
+                return RedirectToAction("getStaff", new { className = @class.Class_Name}); 
             }
 
             return View(@class);

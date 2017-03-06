@@ -40,7 +40,10 @@ namespace eStar.Controllers
         // GET: Students/Create
         public ActionResult Create()
         {
-            return View();
+            Student student = new Student();
+            student.Balance = 0;
+            student.Total_Points = 0;
+            return View(student);
         }
 
         // POST: Students/Create

@@ -10,6 +10,8 @@ namespace eStar.Models
     {
         [Key]
         public int Enrolment_ID { get; set; }
+        public int Class_ID { get; set; }
+        public int User_ID { get; set; }
         public virtual Class Class { get; set; }
         public virtual Student Student { get; set; }
 
