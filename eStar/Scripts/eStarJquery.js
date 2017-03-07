@@ -1,5 +1,17 @@
 ﻿$(document).ready(function () {
 
+    $('.test').click(function () {
+        
+        $.ajax({
+            url: 'Create',
+            type: 'get',
+            data: {
+                classID: 6,
+                removeStudent: $('#removeStudent').attr('value')
+            },
+        })
+    })
+
     function tog(v) { return v ? 'addClass' : 'removeClass'; }
 
     $('.clearable').on('input', function () {

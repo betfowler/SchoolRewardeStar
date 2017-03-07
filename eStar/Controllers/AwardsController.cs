@@ -220,8 +220,10 @@ namespace eStar.Controllers
         }
 
         // GET: Awards/Create
-        public ActionResult Create(List<int?> student, int? classID)
+        public ActionResult Create(List<int?> student, int? classID, int? removeStudent)
         {
+            ViewBag.@class = Convert.ToInt32(classID);
+            var test = removeStudent;
             if (student != null)
             {
                 int selectedStudents = student.Count;
@@ -237,6 +239,7 @@ namespace eStar.Controllers
                     award.Students.Add(studentID);
                     award.StudentNames.Add(am.findUsingID(studentID).FullName);
                 }
+                ViewBag.stud = award.Students.ToList();
 
                 return View(award);
             }
@@ -256,6 +259,7 @@ namespace eStar.Controllers
                     award.StudentNames.Add(am.findUsingID(row.User_ID).FullName);
                     award.StudentCount = award.StudentCount + 1;
                 }
+                ViewBag.stud = award.Students.ToList();
 
                 return View(award);
             }

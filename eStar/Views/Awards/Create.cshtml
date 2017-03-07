@@ -4,7 +4,6 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
 @{ if (ViewBag.Error != null)
     {
         <div class="alert alert-danger">
@@ -15,75 +14,81 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <h4>Award Selected Students</h4>
+            <hr />
+            @Html.HiddenFor(model => model.StudentCount)
+            @for (int i = 0; i < Model.Students.Count; i++)
+            {
+                @Html.HiddenFor(model => model.Students[i])
+            }
 
-    <div class="form-horizontal">
-        <h4>Award</h4>
-        <hr />
-        @Html.HiddenFor(model => model.StudentCount)
-        @for (int i = 0; i < Model.Students.Count; i++)
-        {
-            @Html.HiddenFor(model => model.Students[i])
-        }
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="form-group">
-            <div class="col-md-10">
-                <div class="panel-group">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" id="studentList">
-                            <a data-toggle="collapse" href="#studentFilter">
-                                <div class="panel-title">View students <span style="float: right" class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span></div>
-                            </a>
-                            <div id="studentFilter" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    @for (int i = 0; i < Model.StudentNames.Count; i++)
-                                    {
-                                        <div class="studentName">
-
-                                            @Html.EditorFor(model => model.StudentNames[i], new { htmlAttributes = new { @id = "studentName", @class = "studentList" } })
-                                        </div>
-                                    }
+            <div class="form-group">
+                @Html.LabelFor(model => model.Students, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" id="studentList">
+                                <a data-toggle="collapse" href="#studentFilter">
+                                    <div class="panel-title">
+                                        @Html.DisplayFor(model => model.StudentCount) students
+                                        <span style="float: right" class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+                                    </div>
+                                </a>
+                                <div id="studentFilter" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        @for (int i = 0; i < Model.StudentNames.Count; i++)
+                                        {
+                                            <div class="studentName">
+                                                @Html.DisplayFor(model => model.StudentNames[i], new { htmlAttributes = new { @class = "studentList" } })
+                                                @Html.HiddenFor(model => model.Students[i], new { id="removeStudent"} )
+                                                <button class="test" value="test" />
+                                            </div>
+                                          }
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div>
+                @ViewBag.stud
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Num_Points, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Num_Points, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Num_Points, "", new { @class = "text-danger" })
+                </div>
+            </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Num_Points, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Num_Points, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Num_Points, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Reward_Category_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Reward_Category_ID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Reward_Category_ID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Reward_Comment, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Reward_Comment, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Reward_Comment, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
             </div>
         </div>
+                                                    }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Reward_Category_ID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Reward_Category_ID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Reward_Category_ID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Reward_Comment, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Reward_Comment, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Reward_Comment, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-    
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
