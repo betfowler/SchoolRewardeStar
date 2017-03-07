@@ -4,30 +4,73 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Student Awards</h2>
-
 @using (Html.BeginForm())
 {
     <div class="row">
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                All
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="#" value="name">Name</a></li>
-                <li><a href="#" value="yrGroup">Year Group</a></li>
-                <li><a href="#" value="class">Class</a></li>
-            </ul>
-            @Html.TextBox("SearchString")
-            <input class="btn btn-primary" type="submit" value="Search" id="searchSubmit" />
+        <div class="col-md-8">
+            <h3>Class/Group: @ViewBag.ClassName</h3>
+        </div>
+        <div class="col-md-4">
+            @Html.ActionLink("Back To Class List", "ClassAwards", "Awards", new { @class = "btn btn-primary" }, null) |
+            @Html.ActionLink("View All Students", "Index", "Awards", new { @class = "btn btn-primary" }, null)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading" id="searchbar">
+                    <a data-toggle="collapse" href="#studentFilter"> 
+                        <div class="panel-title"><b>Search Students</b> <span style="float: right" class="glyphicon glyphicon-collapse-up" aria-hidden="true"></span></div>
+                    </a>
+                    <div id="studentFilter" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            @Html.TextBox("SearchString", null, new { @class="clearable", @placeholder = "Search student names" })
+                            @Html.Hidden("classID")
+                            <input class="btn btn-primary" type="submit" value="Search" id="searchSubmit" />
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="yearGroup">Filter by Year Group</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="tutorGroup">Filter by Tutor Group</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    All year groups <input name="yearGroup" type="radio" value="all" @ViewBag.YearAll /> |
+                                    Year 7 <input name="yearGroup" type="radio" value="7" @ViewBag.year7 /> |
+                                    Year 8 <input name="yearGroup" type="radio" value="8" @ViewBag.year8 /> |
+                                    Year 9 <input name="yearGroup" type="radio" value="9" @ViewBag.year9 /> |
+                                    Year 10 <input name="yearGroup" type="radio" value="10" @ViewBag.year10 /> |
+                                    Year 11 <input name="yearGroup" type="radio" value="11" @ViewBag.year11 />
+                                </div>
+                                <div class="col-md-6">
+                                    All tutor groups <input name="tutorGroup" type="radio" value="all" @ViewBag.TutorAll /> |
+                                    Stella <input name="tutorGroup" type="radio" value="stella" @ViewBag.Stella /> |
+                                    Étoile <input name="tutorGroup" type="radio" value="etoile" @ViewBag.Etoile /> | 
+                                    Estrella <input name="tutorGroup" type="radio" value="estrella" @ViewBag.Estrella />
+                                </div>
+                            </div>
+                            <div class="row" style="float: right">
+                                @Html.ActionLink("Reset", "Index", "Awards", new { id = "reset", classID = @ViewBag.ClassID, sortOrder = "", searchString = "", yearGroup = "all", tutorGroup = "all" }, null)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 }
 
 @using (Html.BeginForm("Create", "Awards", FormMethod.Get))
 {
-    <input class="btn btn-primary" type="submit" value="Award" id="awardStudents" />
+    <div class="row" id="awardButton">
+        <input class="btn btn-success" type="submit" value="Award" id="awardStudents" />
+    </div>
+    
     <table class="table">
         <tr>
             <th>
@@ -37,19 +80,19 @@
                 @Html.DisplayNameFor(model => model.Prefix)
             </th>
             <th>
-                @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.FirstNameSortParm })
+                @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.FirstNameSortParm, classID = ViewBag.classID, searchString = ViewBag.Search })
                 &#9662;
             </th>
             <th>
-                @Html.ActionLink("Surname", "Index", new { sortOrder = ViewBag.SurnameSortParm })
+                @Html.ActionLink("Surname", "Index", new { sortOrder = ViewBag.SurnameSortParm, classID = ViewBag.classID, searchString = ViewBag.Search })
                 &#9662;
             </th>
             <th>
-                @Html.ActionLink("Year Group", "Index", new { sortOrder = ViewBag.YearGroupSortParm })
+                @Html.ActionLink("Year Group", "Index", new { sortOrder = ViewBag.YearGroupSortParm, classID = ViewBag.classID, searchString = ViewBag.Search })
                 &#9662;
             </th>
             <th>
-                @Html.ActionLink("Tutor Group", "Index", new { sortOrder = ViewBag.TutorGroupSortParm })
+                @Html.ActionLink("Tutor Group", "Index", new { sortOrder = ViewBag.TutorGroupSortParm, classID = ViewBag.classID, searchString = ViewBag.Search })
                 &#9662;
             </th>
             <th></th>

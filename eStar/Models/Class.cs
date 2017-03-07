@@ -15,9 +15,8 @@ namespace eStar.Models
         public int Class_ID { get; set; }
         public string Class_Name { get; set; }
 
-        public virtual ICollection<Enrolment> Enrolments { get; set; }
-        public virtual ICollection<ClassStaff> ClassStaff { get; set; }
-
+        public virtual List<Enrolment> Enrolments { get; set; }
+        public virtual List<ClassStaff> ClassStaff { get; set; }
     }
 
     public class ClassValidator : AbstractValidator<Class>

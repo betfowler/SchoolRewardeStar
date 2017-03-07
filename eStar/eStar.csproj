@@ -377,6 +377,7 @@
     <Content Include="Views\Classes\Index.cshtml" />
     <Content Include="Views\Classes\getStudents.cshtml" />
     <Content Include="Views\Classes\getStaff.cshtml" />
+    <Content Include="Views\Awards\ClassAwards.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

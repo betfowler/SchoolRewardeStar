@@ -14,56 +14,194 @@ namespace eStar.Controllers
     {
         private eStarContext db = new eStarContext();
 
-        // GET: Awards
-        public ActionResult Index(string sortOrder, string searchString)
+        public ActionResult ClassAwards(string classRadio, string sortOrder, string searchString)
         {
+            List<Class> classes = new List<Class>();
+            ViewBag.ClassNameSortParm = String.IsNullOrEmpty(sortOrder) ? "className_desc" : "";
+            ViewBag.Search = searchString;
+
+
+            if (classRadio == "userClasses")
+            {
+                int currentID = Convert.ToInt32(Session["UserID"]);
+                List<int> classIDs = new List<int>();
+                foreach(var row in db.ClassStaffs)
+                {
+                    if (row.User_ID == currentID)
+                    {
+                        classIDs.Add(row.Class_ID);
+                    }
+                }
+
+                foreach(var @class in classIDs)
+                {
+                    classes.Add(db.Classes.Where(cl => cl.Class_ID.Equals(@class)).FirstOrDefault());
+                }
+
+                ViewBag.CheckedMy = "checked";
+
+            }
+            else
+            {
+                classes = db.Classes.ToList();
+                ViewBag.CheckedAll = "checked";
+                
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var search = searchString.ToUpper();
+
+                classes = classes.Where(cl => cl.Class_Name.ToUpper().Contains(search)).ToList();
+            }
+
+            switch (sortOrder)
+            {
+                case "className_desc":
+                    classes = classes.OrderByDescending(cl => cl.Class_Name).ToList();
+                    break;
+                default:
+                    classes = classes.OrderBy(cl => cl.Class_Name).ToList();
+                    break;
+            }
+
+            return View(classes);
+        }
+
+        // GET: Awards
+        public ActionResult Index(string sortOrder, string searchString, int? classID, string yearGroup, string tutorGroup)
+        {
+            if (classID == 0)
+                classID = null;
+
+            ViewBag.ClassID = Convert.ToInt32(classID);
+            ViewBag.Search = searchString;
             ViewBag.FirstNameSortParm = sortOrder == "FirstName" ? "FirstName_desc" : "FirstName";
             ViewBag.SurnameSortParm = String.IsNullOrEmpty(sortOrder) ? "Surname_desc" : "";
             ViewBag.YearGroupSortParm = sortOrder == "YearGroup" ? "YearGroup_desc" : "YearGroup";
             ViewBag.TutorGroupSortParm = sortOrder == "TutorGroup" ? "TutorGroup_desc" : "TutorGroup";
+            ViewBag.ClassName = "All Students";
+            
 
-            var students = from s in db.Accounts.OfType<Student>()
-                           select s;
+            List<Student> students = new List<Student>();
+            if (classID != null)
+            {
 
-            if(!String.IsNullOrEmpty(searchString))
+                List<int> studentIDs = new List<int>();
+                List<Student> studentList = new List<Student>();
+                int class_ID = Convert.ToInt32(classID);
+
+                //get class name if ID is not null
+                ViewBag.ClassName = db.Classes.Where(cl => cl.Class_ID.Equals(class_ID)).FirstOrDefault().Class_Name;
+
+                foreach (var enrol in db.Enrolments.Where(en => en.Class_ID.Equals(class_ID)))
+                {
+                    studentIDs.Add(enrol.User_ID);
+                }
+
+                foreach (var student in studentIDs)
+                {
+                    studentList.Add(db.Accounts.OfType<Student>().Where(acc => acc.User_ID.Equals(student)).FirstOrDefault());
+
+                }
+
+                students = studentList;
+            }
+            else
+                students = db.Accounts.OfType<Student>().ToList();
+
+            if(yearGroup == "all" || yearGroup == null)
+            {
+                ViewBag.YearAll = "checked";
+            }
+            else
+            {
+                if(yearGroup == "7")
+                {
+                    ViewBag.year7 = "checked";
+                    students = students.Where(st => st.Year_Group.Equals("7")).ToList();
+                }
+                if (yearGroup == "8")
+                {
+                    ViewBag.year8 = "checked";
+                    students = students.Where(st => st.Year_Group.Equals("8")).ToList();
+                }
+                if (yearGroup == "9")
+                {
+                    ViewBag.year9 = "checked";
+                    students = students.Where(st => st.Year_Group.Equals("9")).ToList();
+                }
+                if (yearGroup == "10")
+                {
+                    ViewBag.year10 = "checked";
+                    students = students.Where(st => st.Year_Group.Equals("10")).ToList();
+                }
+                if (yearGroup == "11")
+                {
+                    ViewBag.year11 = "checked";
+                    students = students.Where(st => st.Year_Group.Equals("11")).ToList();
+                }
+            }
+
+            if (tutorGroup == "all" || tutorGroup == null)
+            {
+                ViewBag.TutorAll = "checked";
+            }
+            else
+            {
+                if (tutorGroup == "stella")
+                {
+                    ViewBag.Stella = "checked";
+                    students = students.Where(st => st.Tutor_Group.Equals("Stella")).ToList();
+                }
+                if (tutorGroup == "etoile")
+                {
+                    ViewBag.Etoile = "checked";
+                    students = students.Where(st => st.Tutor_Group.Equals("Étoile")).ToList();
+                }
+                if (tutorGroup == "estrella") 
+                {
+                    ViewBag.Estrella = "checked";
+                    students = students.Where(st => st.Tutor_Group.Equals("Estrella")).ToList();
+                }
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
             {
                 var search = searchString.ToUpper();
 
-                students = students.Where(s => s.Surname.ToUpper().Contains(search)
-                || s.First_Name.ToUpper().Contains(search)
-                || s.Year_Group.ToUpper().Contains(search)
-                || s.Tutor_Group.ToUpper().Contains(search));
+                students = students.Where(s => s.FullName.ToUpper().Contains(search)).ToList();
             }
 
             switch (sortOrder)
             {
                 case "FirstName_desc":
-                    students = students.OrderByDescending(s => s.First_Name);
+                    students = students.OrderByDescending(s => s.First_Name).ToList();
                     break;
                 case "FirstName":
-                    students = students.OrderBy(s => s.First_Name);
+                    students = students.OrderBy(s => s.First_Name).ToList();
                     break;
                 case "Surname_desc":
-                    students = students.OrderByDescending(s => s.Surname);
+                    students = students.OrderByDescending(s => s.Surname).ToList();
                     break;
                 case "YearGroup_desc":
-                    students = students.OrderByDescending(s => s.Year_Group);
+                    students = students.OrderByDescending(s => s.Year_Group).ToList();
                     break;
                 case "YearGroup":
-                    students = students.OrderBy(s => s.Year_Group);
+                    students = students.OrderBy(s => s.Year_Group).ToList();
                     break;
                 case "TutorGroup_desc":
-                    students = students.OrderByDescending(s => s.Tutor_Group);
+                    students = students.OrderByDescending(s => s.Tutor_Group).ToList();
                     break;
                 case "TutorGroup":
-                    students = students.OrderBy(s => s.Tutor_Group);
+                    students = students.OrderBy(s => s.Tutor_Group).ToList();
                     break;
                 default:
-                    students = students.OrderBy(s => s.Surname);
+                    students = students.OrderBy(s => s.Surname).ToList();
                     break;
             }
 
-            return View(students.ToList());
+            return View(students);
         }
 
         // GET: Awards/Details/5
@@ -82,11 +220,10 @@ namespace eStar.Controllers
         }
 
         // GET: Awards/Create
-        public ActionResult Create(List<int?> student)
+        public ActionResult Create(List<int?> student, int? classID)
         {
             if (student != null)
             {
-                //add students to award
                 int selectedStudents = student.Count;
                 Award award = new Award();
                 AccountModel am = new AccountModel();
@@ -101,7 +238,25 @@ namespace eStar.Controllers
                     award.StudentNames.Add(am.findUsingID(studentID).FullName);
                 }
 
-                award.Reward_Comment = "This is a test";
+                return View(award);
+            }
+
+            if(classID != null)
+            {
+                int class_ID = Convert.ToInt32(classID);
+                Award award = new Award();
+                AccountModel am = new AccountModel();
+                award.Students = new List<int>();
+                award.StudentNames = new List<string>();
+                award.StudentCount = 0;
+                
+                foreach(var row in db.Enrolments.Where(en => en.Class_ID.Equals(class_ID)))
+                {
+                    award.Students.Add(row.User_ID);
+                    award.StudentNames.Add(am.findUsingID(row.User_ID).FullName);
+                    award.StudentCount = award.StudentCount + 1;
+                }
+
                 return View(award);
             }
 
