@@ -1,0 +1,57 @@
+﻿@model IEnumerable<eStar.Models.Award>
+
+@{
+    ViewBag.Title = "ViewAwards";
+}
+
+<h2>Your Awards</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AwardDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Num_Points)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Staff_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subject_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reward_Category_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reward_Comment)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AwardDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Num_Points)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Staff.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RewardCategory.Reward_Category)
+                @Html.DisplayFor(modelItem => item.Reward_Category_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reward_Comment)
+            </td>
+        </tr>
+    }
+
+</table>

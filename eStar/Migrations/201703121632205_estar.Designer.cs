@@ -7,13 +7,13 @@ namespace eStar.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Account1 : IMigrationMetadata
+    public sealed partial class estar : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Account1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(estar));
         
         string IMigrationMetadata.Id
         {
-            get { return "201702191459267_Account1"; }
+            get { return "201703121632205_estar"; }
         }
         
         string IMigrationMetadata.Source

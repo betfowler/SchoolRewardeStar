@@ -25,6 +25,11 @@ namespace eStar.Models
             return db.Accounts.Where(acc => acc.Email.Equals(email)).FirstOrDefault();
         }
 
+        public int findStaffPoints(string email)
+        {
+            return db.Accounts.OfType<Staff>().Where(acc => acc.Email.Equals(email)).FirstOrDefault().Remaining_Points;
+        }
+
         public Account findUsingID(int id)
         {
             return db.Accounts.Where(acc => acc.User_ID.Equals(id)).FirstOrDefault();

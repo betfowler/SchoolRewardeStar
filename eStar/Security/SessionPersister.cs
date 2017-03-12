@@ -27,6 +27,10 @@ namespace eStar.Security
                 HttpContext.Current.Session[emailSessionvar] = value;
             }
         }
+
+        public static int RemainingPoints { get; internal set; }
+        public static int UserID { get; internal set; }
+
         public static string Username
         {
             get

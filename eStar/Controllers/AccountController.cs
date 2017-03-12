@@ -54,7 +54,14 @@ namespace eStar.Controllers
             Session["UserID"] = am.find(avm.Account.Email).User_ID;
             Session["Username"] = am.find(avm.Account.Email).First_Name;
             Session["UserType"] = am.find(avm.Account.Email).User_Type;
+            
+            if(Session["UserType"].ToString() == "Staff")
+            {
+                SessionPersister.RemainingPoints = am.findStaffPoints(avm.Account.Email);                
+            }
 
+            SessionPersister.UserID = am.find(avm.Account.Email).User_ID;
+            
             //return View("Success");
             return View("~/Views/Index/"+Session["UserType"].ToString()+"Index.cshtml");
             
@@ -169,6 +176,8 @@ namespace eStar.Controllers
             SessionPersister.Email = string.Empty;
             SessionPersister.UserType = string.Empty;
             SessionPersister.Username = string.Empty;
+            SessionPersister.RemainingPoints = 0;
+            SessionPersister.UserID = 0;
             return RedirectToAction("Index", "Account");
 
 

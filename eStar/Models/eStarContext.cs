@@ -37,5 +37,7 @@ namespace eStar.Models
         public DbSet<Enrolment> Enrolments { get; set; }
 
         public DbSet<ClassStaff> ClassStaffs { get; set; }
+
+        public DbSet<Subject> Subjects { get; set; }
     }
 }

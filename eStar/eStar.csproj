@@ -180,85 +180,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201702191103147_Account.cs" />
-    <Compile Include="Migrations\201702191103147_Account.Designer.cs">
-      <DependentUpon>201702191103147_Account.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702191459267_Account1.cs" />
-    <Compile Include="Migrations\201702191459267_Account1.Designer.cs">
-      <DependentUpon>201702191459267_Account1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702191542475_Account2.cs" />
-    <Compile Include="Migrations\201702191542475_Account2.Designer.cs">
-      <DependentUpon>201702191542475_Account2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702201757474_Accounts.cs" />
-    <Compile Include="Migrations\201702201757474_Accounts.Designer.cs">
-      <DependentUpon>201702201757474_Accounts.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702201850582_Accounts1.cs" />
-    <Compile Include="Migrations\201702201850582_Accounts1.Designer.cs">
-      <DependentUpon>201702201850582_Accounts1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702201901015_Accounts2.cs" />
-    <Compile Include="Migrations\201702201901015_Accounts2.Designer.cs">
-      <DependentUpon>201702201901015_Accounts2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702261633337_Award.cs" />
-    <Compile Include="Migrations\201702261633337_Award.Designer.cs">
-      <DependentUpon>201702261633337_Award.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702281328226_newAwards.cs" />
-    <Compile Include="Migrations\201702281328226_newAwards.Designer.cs">
-      <DependentUpon>201702281328226_newAwards.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702281333013_Awards.cs" />
-    <Compile Include="Migrations\201702281333013_Awards.Designer.cs">
-      <DependentUpon>201702281333013_Awards.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702281548158_awardStudents.cs" />
-    <Compile Include="Migrations\201702281548158_awardStudents.Designer.cs">
-      <DependentUpon>201702281548158_awardStudents.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702281555487_studentcount.cs" />
-    <Compile Include="Migrations\201702281555487_studentcount.Designer.cs">
-      <DependentUpon>201702281555487_studentcount.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702281640124_listNotArray.cs" />
-    <Compile Include="Migrations\201702281640124_listNotArray.Designer.cs">
-      <DependentUpon>201702281640124_listNotArray.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702281651147_listStudent.cs" />
-    <Compile Include="Migrations\201702281651147_listStudent.Designer.cs">
-      <DependentUpon>201702281651147_listStudent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702281741258_studentaward.cs" />
-    <Compile Include="Migrations\201702281741258_studentaward.Designer.cs">
-      <DependentUpon>201702281741258_studentaward.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703031452107_classEnrolment.cs" />
-    <Compile Include="Migrations\201703031452107_classEnrolment.Designer.cs">
-      <DependentUpon>201703031452107_classEnrolment.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703032033357_selected.cs" />
-    <Compile Include="Migrations\201703032033357_selected.Designer.cs">
-      <DependentUpon>201703032033357_selected.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703041220133_removebool.cs" />
-    <Compile Include="Migrations\201703041220133_removebool.Designer.cs">
-      <DependentUpon>201703041220133_removebool.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703060952033_enrolment.cs" />
-    <Compile Include="Migrations\201703060952033_enrolment.Designer.cs">
-      <DependentUpon>201703060952033_enrolment.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703060953018_enrolment2.cs" />
-    <Compile Include="Migrations\201703060953018_enrolment2.Designer.cs">
-      <DependentUpon>201703060953018_enrolment2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703061003070_classStaff.cs" />
-    <Compile Include="Migrations\201703061003070_classStaff.Designer.cs">
-      <DependentUpon>201703061003070_classStaff.cs</DependentUpon>
+    <Compile Include="Migrations\201703121632205_estar.cs" />
+    <Compile Include="Migrations\201703121632205_estar.Designer.cs">
+      <DependentUpon>201703121632205_estar.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
@@ -271,6 +195,7 @@
     <Compile Include="Models\IeStarContext.cs" />
     <Compile Include="Models\RewardCategory.cs" />
     <Compile Include="Models\StudentAward.cs" />
+    <Compile Include="Models\Subject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\CustomPrincipals.cs" />
     <Compile Include="Security\Hashing.cs" />
@@ -285,6 +210,7 @@
     <Content Include="Content\Images\Awards2.png" />
     <Content Include="Content\Images\Classes2.png" />
     <Content Include="Content\Images\Classes.png" />
+    <Content Include="Content\Images\smlAward.png" />
     <Content Include="Content\Images\Staff2.png" />
     <Content Include="Content\Images\StarLogo.png" />
     <Content Include="Content\Images\Students2.png" />
@@ -378,6 +304,7 @@
     <Content Include="Views\Classes\getStudents.cshtml" />
     <Content Include="Views\Classes\getStaff.cshtml" />
     <Content Include="Views\Awards\ClassAwards.cshtml" />
+    <Content Include="Views\Awards\ViewAwards.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -391,65 +318,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702191103147_Account.resx">
-      <DependentUpon>201702191103147_Account.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702191459267_Account1.resx">
-      <DependentUpon>201702191459267_Account1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702191542475_Account2.resx">
-      <DependentUpon>201702191542475_Account2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702201757474_Accounts.resx">
-      <DependentUpon>201702201757474_Accounts.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702201850582_Accounts1.resx">
-      <DependentUpon>201702201850582_Accounts1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702201901015_Accounts2.resx">
-      <DependentUpon>201702201901015_Accounts2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702261633337_Award.resx">
-      <DependentUpon>201702261633337_Award.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702281328226_newAwards.resx">
-      <DependentUpon>201702281328226_newAwards.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702281333013_Awards.resx">
-      <DependentUpon>201702281333013_Awards.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702281548158_awardStudents.resx">
-      <DependentUpon>201702281548158_awardStudents.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702281555487_studentcount.resx">
-      <DependentUpon>201702281555487_studentcount.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702281640124_listNotArray.resx">
-      <DependentUpon>201702281640124_listNotArray.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702281651147_listStudent.resx">
-      <DependentUpon>201702281651147_listStudent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702281741258_studentaward.resx">
-      <DependentUpon>201702281741258_studentaward.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703031452107_classEnrolment.resx">
-      <DependentUpon>201703031452107_classEnrolment.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703032033357_selected.resx">
-      <DependentUpon>201703032033357_selected.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703041220133_removebool.resx">
-      <DependentUpon>201703041220133_removebool.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703060952033_enrolment.resx">
-      <DependentUpon>201703060952033_enrolment.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703060953018_enrolment2.resx">
-      <DependentUpon>201703060953018_enrolment2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703061003070_classStaff.resx">
-      <DependentUpon>201703061003070_classStaff.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703121632205_estar.resx">
+      <DependentUpon>201703121632205_estar.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,8 +1,14 @@
-﻿
+﻿@using eStar.Security;
 @{
     ViewBag.Title = "StudentIndex";
 }
 
-<div class="jumbotron">
-    <h1>Welcome to the student page</h1>
+<h2>Welcome to eStar</h2>
+<div class="row" id="homeIcons">
+    <div class="col-md-2" id="awardIcon">
+        <a href='@string.Format("../Awards/ViewAwards/{0}", SessionPersister.UserID)'>
+
+            <img src="../Content/Images/Awards.png" />
+        </a>
+    </div>
 </div>

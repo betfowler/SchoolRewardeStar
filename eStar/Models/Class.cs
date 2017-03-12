@@ -14,9 +14,11 @@ namespace eStar.Models
         [Key]
         public int Class_ID { get; set; }
         public string Class_Name { get; set; }
+        public int Subject_ID { get; set; }
 
         public virtual List<Enrolment> Enrolments { get; set; }
         public virtual List<ClassStaff> ClassStaff { get; set; }
+        public virtual List<Subject> Subject { get; set; }
     }
 
     public class ClassValidator : AbstractValidator<Class>
