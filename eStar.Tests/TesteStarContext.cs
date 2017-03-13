@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace eStar.Tests
 {
-    public class TesteStarContext : IeStarContext
+    public class TesteStarContext : eStarContext
     {
         public TesteStarContext()
         {

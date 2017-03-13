@@ -14,15 +14,15 @@ namespace eStar.Controllers
 {
     public class AccountController : Controller
     {
-        //private eStarContext db = new eStarContext();
+        private eStarContext db = new eStarContext();
         //modify the type of the db field
-        private IeStarContext db = new eStarContext();
+        //private IeStarContext db = new eStarContext();
         //add constructors
-        public AccountController() { }
-        public AccountController(IeStarContext context)
-        {
-            db = context;
-        }
+        //public AccountController() { }
+        //public AccountController(IeStarContext context)
+        //{
+         //   db = context;
+        //}
 
         // GET: Account
         public ActionResult Index()

@@ -46,6 +46,7 @@ namespace eStar.Models
 
         public virtual ICollection<StudentAward> StudentAwards { get; set; }
         public virtual ICollection<Enrolment> Enrolments { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
 
     }
 

@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace eStar.Models
 {
-    public interface IeStarContext : IDisposable
+     public interface IeStarContext : IDisposable
     {
         DbSet<Account> Accounts { get; }
+
         int SaveChanges();
         void MarkAsModified(Account item);
     }

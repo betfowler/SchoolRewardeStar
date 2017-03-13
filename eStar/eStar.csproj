@@ -173,6 +173,7 @@
     <Compile Include="Controllers\ClassesController.cs" />
     <Compile Include="Controllers\GuardiansController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\StaffsController.cs" />
     <Compile Include="Controllers\StudentAwardsController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
@@ -183,6 +184,18 @@
     <Compile Include="Migrations\201703131149149_estar.Designer.cs">
       <DependentUpon>201703131149149_estar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703131622019_products.cs" />
+    <Compile Include="Migrations\201703131622019_products.Designer.cs">
+      <DependentUpon>201703131622019_products.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703131625486_orders.cs" />
+    <Compile Include="Migrations\201703131625486_orders.Designer.cs">
+      <DependentUpon>201703131625486_orders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703132021180_image.cs" />
+    <Compile Include="Migrations\201703132021180_image.Designer.cs">
+      <DependentUpon>201703132021180_image.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountModel.cs" />
@@ -192,6 +205,8 @@
     <Compile Include="Models\Enrolment.cs" />
     <Compile Include="Models\eStarContext.cs" />
     <Compile Include="Models\IeStarContext.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\Product.cs" />
     <Compile Include="Models\RewardCategory.cs" />
     <Compile Include="Models\StudentAward.cs" />
     <Compile Include="Models\Subject.cs" />
@@ -214,6 +229,7 @@
     <Content Include="Content\Images\smlAward.png" />
     <Content Include="Content\Images\Staff2.png" />
     <Content Include="Content\Images\StarLogo.png" />
+    <Content Include="Content\Images\Store.png" />
     <Content Include="Content\Images\Students2.png" />
     <Content Include="Content\Images\Students.png" />
     <Content Include="Content\Images\Users.png" />
@@ -301,6 +317,12 @@
     <Content Include="Views\Classes\getStaff.cshtml" />
     <Content Include="Views\Awards\ClassAwards.cshtml" />
     <Content Include="Views\Awards\ViewAwards.cshtml" />
+    <Content Include="Views\Products\Create.cshtml" />
+    <Content Include="Views\Products\Delete.cshtml" />
+    <Content Include="Views\Products\Details.cshtml" />
+    <Content Include="Views\Products\Edit.cshtml" />
+    <Content Include="Views\Products\Index.cshtml" />
+    <Content Include="Views\Products\StoreView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -316,6 +338,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201703131149149_estar.resx">
       <DependentUpon>201703131149149_estar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703131622019_products.resx">
+      <DependentUpon>201703131622019_products.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703131625486_orders.resx">
+      <DependentUpon>201703131625486_orders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703132021180_image.resx">
+      <DependentUpon>201703132021180_image.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

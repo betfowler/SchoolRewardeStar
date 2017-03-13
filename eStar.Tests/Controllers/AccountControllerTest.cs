@@ -18,7 +18,7 @@ namespace eStar.Tests.Controllers
     [TestClass]
     public class AccountControllerTest
     {
-        TesteStarContext context = new TesteStarContext();
+     /*   TesteStarContext context = new TesteStarContext();
         AccountViewModel accountViewModel = new AccountViewModel();
         ContextValues setContext = new ContextValues();
         Account account = new Account();
@@ -112,6 +112,6 @@ namespace eStar.Tests.Controllers
             //Assert
             
             Assert.AreEqual("Yes!", controller.ViewBag.Success);
-        }   
+        }   */
     }
 }

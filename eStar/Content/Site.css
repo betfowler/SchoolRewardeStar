@@ -117,3 +117,21 @@ textarea {
 #reset {
     float: right;
 }
+
+#product {
+    background-color: #cacaca;
+    text-align: center;
+}
+
+.object-fit_cover {
+    object-fit: cover
+}
+
+#productImage{
+    height: 50px;
+    margin: auto;
+}
+
+#product img{
+    border-radius: 50%;
+}

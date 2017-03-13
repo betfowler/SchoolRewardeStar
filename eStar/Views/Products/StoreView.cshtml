@@ -1,0 +1,30 @@
+﻿@model IEnumerable<eStar.Models.Product>
+
+@{
+    ViewBag.Title = "StoreView";
+}
+
+<h2>StoreView</h2>
+
+<div class="row" id="productSearch">
+
+</div>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3" id="product">
+            <div class="row">
+                <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+            </div>
+            <div class="row" id="productImage">
+                <img class="object-fit_cover" src="..@item.Image" alt="" />
+            </div>
+            <div class="row">
+                @Html.DisplayFor(modelItem => item.Price) Points
+            </div>
+            <div class="row">
+                @Html.DisplayFor(modelItem => item.ProductCategories.CategoryName)
+            </div>
+        </div>
+    }
+</div>

@@ -39,5 +39,10 @@ namespace eStar.Models
         public DbSet<RewardCategory> RewardCategories { get; set; }
 
         public DbSet<Subject> Subjects { get; set; }
+
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
     }
 }
