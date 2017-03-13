@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<eStar.Models.Award>
+@using eStar.Security
 
 @{
     ViewBag.Title = "ViewAwards";
@@ -15,7 +16,17 @@
             @Html.DisplayNameFor(model => model.Num_Points)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Staff_ID)
+            @{
+                if (SessionPersister.UserType == "Student")
+                {
+                    @Html.DisplayNameFor(model => model.Staff_ID)
+                }
+                else
+                {
+                    @Html.DisplayNameFor(model => model.StudentCount)
+                }
+            }
+
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Subject_ID)
@@ -39,7 +50,16 @@
                 @Html.DisplayFor(modelItem => item.Num_Points)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Staff.FullName)
+                @{
+                    if (SessionPersister.UserType == "Student")
+                    {
+                        @Html.DisplayFor(modelItem => item.Staff.FullName)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modeItem => item.StudentCount)
+                    }
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Subject.Subject_Name)
