@@ -25,7 +25,7 @@ namespace eStar.Controllers
                 //get usertype
                 AccountModel am = new AccountModel();
                 var usertype = am.findUsingID(userid).User_Type;
-
+                //STUDENTS
                 if(usertype == "Student")
                 {
                     var studentAwardList = db.StudentAwards.Where(sa => sa.Student_ID.Equals(userid)).ToList();
@@ -34,8 +34,16 @@ namespace eStar.Controllers
                     {
                         award.Add(db.Awards.Where(aw => aw.Award_ID.Equals(studentaward.Award_ID)).FirstOrDefault());
                     }
+
                     return View(award.ToList());
                 }
+                //STAFF
+                if(usertype == "Staff" || usertype == "Admin")
+                {
+                    award = db.Awards.Where(aw => aw.Staff_ID.Equals(userid)).ToList();
+                }
+
+                return View(award);
             }
             return RedirectToAction("Index", "Index");
         }
@@ -300,28 +308,31 @@ namespace eStar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Award_ID,Staff_ID,Num_Points,Reward_Category_ID,Reward_Comment,Students,StudentCount,AwardDate,Subject_ID")] Award award)
+        public ActionResult Create([Bind(Include = "Award_ID,Staff_ID,Num_Points,RewardCategory_ID,Reward_Comment,Students,StudentCount,AwardDate,Subject_ID")] Award award)
         {
-            PopulateSubjectDropDownList(award.Subject_ID);
-            PopulateCategoryDropDownList(award.Reward_Category_ID);
-            //get staff userID
-            int userID = Convert.ToInt32(Session["UserID"]);
-            award.Staff_ID = userID;
-            award.AwardDate = DateTime.Today;
+            if (ModelState.IsValid)
+            {
+                PopulateSubjectDropDownList(award.Subject_ID);
+                PopulateCategoryDropDownList(award.RewardCategory_ID);
 
-            //find staff remaining points
-            int remainingPoints = db.Accounts.Where(acc => acc.User_ID.Equals(userID)).OfType<Staff>().FirstOrDefault().Remaining_Points;
+                //get staff userID
+                int userID = Convert.ToInt32(Session["UserID"]);
+                award.Staff_ID = userID;
+                award.AwardDate = DateTime.Today;
+
+                //find staff remaining points
+                int remainingPoints = db.Accounts.Where(acc => acc.User_ID.Equals(userID)).OfType<Staff>().FirstOrDefault().Remaining_Points;
                 int points = award.Num_Points;
                 int checkPoints = points * award.StudentCount;
 
                 //if staff has enough points
-                if(remainingPoints >= checkPoints)
+                if (remainingPoints >= checkPoints)
                 {
                     //update staff with new points value
                     Staff staff = db.Accounts.OfType<Staff>().SingleOrDefault(s => s.User_ID == userID);
                     staff.Remaining_Points = remainingPoints - checkPoints;
                     staff.Awards.Add(award);
-                    SessionPersister.RemainingPoints = staff.Remaining_Points;  
+                    SessionPersister.RemainingPoints = staff.Remaining_Points;
 
                     db.Entry(staff).State = EntityState.Modified;
 
@@ -352,11 +363,14 @@ namespace eStar.Controllers
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
+
                 else
                 {
                     ViewBag.Error = "You do not have enough points left this week to make this award, you have " + remainingPoints + " left.";
                     return View(award);
                 }
+            }
+            return View(award);
         }
 
         //populate subject
@@ -365,6 +379,7 @@ namespace eStar.Controllers
             var query = from s in db.Subjects
                                    orderby s.Subject_Name
                                    select s;
+
             ViewBag.Subject_ID = new SelectList(query, "Subject_ID", "Subject_Name", selectedSubject);
         }
 
@@ -374,7 +389,8 @@ namespace eStar.Controllers
             var query = from r in db.RewardCategories
                                orderby r.Reward_Category
                                select r;
-            ViewBag.Reward_Category_ID = new SelectList(query, "Reward_Category_ID", "Reward_Category", selectedCategory);
+
+            ViewBag.RewardCategory_ID = new SelectList(query, "RewardCategory_ID", "Reward_Category", selectedCategory);
         }
 
         // GET: Awards/Edit/5

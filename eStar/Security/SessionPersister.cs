@@ -11,6 +11,8 @@ namespace eStar.Security
         static string usernameSessionvar = "username";
         static string userSessionvar = "usertype";
 
+        public static int Balance { get; internal set; }
+
         public static string Email
         {
             get
@@ -29,6 +31,7 @@ namespace eStar.Security
         }
 
         public static int RemainingPoints { get; internal set; }
+        public static int TotalPoints { get; internal set; }
         public static int UserID { get; internal set; }
 
         public static string Username

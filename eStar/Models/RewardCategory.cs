@@ -9,10 +9,10 @@ namespace eStar.Models
     public class RewardCategory
     {
         [Key]
-        public int Reward_Category_ID { get; set; }
-        [Display(Name = "Reward Category")]
+        public int RewardCategory_ID { get; set; }
+
         public string Reward_Category { get; set; }
 
-        public virtual Award Award { get; set; }
+        public virtual ICollection<Award> Award { get; set; }
     }
 }

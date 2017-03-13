@@ -7,6 +7,7 @@ namespace eStar.Migrations
     {
         public override void Up()
         {
+            AddForeignKey("dbo.Awards", "Subject_ID", "dbo.Subjects", "Subject_ID", cascadeDelete: true);
         }
         
         public override void Down()

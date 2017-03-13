@@ -55,9 +55,14 @@ namespace eStar.Controllers
             Session["Username"] = am.find(avm.Account.Email).First_Name;
             Session["UserType"] = am.find(avm.Account.Email).User_Type;
             
-            if(Session["UserType"].ToString() == "Staff")
+            if(Session["UserType"].ToString() == "Staff" || Session["UserType"].ToString() == "Admin")
             {
-                SessionPersister.RemainingPoints = am.findStaffPoints(avm.Account.Email);                
+                SessionPersister.RemainingPoints = am.findStaffPoints(avm.Account.Email);
+            }
+            if(Session["UserType"].ToString() == "Student")
+            {
+                SessionPersister.TotalPoints = am.findStudent(avm.Account.Email).Total_Points;
+                SessionPersister.Balance = am.findStudent(avm.Account.Email).Balance;
             }
 
             SessionPersister.UserID = am.find(avm.Account.Email).User_ID;

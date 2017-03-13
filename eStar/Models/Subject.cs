@@ -1,5 +1,4 @@
-﻿using eStar.Migrations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,5 +11,7 @@ namespace eStar.Models
         [Key]
         public int Subject_ID { get; set; }
         public string Subject_Name { get; set; }
+
+        public virtual ICollection<Award> Award { get; set; }
     }
 }

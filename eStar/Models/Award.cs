@@ -15,8 +15,7 @@ namespace eStar.Models
         [Display(Name = "Number Points")]
         public int Num_Points { get; set; }
         [Display(Name = "Reward Category")]
-        public int Reward_Category_ID { get; set; }
-        public virtual RewardCategory RewardCategory { get; set; }
+        public int RewardCategory_ID { get; set; }
         [Display(Name = "Comment")]
         public string Reward_Comment { get; set; }
         public DateTime? AwardDate { get; set; }
@@ -26,10 +25,11 @@ namespace eStar.Models
         public List<int> Students { get; set; } 
         public int StudentCount { get; set; }
         public List<string> StudentNames { get; set; }
-        public List<Subject> Subject { get; set; }
 
         public virtual ICollection<StudentAward> StudentAwards { get; set; }
-        public virtual ICollection<RewardCategory> RewardCategories { get; set; }
         public virtual Staff Staff { get; set; }
+        public virtual RewardCategory RewardCategory { get; set; }
+        public virtual Subject Subject { get; set; }
+        
     }
 }

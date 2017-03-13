@@ -13,7 +13,7 @@ namespace eStar.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201703121632205_estar"; }
+            get { return "201703131149149_estar"; }
         }
         
         string IMigrationMetadata.Source

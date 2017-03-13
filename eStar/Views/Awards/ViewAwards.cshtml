@@ -21,7 +21,7 @@
             @Html.DisplayNameFor(model => model.Subject_ID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Reward_Category_ID)
+            @Html.DisplayNameFor(model => model.RewardCategory_ID)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Reward_Comment)
@@ -42,11 +42,10 @@
                 @Html.DisplayFor(modelItem => item.Staff.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Subject)
+                @Html.DisplayFor(modelItem => item.Subject.Subject_Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.RewardCategory.Reward_Category)
-                @Html.DisplayFor(modelItem => item.Reward_Category_ID)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Reward_Comment)

@@ -28,8 +28,6 @@ namespace eStar.Models
 
         public DbSet<Award> Awards { get; set; }
 
-        public DbSet<RewardCategory> RewardCategories { get; set; }
-
         public DbSet<StudentAward> StudentAwards { get; set; }
 
         public DbSet<Class> Classes { get; set; }
@@ -37,6 +35,8 @@ namespace eStar.Models
         public DbSet<Enrolment> Enrolments { get; set; }
 
         public DbSet<ClassStaff> ClassStaffs { get; set; }
+
+        public DbSet<RewardCategory> RewardCategories { get; set; }
 
         public DbSet<Subject> Subjects { get; set; }
     }

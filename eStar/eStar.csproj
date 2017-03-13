@@ -173,16 +173,15 @@
     <Compile Include="Controllers\ClassesController.cs" />
     <Compile Include="Controllers\GuardiansController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
-    <Compile Include="Controllers\RewardCategoriesController.cs" />
     <Compile Include="Controllers\StaffsController.cs" />
     <Compile Include="Controllers\StudentAwardsController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703121632205_estar.cs" />
-    <Compile Include="Migrations\201703121632205_estar.Designer.cs">
-      <DependentUpon>201703121632205_estar.cs</DependentUpon>
+    <Compile Include="Migrations\201703131149149_estar.cs" />
+    <Compile Include="Migrations\201703131149149_estar.Designer.cs">
+      <DependentUpon>201703131149149_estar.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
@@ -286,11 +285,6 @@
     <Content Include="Views\Awards\Details.cshtml" />
     <Content Include="Views\Awards\Edit.cshtml" />
     <Content Include="Views\Awards\Index.cshtml" />
-    <Content Include="Views\RewardCategories\Create.cshtml" />
-    <Content Include="Views\RewardCategories\Delete.cshtml" />
-    <Content Include="Views\RewardCategories\Details.cshtml" />
-    <Content Include="Views\RewardCategories\Edit.cshtml" />
-    <Content Include="Views\RewardCategories\Index.cshtml" />
     <Content Include="Views\StudentAwards\Create.cshtml" />
     <Content Include="Views\StudentAwards\Delete.cshtml" />
     <Content Include="Views\StudentAwards\Details.cshtml" />
@@ -318,8 +312,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703121632205_estar.resx">
-      <DependentUpon>201703121632205_estar.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703131149149_estar.resx">
+      <DependentUpon>201703131149149_estar.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

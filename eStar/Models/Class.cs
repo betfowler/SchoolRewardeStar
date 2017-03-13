@@ -18,7 +18,7 @@ namespace eStar.Models
 
         public virtual List<Enrolment> Enrolments { get; set; }
         public virtual List<ClassStaff> ClassStaff { get; set; }
-        public virtual List<Subject> Subject { get; set; }
+        public virtual Subject Subject { get; set; }
     }
 
     public class ClassValidator : AbstractValidator<Class>
