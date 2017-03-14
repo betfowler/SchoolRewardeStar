@@ -6,7 +6,7 @@ using System.Web;
 
 namespace eStar.Models
 {
-    public class eStarContext : DbContext, IeStarContext
+    public class eStarContext : DbContext
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 

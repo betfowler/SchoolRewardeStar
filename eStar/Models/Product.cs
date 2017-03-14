@@ -17,7 +17,7 @@ namespace eStar.Models
         public int ProductCategory_ID { get; set; }
 
         public virtual ProductCategory ProductCategories { get; set; }
-        public virtual Order Orders { get; set; }
+        public virtual ICollection<ProductOrder> ProductOrders { get; set; }
     }
 
     public class ProductCategory

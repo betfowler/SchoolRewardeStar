@@ -9,7 +9,13 @@ namespace eStar.Models
 {
      public interface IeStarContext : IDisposable
     {
-        DbSet<Account> Accounts { get; }
+
+        List<Account> GetAllAccounts();
+        Account GetAccountById(int id);
+        void AddAccount(Account account);
+        void UpdateAccount(int id, Account account);
+        void DeleteAccount(Account account);
+        void Save();
 
         int SaveChanges();
         void MarkAsModified(Account item);

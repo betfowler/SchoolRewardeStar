@@ -26,8 +26,6 @@
                     <li>@Html.ActionLink("About You", "#", "#")</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a>Total Points: @SessionPersister.TotalPoints</a></li>
-                    <li><a>Balance: @SessionPersister.Balance</a></li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <span class="glyphicon glyphicon-user"></span> @SessionPersister.Username
@@ -38,6 +36,14 @@
                     </li>
                     <li><a href="@Url.Action("Logout", "Account")"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                 </ul>
+            </div>
+            <div class="userDetails">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a><i class="fa fa-trophy" aria-hidden="true"></i>Total Points: @SessionPersister.TotalPoints</a></li>
+                    <li><a><i class="fa fa-star" aria-hidden="true"></i> Balance: @SessionPersister.Balance</a></li>
+                    <li><a><i class="fa fa-shopping-cart" aria-hidden="true"></i> Basket: </a></li>
+                </ul>
+
             </div>
         </div>
     </div>

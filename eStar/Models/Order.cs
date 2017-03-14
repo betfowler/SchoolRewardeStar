@@ -11,12 +11,15 @@ namespace eStar.Models
         [Key]
         public int Order_ID { get; set; }
         public int User_ID { get; set; }
-        public int Product_ID { get; set; }
         public int Quantity { get; set; }
         public int OrderStatus_ID { get; set; }
 
+        public List<int> Products { get; set; }
+        public int ProductCount { get; set; }
+        public List<string> ProductNames { get; set; }
+
         public virtual OrderStatus OrderStatus { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<ProductOrder> ProductOrders { get; set; }
     }
 
     public class OrderStatus

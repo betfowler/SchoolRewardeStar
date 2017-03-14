@@ -96,7 +96,7 @@ namespace eStar.Controllers
                 //if no image selected
                 else
                 {
-                    product.Image = "/Content/Image/Store.png";
+                    product.Image = "/Content/Images/Store.png";
                 }
 
 
