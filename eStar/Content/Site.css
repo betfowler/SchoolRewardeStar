@@ -132,6 +132,7 @@ textarea {
     margin: auto;
     margin-bottom: 10px;
     margin-top: 10px;
+    height: 300px;
 }
 
 #product h3{
@@ -142,16 +143,18 @@ textarea {
     color: white;
 }
 
-.object-fit_cover {
-    object-fit: cover
-}
-
 #productImage{
-    height: 50px;
+    height: 100px;
     margin: auto;
+    margin-bottom: 10px;
 }
 
 #product img{
     border-radius: 50%;
     height: 100%;
+    max-width: 100px;
+}
+
+.object-fit_cover {
+    object-fit: cover;
 }

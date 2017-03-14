@@ -180,25 +180,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703131149149_estar.cs" />
-    <Compile Include="Migrations\201703131149149_estar.Designer.cs">
-      <DependentUpon>201703131149149_estar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703131622019_products.cs" />
-    <Compile Include="Migrations\201703131622019_products.Designer.cs">
-      <DependentUpon>201703131622019_products.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703131625486_orders.cs" />
-    <Compile Include="Migrations\201703131625486_orders.Designer.cs">
-      <DependentUpon>201703131625486_orders.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703132021180_image.cs" />
-    <Compile Include="Migrations\201703132021180_image.Designer.cs">
-      <DependentUpon>201703132021180_image.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703141049510_productorder.cs" />
-    <Compile Include="Migrations\201703141049510_productorder.Designer.cs">
-      <DependentUpon>201703141049510_productorder.cs</DependentUpon>
+    <Compile Include="Migrations\201703142036149_estar.cs" />
+    <Compile Include="Migrations\201703142036149_estar.Designer.cs">
+      <DependentUpon>201703142036149_estar.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
@@ -349,20 +333,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703131149149_estar.resx">
-      <DependentUpon>201703131149149_estar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703131622019_products.resx">
-      <DependentUpon>201703131622019_products.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703131625486_orders.resx">
-      <DependentUpon>201703131625486_orders.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703132021180_image.resx">
-      <DependentUpon>201703132021180_image.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703141049510_productorder.resx">
-      <DependentUpon>201703141049510_productorder.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703142036149_estar.resx">
+      <DependentUpon>201703142036149_estar.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
