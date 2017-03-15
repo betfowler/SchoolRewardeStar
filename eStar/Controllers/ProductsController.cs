@@ -133,6 +133,7 @@ namespace eStar.Controllers
                 return HttpNotFound();
             }
             ViewBag.ProductCategory_ID = new SelectList(db.ProductCategories, "ProductCategory_ID", "CategoryName", product.ProductCategory_ID);
+            ViewBag.ImagePath = product.Image;
             return View(product);
         }
 
@@ -145,10 +146,29 @@ namespace eStar.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (Request.Files.Count > 0)
+                {
+                    var file = Request.Files[0];
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        var path = Path.Combine(Server.MapPath("../../Content/Images/ProductImages"), fileName);
+
+                        string pathToString = path.ToString();
+                        string imageLocation = "\\Content\\Images\\ProductImages";
+                        int pathIndex = pathToString.IndexOf(imageLocation);
+                        string imagePathToSave = pathToString.Substring(pathIndex);
+
+                        product.Image = imagePathToSave;
+                        file.SaveAs(path);
+                    }
+                }
+
                 db.Entry(product).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             ViewBag.ProductCategory_ID = new SelectList(db.ProductCategories, "ProductCategory_ID", "CategoryName", product.ProductCategory_ID);
             return View(product);
         }
@@ -174,15 +194,6 @@ namespace eStar.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Product product = db.Products.Find(id);
-            string imagePath = product.Image;
-
-            var path = HttpContext.Server.MapPath(imagePath);
-
-            if (System.IO.File.Exists(path))
-            {
-                System.IO.File.Delete(path);
-            }
-
             db.Products.Remove(product);
             db.SaveChanges();
             return RedirectToAction("Index");

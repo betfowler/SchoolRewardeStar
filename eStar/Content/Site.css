@@ -124,22 +124,22 @@ textarea {
     float: right;
 }
 
-#product {
+.product {
     background-color: #cacaca;
     text-align: center;
-    width: 90%;
+    margin-left: 5px;
+    margin-right: 5px;
     padding-bottom: 10px;
-    margin: auto;
     margin-bottom: 10px;
     margin-top: 10px;
     height: 300px;
 }
 
-#product h3{
+.product h3{
     margin-bottom: 0;
 }
 
-#product i{
+.product i{
     color: white;
 }
 
@@ -149,7 +149,12 @@ textarea {
     margin-bottom: 10px;
 }
 
-#product img{
+#desc {
+    width: 95%;
+    margin: auto;
+    height: 40px;
+}
+.product img{
     border-radius: 50%;
     height: 100%;
     max-width: 100px;
@@ -157,4 +162,16 @@ textarea {
 
 .object-fit_cover {
     object-fit: cover;
+}
+
+#editImg{
+    color: grey;
+}
+
+#editImg img{
+    width: 100%;
+}
+
+#donationPrice {
+    margin: 6px;
 }

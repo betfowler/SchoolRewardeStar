@@ -1,38 +1,96 @@
 ﻿@model IEnumerable<eStar.Models.Product>
 
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
 @{
     ViewBag.Title = "StoreView";
 }
 
-<h2>StoreView</h2>
+<h2>Welcome to the eStore</h2>
 
-<div class="row" id="productSearch">
-
-</div>
-<div class="row">
-    @foreach (var item in Model)
-    {
-        <div class="col-md-3">
-            <div class="row" id="product">
-                <div class="row">
-                    <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
-                </div>
-                <div class="row">
-                    <i>@Html.DisplayFor(modelItem => item.ProductCategories.CategoryName)</i>
-                </div>
-                <div class="row" id="productImage">
-                    <img class="object-fit_cover" src="..@item.Image" />
-                </div>
-                <div class="row">
-                    @Html.DisplayFor(modelItem => item.Description)
-                </div>
-                <div class="row">
-                    <h4>@Html.DisplayFor(modelItem => item.Price) Points</h4>
-                </div>
-                <div class="row" id="button">
-                    <a href="@Url.Action("Create", "Awards")" class="btn btn-primary">Buy Now <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+@using (Html.BeginForm())
+{
+    <div class="row" id="productSearch">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading" id="searchbar">
+                    <a data-toggle="collapse" href="#studentFilter">
+                        <div class="panel-title"><b>Search Products</b> <span style="float: right" class="glyphicon glyphicon-collapse-up" aria-hidden="true"></span></div>
+                    </a>
+                    <div id="studentFilter" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search products" })
+                            <input class="btn btn-primary" type="submit" value="Search" id="searchSubmit" />
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="yearGroup">Filter by Cost</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="tutorGroup">Filter by Tutor Group</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                        <label for="amount">Point range:</label>
+                                        <input type="text" id="amount" readonly style="border:0; color: #0026ff; font-weight: bold;" />
+                                    </p>
+                                    <div id="slider-range"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    All tutor groups <input name="tutorGroup" type="radio" value="all" @ViewBag.TutorAll /> |
+                                    Stella <input name="tutorGroup" type="radio" value="stella" @ViewBag.Stella /> |
+                                    Étoile <input name="tutorGroup" type="radio" value="etoile" @ViewBag.Etoile /> |
+                                    Estrella <input name="tutorGroup" type="radio" value="estrella" @ViewBag.Estrella />
+                                </div>
+                            </div>
+                            <div class="row" style="float: right">
+                                @Html.ActionLink("Reset", "Index", "Awards", new { id = "reset", classID = @ViewBag.ClassID, sortOrder = "", searchString = "", yearGroup = "all", tutorGroup = "all" }, null)
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    }
+    </div>
+}
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3" id="productInfo">
+            <div class="row">
+                <div class="product">
+                    <div class="row">
+                        <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                    </div>
+                    <div class="row">
+                        <i>@Html.DisplayFor(modelItem => item.ProductCategories.CategoryName)</i>
+                    </div>
+                    <div class="row" id="productImage">
+                        <img class="object-fit_cover" src="..@item.Image" />
+                    </div>
+                    <div class="row" id="desc">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </div>
+                    <div class="row">
+                        @{
+                            if (item.Price == 0)
+                            {
+                                @Html.EditorFor(modelItem => item.Price, new { htmlAttributes = new { id = "donationPrice", placeholder = "Enter points to donate"} })
+                            }
+                            else
+                            {
+                                <h4>@Html.DisplayFor(modelItem => item.Price) Points</h4>
+                            }
+                        }
+                    </div>
+                    <div class="row" id="button">
+                        <a href="@Url.Action("Create", "Awards")" class="btn btn-primary">Buy Now <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+                            }
 </div>
