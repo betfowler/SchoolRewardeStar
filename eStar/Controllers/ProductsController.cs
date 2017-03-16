@@ -28,10 +28,67 @@ namespace eStar.Controllers
             return View(products.ToList());
         }
 
-        public ActionResult StoreView()
+        public ActionResult StoreView(string sortOrder, string searchString, int? min, int? max, string ProductCategory_ID)
         {
-            var products = db.Products.Include(p => p.ProductCategories);
-            return View(products.ToList());
+            List<Product> products = new List<Product>();
+            ViewBag.Search = searchString;
+            ViewBag.min = min;
+            ViewBag.max = max;
+            int number;
+            ViewBag.ProductCategory_ID = new SelectList(db.ProductCategories, "ProductCategory_ID", "CategoryName");
+            
+            ViewBag.PriceParm = String.IsNullOrEmpty(sortOrder) ? "Price_desc" : "";
+
+            //max must be bigger than min
+            if (max < min)
+            {
+                min = 0;
+                max = 1000;
+                ViewBag.min = "0";
+                ViewBag.max = "1000";
+                ViewBag.Error = "Cost min must be lower than cost max";
+            }
+            //set ViewBag
+            if(min == null)
+            {
+                ViewBag.min = "0";
+            }
+            if(max == null)
+            {
+                ViewBag.max = "1000";
+            }
+
+            products = db.Products.Include(p => p.ProductCategories).ToList();
+
+            if (min != null && max != null)
+            {
+                products = products.Where(pr => pr.Price >= min && pr.Price <= max).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var search = searchString.ToUpper();
+
+                products = products.Where(pr => pr.Name.ToUpper().Contains(search) || pr.Description.ToUpper().Contains(search)).ToList();
+            }
+
+            if (int.TryParse(ProductCategory_ID, out number))
+            {
+                int prodCat = Convert.ToInt32(ProductCategory_ID);
+                products = products.Where(pr => pr.ProductCategory_ID.Equals(prodCat)).ToList();
+            }
+
+            switch (sortOrder)
+            {
+                case "Price_desc":
+                    products = products.OrderByDescending(p => p.Price).ToList();
+                    break;
+                default:
+                    products = products.OrderBy(p => p.Price).ToList();
+                    break;
+            }
+
+            return View(products);
         }
 
         // GET: Products/Details/5

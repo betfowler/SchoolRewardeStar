@@ -1,14 +1,23 @@
 ﻿@model IEnumerable<eStar.Models.Product>
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 @{
-    ViewBag.Title = "StoreView";
+    ViewBag.Title = "eStore";
+    if(ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">
+            <strong>Error!</strong> @ViewBag.Error
+        </div>
+    }
 }
 
 <h2>Welcome to the eStore</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("StoreView", "Products", FormMethod.Get))
 {
     <div class="row" id="productSearch">
         <div class="panel-group">
@@ -29,25 +38,27 @@
                                         <label for="yearGroup">Filter by Cost</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="tutorGroup">Filter by Tutor Group</label>
+                                        <label for="tutorGroup">Filter by Product Category</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <p>
-                                        <label for="amount">Point range:</label>
-                                        <input type="text" id="amount" readonly style="border:0; color: #0026ff; font-weight: bold;" />
+                                        <label for="min">Min</label>
+                                        @Html.TextBox("min", null, new { @class="priceVal", id="min", @type="number", Value = ViewBag.min, min="0", max = "1000"})
+                                        &nbsp;
+                                        <label for="max">Max</label>
+                                        @Html.TextBox("max", null, new { @class = "priceVal", id="max", @type = "number", Value=ViewBag.max, min="0", max="1000"})
+                                        <button class="btn btn-primary" type="submit" id="priceSubmit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                     </p>
-                                    <div id="slider-range"></div>
+                                    &nbsp;
+                                    @Html.ActionLink("Order by Cost","StoreView", "Products", new { sortOrder = ViewBag.PriceParm, searchString = ViewBag.Search, min = ViewBag.min, max= ViewBag.max, ProductCategory_ID = ViewBag.ProductCategory_ID }, new { @class = "btn btn-primary"})
                                 </div>
                                 <div class="col-md-6">
-                                    All tutor groups <input name="tutorGroup" type="radio" value="all" @ViewBag.TutorAll /> |
-                                    Stella <input name="tutorGroup" type="radio" value="stella" @ViewBag.Stella /> |
-                                    Étoile <input name="tutorGroup" type="radio" value="etoile" @ViewBag.Etoile /> |
-                                    Estrella <input name="tutorGroup" type="radio" value="estrella" @ViewBag.Estrella />
+                                    @Html.DropDownList("ProductCategory_ID", "All")
                                 </div>
                             </div>
                             <div class="row" style="float: right">
-                                @Html.ActionLink("Reset", "Index", "Awards", new { id = "reset", classID = @ViewBag.ClassID, sortOrder = "", searchString = "", yearGroup = "all", tutorGroup = "all" }, null)
+                                @Html.ActionLink("Reset", "StoreView", "Products", new { sortOrder = "", searchString = "", min = "0", max = "1000", ProductCategory_ID = "" }, null)
                             </div>
                         </div>
                     </div>

@@ -66,9 +66,8 @@ namespace eStar.Controllers
             }
 
             SessionPersister.UserID = am.find(avm.Account.Email).User_ID;
-            
-            //return View("Success");
-            return View("~/Views/Index/"+Session["UserType"].ToString()+"Index.cshtml");
+
+            return RedirectToAction(Session["UserType"] + "Index", "Index");
             
         }
 
