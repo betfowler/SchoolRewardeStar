@@ -184,6 +184,14 @@
     <Compile Include="Migrations\201703142036149_estar.Designer.cs">
       <DependentUpon>201703142036149_estar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703161733538_prodOrder.cs" />
+    <Compile Include="Migrations\201703161733538_prodOrder.Designer.cs">
+      <DependentUpon>201703161733538_prodOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703161744295_productOrder.cs" />
+    <Compile Include="Migrations\201703161744295_productOrder.Designer.cs">
+      <DependentUpon>201703161744295_productOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountModel.cs" />
@@ -335,6 +343,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201703142036149_estar.resx">
       <DependentUpon>201703142036149_estar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703161733538_prodOrder.resx">
+      <DependentUpon>201703161733538_prodOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703161744295_productOrder.resx">
+      <DependentUpon>201703161744295_productOrder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -12,6 +12,7 @@ namespace eStar.Security
         static string userSessionvar = "usertype";
 
         public static int Balance { get; internal set; }
+        public static int Basket { get; internal set; }
 
         public static string Email
         {

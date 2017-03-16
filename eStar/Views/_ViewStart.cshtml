@@ -1,8 +1,9 @@
-﻿@{
+﻿@using eStar.Security
+@{
     string usertype = null;
-    if(Session["UserType"] != null)
+    if(SessionPersister.UserType != null)
     {
-        usertype = Session["UserType"].ToString();
+        usertype = SessionPersister.UserType.ToString();
     }
 
     if (usertype == "Student")

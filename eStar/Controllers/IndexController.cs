@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using eStar.Security;
 
 namespace eStar.Controllers
 {
@@ -26,7 +27,7 @@ namespace eStar.Controllers
         {
             Staff staff = new Staff();
 
-            int currentID = Convert.ToInt32(Session["UserID"]);
+            int currentID = Convert.ToInt32(SessionPersister.UserID);
 
             staff.Awards = db.Accounts.OfType<Staff>().Where(acc => acc.User_ID.Equals(currentID)).FirstOrDefault().Awards.ToList();
 

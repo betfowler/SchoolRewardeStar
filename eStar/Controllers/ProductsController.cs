@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using eStar.Models;
 using System.IO;
+using eStar.Security;
 
 namespace eStar.Controllers
 {
@@ -27,9 +28,78 @@ namespace eStar.Controllers
             var products = db.Products.Include(p => p.ProductCategories);
             return View(products.ToList());
         }
-
-        public ActionResult StoreView(string sortOrder, string searchString, int? min, int? max, string ProductCategory_ID)
+        public Product find(int productID)
         {
+            return db.Products.Where(pr => pr.Product_ID.Equals(productID)).FirstOrDefault();
+        }
+
+        public ActionResult AddItem(int productID)
+        {
+            if(SessionPersister.UserType == "Admin")
+            {
+                return RedirectToAction("StoreView");
+            }
+
+            int price = find(productID).Price;
+
+            //create 'active' order
+            Order order = new Order();
+            order.Products = new List<int>();
+            ProductOrder prodOrder = new ProductOrder();
+
+            //set order
+            order.User_ID = SessionPersister.UserID;
+            order.OrderStatus_ID = 5; //5 = "Active"
+            order.ProductCount = 1;
+            order.Products.Add(productID);
+            order.TotalCost = price;
+            db.Orders.Add(order);
+            db.SaveChanges();
+
+            //set productorder
+            prodOrder.Order_ID = order.Order_ID;
+            prodOrder.Product_ID = productID;
+            prodOrder.ProductName = find(productID).Name;
+            prodOrder.ProductDesc = find(productID).Description;
+            int prodCatID = find(productID).ProductCategory_ID;
+            prodOrder.ProductCategory = db.ProductCategories.Where(pc => pc.ProductCategory_ID.Equals(prodCatID)).FirstOrDefault().CategoryName;
+            prodOrder.ProductPrice = find(productID).Price;
+            db.ProductOrders.Add(prodOrder);
+            db.SaveChanges();
+
+            SessionPersister.Basket = order.ProductCount;
+
+            
+            //check student has enough points
+            int currentPoints = db.Accounts.OfType<Student>().Where(acc => acc.User_ID.Equals(SessionPersister.UserID)).FirstOrDefault().Balance;
+            if(currentPoints >= price)
+            {
+                return RedirectToAction("StoreView", new { productID = productID, addMessage = "Success" });
+                
+            }
+
+            return RedirectToAction("StoreView", new { productID = productID, addMessage = "Fail" });
+        }
+
+        public ActionResult StoreView(string sortOrder, string searchString, int? min, int? max, string ProductCategory_ID, int? productID, string addMessage)
+        {
+            if(addMessage == "Success")
+            {
+                int productid = Convert.ToInt32(productID);
+                string name = db.Products.Where(pr => pr.Product_ID.Equals(productid)).FirstOrDefault().Name.ToString();
+                ViewBag.Success = name + " has been added to your basket. <a href='#' class='alert-link'>View your basket</a>";
+                addMessage = "";
+                productID = null;
+            }
+            if(addMessage == "Fail")
+            {
+                int productid = Convert.ToInt32(productID);
+                int price = db.Products.Where(pr => pr.Product_ID.Equals(productid)).FirstOrDefault().Price;
+                ViewBag.Error = "Ooops! You don't have enough points.  You have " + SessionPersister.Balance;
+                addMessage = "";
+                productID = null;
+            }
+
             List<Product> products = new List<Product>();
             ViewBag.Search = searchString;
             ViewBag.min = min;

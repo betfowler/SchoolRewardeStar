@@ -7,10 +7,18 @@
 
 @{
     ViewBag.Title = "eStore";
-    if(ViewBag.Error != null)
+    if (ViewBag.Error != null)
     {
         <div class="alert alert-danger">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <strong>Error!</strong> @ViewBag.Error
+        </div>
+    }
+    if (ViewBag.Success != null)
+    {
+        <div class="alert alert-success">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong> @Html.Raw(ViewBag.Success)
         </div>
     }
 }
@@ -44,14 +52,14 @@
                                 <div class="col-md-6">
                                     <p>
                                         <label for="min">Min</label>
-                                        @Html.TextBox("min", null, new { @class="priceVal", id="min", @type="number", Value = ViewBag.min, min="0", max = "1000"})
+                                        @Html.TextBox("min", null, new { @class = "priceVal", id = "min", @type = "number", Value = ViewBag.min, min = "0", max = "1000" })
                                         &nbsp;
                                         <label for="max">Max</label>
-                                        @Html.TextBox("max", null, new { @class = "priceVal", id="max", @type = "number", Value=ViewBag.max, min="0", max="1000"})
+                                        @Html.TextBox("max", null, new { @class = "priceVal", id = "max", @type = "number", Value = ViewBag.max, min = "0", max = "1000" })
                                         <button class="btn btn-primary" type="submit" id="priceSubmit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                     </p>
                                     &nbsp;
-                                    @Html.ActionLink("Order by Cost","StoreView", "Products", new { sortOrder = ViewBag.PriceParm, searchString = ViewBag.Search, min = ViewBag.min, max= ViewBag.max, ProductCategory_ID = ViewBag.ProductCategory_ID }, new { @class = "btn btn-primary"})
+                                    @Html.ActionLink("Order by Cost", "StoreView", "Products", new { sortOrder = ViewBag.PriceParm, searchString = ViewBag.Search, min = ViewBag.min, max = ViewBag.max, ProductCategory_ID = ViewBag.ProductCategory_ID }, new { @class = "btn btn-primary" })
                                 </div>
                                 <div class="col-md-6">
                                     @Html.DropDownList("ProductCategory_ID", "All")
@@ -89,7 +97,7 @@
                         @{
                             if (item.Price == 0)
                             {
-                                @Html.EditorFor(modelItem => item.Price, new { htmlAttributes = new { id = "donationPrice", placeholder = "Enter points to donate"} })
+                                @Html.EditorFor(modelItem => item.Price, new { htmlAttributes = new { id = "donationPrice", placeholder = "Enter points to donate" } })
                             }
                             else
                             {
@@ -98,7 +106,7 @@
                         }
                     </div>
                     <div class="row" id="button">
-                        <a href="@Url.Action("Create", "Awards")" class="btn btn-primary">Buy Now <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                        <a href="@Url.Action("AddItem", "Products", new { productID = item.Product_ID})" class="btn btn-primary" id="productAdd">Buy Now <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
                     </div>
                 </div>
             </div>

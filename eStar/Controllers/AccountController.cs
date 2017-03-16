@@ -49,25 +49,22 @@ namespace eStar.Controllers
                 ViewBag.Error = "Log in details invalid";
                 return View("Index");
             }
-            ViewBag.Success = "Yes!";
-            Session["Email"] = avm.Account.Email;
-            Session["UserID"] = am.find(avm.Account.Email).User_ID;
-            Session["Username"] = am.find(avm.Account.Email).First_Name;
-            Session["UserType"] = am.find(avm.Account.Email).User_Type;
+            SessionPersister.Email = avm.Account.Email;
+            SessionPersister.UserID = am.find(avm.Account.Email).User_ID;
+            SessionPersister.Username = am.find(avm.Account.Email).FullName;
+            SessionPersister.UserType = am.find(avm.Account.Email).User_Type;
             
-            if(Session["UserType"].ToString() == "Staff" || Session["UserType"].ToString() == "Admin")
+            if(SessionPersister.UserType.ToString() == "Staff" || SessionPersister.UserType.ToString() == "Admin")
             {
                 SessionPersister.RemainingPoints = am.findStaffPoints(avm.Account.Email);
             }
-            if(Session["UserType"].ToString() == "Student")
+            if(SessionPersister.UserType.ToString() == "Student")
             {
                 SessionPersister.TotalPoints = am.findStudent(avm.Account.Email).Total_Points;
                 SessionPersister.Balance = am.findStudent(avm.Account.Email).Balance;
+                SessionPersister.Basket = 0;
             }
-
-            SessionPersister.UserID = am.find(avm.Account.Email).User_ID;
-
-            return RedirectToAction(Session["UserType"] + "Index", "Index");
+            return RedirectToAction(SessionPersister.UserType + "Index", "Index");
             
         }
 
@@ -89,7 +86,6 @@ namespace eStar.Controllers
                 return View("Index");
             }
             SessionPersister.Email = avm.Account.Email;
-            Session["Email"] = avm.Account.Email;
             return View("Register");
         }
 
@@ -97,7 +93,7 @@ namespace eStar.Controllers
         [HttpPost]
         public ActionResult ChangePassword(PasswordViewModel pvm, ChangePasswordView cpv, AccountModel am)
         {
-            string email = Session["Email"].ToString();
+            string email = SessionPersister.Email.ToString();
             int userID = am.find(email).User_ID;
             if (string.IsNullOrEmpty(cpv.OldPassword) || am.login(email, cpv.OldPassword) == false)
             {
@@ -139,7 +135,7 @@ namespace eStar.Controllers
         [HttpPost]
         public ActionResult SetPassword(PasswordViewModel pvm, AccountModel am)
         {
-            string email = Session["Email"].ToString();
+            string email = SessionPersister.Email.ToString();
             int userId = am.find(email).User_ID;
             
             if (pvm.Password != pvm.ConfirmPassword)

@@ -11,8 +11,10 @@ namespace eStar.Models
         [Key]
         public int Order_ID { get; set; }
         public int User_ID { get; set; }
-        public int Quantity { get; set; }
+        [Display(Name = "Order Status")]
         public int OrderStatus_ID { get; set; }
+        [Display(Name ="Total Cost")]
+        public int TotalCost { get; set; }
 
         public List<int> Products { get; set; }
         public int ProductCount { get; set; }
