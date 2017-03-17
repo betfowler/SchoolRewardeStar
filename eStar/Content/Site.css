@@ -7,7 +7,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    padding-top: 70px;
+    padding-top: 95px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -190,5 +190,14 @@ textarea {
     font-size: 20px;
 }
 #basketItemDets img{
-    width: 100%;
+    width: 150px;
+    float: right;
+    border: 2px solid grey;
+}
+
+#basketItemDets h3{
+    margin-top: 5px;
+}
+#smlBreak{
+    height: 20px;
 }

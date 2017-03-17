@@ -33,11 +33,30 @@ namespace eStar.Controllers
             return db.Products.Where(pr => pr.Product_ID.Equals(productID)).FirstOrDefault();
         }
 
-        public ActionResult BasketView()
+        //**VIEWING ITEMS IN BASKET**//
+        public ActionResult BasketView(string message, int? productID)
         {
             Order order = db.Orders.Where(or => or.OrderStatus_ID.Equals(5) && or.User_ID.Equals(SessionPersister.UserID)).FirstOrDefault();
 
-            if(order == null)
+            if (message == "Fail")
+            {
+                ViewBag.Error = "Ooops! You don't have enough points.  This order costs " + order.TotalCost + " points and you have " + SessionPersister.Balance;
+                message = "";
+            }
+            if (message == "Remove")
+            {
+                int id = Convert.ToInt32(productID);
+                string productName = db.Products.Find(id).Name;
+                ViewBag.Success = "Item: " + productName + " has been removed from you basket.";
+                message = "";
+            }
+            if (message == "Success")
+            {
+                ViewBag.Success = "Your order has been made.";
+                message = "";
+            }
+
+            if (order == null)
             {
                 ViewBag.Empty = "You have no items in your basket.  <a href='../Products/StoreView'>Click here to continue shopping.</a>";
                 return View();
@@ -45,12 +64,73 @@ namespace eStar.Controllers
             else
             {
                 order.Products = new List<ProductOrder>();
-                //get
                 foreach(var prodorder in db.ProductOrders.Where(po => po.Order_ID.Equals(order.Order_ID)).ToList())
                 {
                     order.Products.Add(prodorder);
                 }
                 return View(order);
+            }
+        }
+
+        //**REMOVE ORDER AND ALL PRODUCTORDERS**//
+        public ActionResult RemoveAll(int orderID)
+        {
+            Order order = db.Orders.Find(orderID);
+
+            foreach(ProductOrder productOrder in db.ProductOrders.Where(po => po.Order_ID.Equals(orderID)).ToList())
+            {
+                db.ProductOrders.Remove(productOrder);
+            }
+
+            db.Orders.Remove(order);
+            db.SaveChanges();
+
+            return RedirectToAction("BasketView");
+        }
+
+        //**REMOVING ITEM FROM BASKET**//
+        public ActionResult RemoveItem(int productOrderID, int orderID)
+        {
+            ProductOrder productOrder = db.ProductOrders.Find(productOrderID);
+            Order order = db.Orders.Find(orderID);
+            int productID = productOrder.Product_ID;
+            int productCost = productOrder.ProductPrice;
+            db.ProductOrders.Remove(productOrder); //remove productOrder
+            order.ProductCount = order.ProductCount - 1; //change product Count
+            order.TotalCost = order.TotalCost - productCost;
+            db.SaveChanges();
+
+            SessionPersister.Basket = order.ProductCount;
+
+            if(order.ProductCount == 0)//remove order
+            {
+                db.Orders.Remove(order);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("BasketView", new { message = "Remove", productID = productID});
+        }
+
+        //**PURCHASE ITEMS**//
+        public ActionResult PurchaseItems(int orderID)
+        {
+            Order order = db.Orders.Find(orderID);
+            int balance = db.Accounts.OfType<Student>().Where(ac => ac.User_ID.Equals(SessionPersister.UserID)).FirstOrDefault().Balance;
+            //if balance too low
+            if(order.TotalCost > balance)
+            {
+                return RedirectToAction("BasketView", new { message = "Fail" });
+            }
+            else
+            {
+                order.OrderStatus_ID = 1; //pending
+                Student student = db.Accounts.OfType<Student>().Where(ac => ac.User_ID.Equals(SessionPersister.UserID)).FirstOrDefault();
+                student.Balance = balance - order.TotalCost;
+                db.SaveChanges();
+
+                SessionPersister.Balance = student.Balance;
+                SessionPersister.Basket = 0;
+                return RedirectToAction("BasketView", new { message = "Success" });
             }
         }
 
@@ -75,6 +155,7 @@ namespace eStar.Controllers
                 order.ProductCount = 1;
                 order.TotalCost = price;
                 db.Orders.Add(order);
+                db.SaveChanges();
             }
             else
             {
@@ -99,21 +180,15 @@ namespace eStar.Controllers
             return RedirectToAction("StoreView", new { productID = productID, addMessage = "Success" });
         }
 
+
+        //**VIEW ITEMS IN STORE**//
         public ActionResult StoreView(string sortOrder, string searchString, int? min, int? max, string ProductCategory_ID, int? productID, string addMessage)
         {
             if(addMessage == "Success")
             {
                 int productid = Convert.ToInt32(productID);
                 string name = db.Products.Where(pr => pr.Product_ID.Equals(productid)).FirstOrDefault().Name.ToString();
-                ViewBag.Success = name + " has been added to your basket. <a href='~/Products/BasketView' class='alert-link'>View your basket</a>";
-                addMessage = "";
-                productID = null;
-            }
-            if(addMessage == "Fail")
-            {
-                int productid = Convert.ToInt32(productID);
-                int price = db.Products.Where(pr => pr.Product_ID.Equals(productid)).FirstOrDefault().Price;
-                ViewBag.Error = "Ooops! You don't have enough points.  You have " + SessionPersister.Balance;
+                ViewBag.Success = name + " has been added to your basket. <a href='../Products/BasketView' class='alert-link'>View your basket</a>";
                 addMessage = "";
                 productID = null;
             }

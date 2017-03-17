@@ -1,9 +1,25 @@
 ﻿@model eStar.Models.Order
 @{
     ViewBag.Title = "Basket";
+
+    if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Error!</strong> @ViewBag.Error
+        </div>
+    }
+    if (ViewBag.Success != null)
+    {
+        <div class="alert alert-success">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong> @Html.Raw(ViewBag.Success)
+        </div>
+    }
 }
 
 <h2><i class="fa fa-shopping-cart" aria-hidden="true"></i> Your Basket</h2>
+<div class="row" id="smlBreak"></div>
 
 @{
     if (ViewBag.Empty != null)
@@ -12,22 +28,28 @@
     }
     else
     {
-        <div class="row">
-            <div class="col-md-4" id="basketOrderDets">
+        <div class="row" id="basketOrderDets">
+            <div class="col-md-3">
                 @Html.DisplayNameFor(model => model.Order_ID):
                 <b>@Html.DisplayFor(model => model.Order_ID)</b>
+                <p>@Html.ActionLink("Empty Basket", "RemoveAll", "Products", new { orderID = Model.Order_ID }, null)</p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 @Html.DisplayNameFor(model => model.ProductCount):
                 <b>@Html.DisplayFor(model => model.ProductCount)</b>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 @Html.DisplayNameFor(model => model.TotalCost):
                 <b>@Html.DisplayFor(model => model.TotalCost)</b>
             </div>
+            <div class="col-md-3">
+                <a href="@Url.Action("PurchaseItems", "Products", new { orderID = Model.Order_ID})" class="btn btn-primary">Buy Now <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+            </div>
         </div>
+        <hr />
+        <div class="row" id="smlBreak"></div>
         <div class="row">
-            @for (var i = 0; i < Model.ProductCount -1; i++)
+            @for (var i = 0; i < Model.ProductCount; i++)
             {
                 <div class="row" id="basketItemDets">
                     <div class="col-md-4">
@@ -35,25 +57,28 @@
                     </div>
                     <div class="col-md-4">
                         <div class="row">
-                            @Html.DisplayFor(model => model.Products[i].ProductName)
+                            <h3>@Html.DisplayFor(model => model.Products[i].ProductName)</h3>
                         </div>
                         <div class="row">
                             @Html.DisplayFor(model => model.Products[i].ProductDesc)
                         </div>
                         <div class="row">
-                            @Html.DisplayFor(model => model.Products[i].ProductPrice) Points
+                            <b>@Html.DisplayFor(model => model.Products[i].ProductPrice) Points</b>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        x Remove
+                        @Html.ActionLink("x Remove", "RemoveItem", "Products", new { productOrderID = Model.Products[i].ProductOrder_ID, orderID = Model.Order_ID }, null)
                     </div>
                 </div>
                 <hr />
             }
         </div>
-        <div class="row">
-            @Html.DisplayNameFor(model => model.TotalCost):
-            @Html.DisplayFor(model => model.TotalCost)
+        <div class="row" style="text-align: right">
+            <h3>
+                @Html.DisplayNameFor(model => model.TotalCost):
+                <b>@Html.DisplayFor(model => model.TotalCost)</b>
+            </h3>
+            <a href="@Url.Action("PurchaseItems", "Products", new { orderID = Model.Order_ID})" class="btn btn-primary">Buy Now <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
         </div>
-      }
+    }
 }
