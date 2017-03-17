@@ -20,7 +20,18 @@ namespace eStar.Controllers
         // GET: Index
         public ActionResult StudentIndex()
         {
-            return View();
+            int userid = SessionPersister.UserID;
+            List<Award> award = new List<Award>();
+
+            var studentAwardList = db.StudentAwards.Where(sa => sa.Student_ID.Equals(userid)).ToList();
+            
+            foreach(var sAward in studentAwardList)
+            {
+                award.Add(db.Awards.Where(aw => aw.Award_ID.Equals(sAward.Award_ID)).FirstOrDefault());
+            }
+
+            ViewBag.ProductCategory_ID = new SelectList(db.ProductCategories, "ProductCategory_ID", "CategoryName");
+            return View(award.ToList());
         }
 
         public ActionResult StaffIndex()

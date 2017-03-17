@@ -18,6 +18,7 @@ namespace eStar.Models
         public int RewardCategory_ID { get; set; }
         [Display(Name = "Comment")]
         public string Reward_Comment { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime? AwardDate { get; set; }
         public int Subject_ID { get; set; }
 

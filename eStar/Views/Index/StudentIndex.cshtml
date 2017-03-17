@@ -1,27 +1,117 @@
-﻿@using eStar.Security;
+﻿@model IEnumerable<eStar.Models.Award>
+@using eStar.Security;
 @{
     ViewBag.Title = "StudentIndex";
 }
 
-<h2>Welcome to eStar</h2>
-<div class="row" id="homeIcons">
-    <div class="col-md-2" id="awardIcon">
-        <a href='@string.Format("../Awards/ViewAwards/{0}", SessionPersister.UserID)'>
-
-            <img src="../Content/Images/Awards.png" />
-        </a>
-    </div>
-    <div class="col-md-2" id="store">
-        <a href="../Products/StoreView">
-            <img src="../Content/Images/Store.png" />
-        </a>
-    </div>
-</div>
+<h2>Welcome to eStar!</h2>
 <div class="row">
-    <div class="col-md-2">
-        View Your Awards
+    @using (Html.BeginForm("StoreView", "Products", FormMethod.Get))
+    {
+    <div class="searchContainer">
+        @Html.DropDownList("ProductCategory_ID", "All")
+        @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search products" })
+        <input class="btn btn-primary" type="submit" value="Search eStore" id="searchSubmit" />
     </div>
-    <div class="col-md-2">
-        eStore
+    }
+</div>
+<div class="row" id="smlBreak"></div>
+<div class="row" id="homeIcons">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-2"></div>
+        <div class="col-md-2" id="store">
+            <a href="../Products/StoreView">
+                <img src="../Content/Images/Store.png" />
+            </a>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-2" id="awardIcon">
+            <a href='@string.Format("../Awards/ViewAwards/{0}", SessionPersister.UserID)'>
+                <img src="../Content/Images/Awards.png" />
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <h3>Your Profile</h3>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-2">
+            <h3>eStore</h3>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-2">
+            <h3>View Your Awards</h3>
+        </div>
     </div>
 </div>
+<hr />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AwardDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Num_Points)
+        </th>
+        <th>
+            @{
+                if (SessionPersister.UserType == "Student")
+                {
+                    @Html.DisplayNameFor(model => model.Staff_ID)
+                }
+                else
+                {
+                    @Html.DisplayNameFor(model => model.StudentCount)
+                }
+            }
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subject_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RewardCategory_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reward_Comment)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AwardDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Num_Points)
+            </td>
+            <td>
+                @{
+                    if (SessionPersister.UserType == "Student")
+                    {
+                        @Html.DisplayFor(modelItem => item.Staff.FullName)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modeItem => item.StudentCount)
+                    }
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject.Subject_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RewardCategory.Reward_Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reward_Comment)
+            </td>
+        </tr>
+                    }
+
+</table>

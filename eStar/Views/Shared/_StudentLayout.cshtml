@@ -22,7 +22,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="active">@Html.ActionLink("Home", "StudentIndex", "Index")</li>
-                    <li>@Html.ActionLink("eStore", "#", "#")</li>
+                    <li>@Html.ActionLink("eStore", "StoreView", "Products")</li>
                     <li>@Html.ActionLink("About You", "#", "#")</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -41,7 +41,15 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a><i class="fa fa-trophy" aria-hidden="true"></i>Total Points: @SessionPersister.TotalPoints</a></li>
                     <li><a><i class="fa fa-star" aria-hidden="true"></i> Balance: @SessionPersister.Balance</a></li>
-                    <li><a href="@Url.Action("BasketView","Products")"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Basket: @SessionPersister.Basket</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Basket: @SessionPersister.Basket
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("View Your Basket", "BasketView", "Products")</li>
+                            <li>@Html.ActionLink("View Your Orders", "BasketView", "Products")</li>
+                        </ul>
+                    </li>
                 </ul>
 
             </div>

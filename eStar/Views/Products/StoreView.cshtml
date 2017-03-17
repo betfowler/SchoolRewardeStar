@@ -35,37 +35,28 @@
                         <div class="panel-title"><b>Search Products</b> <span style="float: right" class="glyphicon glyphicon-collapse-up" aria-hidden="true"></span></div>
                     </a>
                     <div id="studentFilter" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search products" })
-                            <input class="btn btn-primary" type="submit" value="Search" id="searchSubmit" />
-                        </div>
-                        <div class="panel-footer">
+                        <div class="panel-body" id="productSearchString">
                             <div class="row">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="yearGroup">Filter by Cost</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="tutorGroup">Filter by Product Category</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>
-                                        <label for="min">Min</label>
-                                        @Html.TextBox("min", null, new { @class = "priceVal", id = "min", @type = "number", Value = ViewBag.min, min = "0", max = "1000" })
-                                        &nbsp;
-                                        <label for="max">Max</label>
-                                        @Html.TextBox("max", null, new { @class = "priceVal", id = "max", @type = "number", Value = ViewBag.max, min = "0", max = "1000" })
-                                        <button class="btn btn-primary" type="submit" id="priceSubmit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                                    </p>
-                                    &nbsp;
-                                    @Html.ActionLink("Order by Cost", "StoreView", "Products", new { sortOrder = ViewBag.PriceParm, searchString = ViewBag.Search, min = ViewBag.min, max = ViewBag.max, ProductCategory_ID = ViewBag.ProductCategory_ID }, new { @class = "btn btn-primary" })
-                                </div>
-                                <div class="col-md-6">
+                                <div class="searchContainer">
                                     @Html.DropDownList("ProductCategory_ID", "All")
+                                    @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search products" })
+                                    <input class="btn btn-primary" type="submit" value="Search" id="searchSubmit" />
                                 </div>
                             </div>
+                        </div>
+                        <div class="panel-footer">
+                            <p>
+                                <h4>Filter By Cost:</h4>
+                                <label for="min">Min</label>
+                                @Html.TextBox("min", null, new { @class = "priceVal", id = "min", @type = "number", Value = ViewBag.min, min = "0", max = "1000" })
+                                &nbsp;
+                                <label for="max">Max</label>
+                                @Html.TextBox("max", null, new { @class = "priceVal", id = "max", @type = "number", Value = ViewBag.max, min = "0", max = "1000" })
+                                <button class="btn btn-primary" type="submit" id="priceSubmit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </p>
                             <div class="row" style="float: right">
+                                @Html.ActionLink("Order by Cost", "StoreView", "Products", new { sortOrder = ViewBag.PriceParm, searchString = ViewBag.Search, min = ViewBag.min, max = ViewBag.max, ProductCategory_ID = ViewBag.ProductCategory_ID }, null)
+                                &nbsp;|&nbsp;
                                 @Html.ActionLink("Reset", "StoreView", "Products", new { sortOrder = "", searchString = "", min = "0", max = "1000", ProductCategory_ID = "" }, null)
                             </div>
                         </div>
