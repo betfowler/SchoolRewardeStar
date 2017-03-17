@@ -192,6 +192,10 @@
     <Compile Include="Migrations\201703161744295_productOrder.Designer.cs">
       <DependentUpon>201703161744295_productOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703171125043_products.cs" />
+    <Compile Include="Migrations\201703171125043_products.Designer.cs">
+      <DependentUpon>201703171125043_products.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountModel.cs" />
@@ -328,6 +332,7 @@
     <Content Include="Views\Products\Edit.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Products\StoreView.cshtml" />
+    <Content Include="Views\Products\BasketView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -349,6 +354,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703161744295_productOrder.resx">
       <DependentUpon>201703161744295_productOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703171125043_products.resx">
+      <DependentUpon>201703171125043_products.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

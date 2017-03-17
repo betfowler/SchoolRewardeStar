@@ -9,6 +9,7 @@ namespace eStar.Models
     public class Order
     {
         [Key]
+        [Display(Name = "Order ID")]
         public int Order_ID { get; set; }
         public int User_ID { get; set; }
         [Display(Name = "Order Status")]
@@ -16,7 +17,8 @@ namespace eStar.Models
         [Display(Name ="Total Cost")]
         public int TotalCost { get; set; }
 
-        public List<int> Products { get; set; }
+        public List<ProductOrder> Products { get; set; }
+        [Display(Name = "No. Products")]
         public int ProductCount { get; set; }
         public List<string> ProductNames { get; set; }
 

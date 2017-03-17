@@ -44,7 +44,7 @@ namespace eStar.Controllers
         [HttpPost]
         public ActionResult Login(AccountViewModel avm, AccountModel am)
         {
-            if (string.IsNullOrEmpty(avm.Account.Email) || string.IsNullOrEmpty(avm.Account.Password) || am.findPassword(avm.Account.Email) == true || am.login(avm.Account.Email, avm.Account.Password) == false)
+            if (string.IsNullOrEmpty(avm.Account.Email) || string.IsNullOrEmpty(avm.Account.Password) || am.find(avm.Account.Email) == null ||am.findPassword(avm.Account.Email) == true || am.login(avm.Account.Email, avm.Account.Password) == false)
             {
                 ViewBag.Error = "Log in details invalid";
                 return View("Index");
@@ -62,7 +62,16 @@ namespace eStar.Controllers
             {
                 SessionPersister.TotalPoints = am.findStudent(avm.Account.Email).Total_Points;
                 SessionPersister.Balance = am.findStudent(avm.Account.Email).Balance;
-                SessionPersister.Basket = 0;
+
+                Order order = db.Orders.Where(or => or.OrderStatus_ID.Equals(5) && or.User_ID.Equals(SessionPersister.UserID)).FirstOrDefault();
+                if ( order == null){
+                    SessionPersister.Basket = 0;
+                }
+                else
+                {
+                    SessionPersister.Basket = order.ProductCount;
+                }
+                
             }
             return RedirectToAction(SessionPersister.UserType + "Index", "Index");
             

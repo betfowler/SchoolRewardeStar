@@ -185,3 +185,10 @@ textarea {
 #donationPrice {
     margin: 6px;
 }
+
+#basketOrderDets{
+    font-size: 20px;
+}
+#basketItemDets img{
+    width: 100%;
+}

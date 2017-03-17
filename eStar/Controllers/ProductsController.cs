@@ -33,6 +33,27 @@ namespace eStar.Controllers
             return db.Products.Where(pr => pr.Product_ID.Equals(productID)).FirstOrDefault();
         }
 
+        public ActionResult BasketView()
+        {
+            Order order = db.Orders.Where(or => or.OrderStatus_ID.Equals(5) && or.User_ID.Equals(SessionPersister.UserID)).FirstOrDefault();
+
+            if(order == null)
+            {
+                ViewBag.Empty = "You have no items in your basket.  <a href='../Products/StoreView'>Click here to continue shopping.</a>";
+                return View();
+            }
+            else
+            {
+                order.Products = new List<ProductOrder>();
+                //get
+                foreach(var prodorder in db.ProductOrders.Where(po => po.Order_ID.Equals(order.Order_ID)).ToList())
+                {
+                    order.Products.Add(prodorder);
+                }
+                return View(order);
+            }
+        }
+
         public ActionResult AddItem(int productID)
         {
             if(SessionPersister.UserType == "Admin")
@@ -42,19 +63,24 @@ namespace eStar.Controllers
 
             int price = find(productID).Price;
 
-            //create 'active' order
-            Order order = new Order();
-            order.Products = new List<int>();
+            //check active order exists
+            Order order = db.Orders.Where(or => or.OrderStatus_ID.Equals(5) && or.User_ID.Equals(SessionPersister.UserID)).FirstOrDefault();
             ProductOrder prodOrder = new ProductOrder();
 
-            //set order
-            order.User_ID = SessionPersister.UserID;
-            order.OrderStatus_ID = 5; //5 = "Active"
-            order.ProductCount = 1;
-            order.Products.Add(productID);
-            order.TotalCost = price;
-            db.Orders.Add(order);
-            db.SaveChanges();
+            if (order == null)
+            {
+                order = new Order();
+                order.User_ID = SessionPersister.UserID;
+                order.OrderStatus_ID = 5; //5 = "Active"
+                order.ProductCount = 1;
+                order.TotalCost = price;
+                db.Orders.Add(order);
+            }
+            else
+            {
+                order.ProductCount = order.ProductCount + 1;
+                order.TotalCost = order.TotalCost + price;
+            }
 
             //set productorder
             prodOrder.Order_ID = order.Order_ID;
@@ -65,20 +91,12 @@ namespace eStar.Controllers
             prodOrder.ProductCategory = db.ProductCategories.Where(pc => pc.ProductCategory_ID.Equals(prodCatID)).FirstOrDefault().CategoryName;
             prodOrder.ProductPrice = find(productID).Price;
             db.ProductOrders.Add(prodOrder);
+
             db.SaveChanges();
 
             SessionPersister.Basket = order.ProductCount;
 
-            
-            //check student has enough points
-            int currentPoints = db.Accounts.OfType<Student>().Where(acc => acc.User_ID.Equals(SessionPersister.UserID)).FirstOrDefault().Balance;
-            if(currentPoints >= price)
-            {
-                return RedirectToAction("StoreView", new { productID = productID, addMessage = "Success" });
-                
-            }
-
-            return RedirectToAction("StoreView", new { productID = productID, addMessage = "Fail" });
+            return RedirectToAction("StoreView", new { productID = productID, addMessage = "Success" });
         }
 
         public ActionResult StoreView(string sortOrder, string searchString, int? min, int? max, string ProductCategory_ID, int? productID, string addMessage)
@@ -87,7 +105,7 @@ namespace eStar.Controllers
             {
                 int productid = Convert.ToInt32(productID);
                 string name = db.Products.Where(pr => pr.Product_ID.Equals(productid)).FirstOrDefault().Name.ToString();
-                ViewBag.Success = name + " has been added to your basket. <a href='#' class='alert-link'>View your basket</a>";
+                ViewBag.Success = name + " has been added to your basket. <a href='~/Products/BasketView' class='alert-link'>View your basket</a>";
                 addMessage = "";
                 productID = null;
             }
