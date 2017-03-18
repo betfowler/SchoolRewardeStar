@@ -1,0 +1,50 @@
+﻿@model IEnumerable<eStar.Models.Order>
+@{
+    ViewBag.Title = "OrderView";
+}
+
+<h2>Your Orders</h2>
+
+@foreach (var item in Model)
+{
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading" id="searchbar">
+                <a data-toggle="collapse" href="#orderDetails">
+                    <div class="panel-title">
+                        <div class="row">
+                            <div class="col-md-3">
+                                @Html.DisplayNameFor(model => model.Order_ID):
+                                &nbsp;
+                                @Html.DisplayFor(modelItem => item.Order_ID)
+                            </div>
+                            <div class="col-md-3">
+                                @Html.DisplayNameFor(model => model.ProductCount):
+                                &nbsp;
+                                @Html.DisplayFor(modelItem => item.ProductCount)
+                            </div>
+                            <div class="col-md-3">
+                                @Html.DisplayNameFor(model => model.TotalCost):
+                                &nbsp;
+                                @Html.DisplayFor(modelItem => item.TotalCost)
+                            </div>
+                            <div class="col-md-3">
+                                @Html.DisplayNameFor(model => model.OrderStatus.Status):
+                                &nbsp;
+                                @Html.DisplayFor(modelItem => item.OrderStatus.Status)
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <div id="orderDetails" class="panel-collapse collapse">
+                    <div class="panel-body" id="productSearchString">
+                        body
+                    </div>
+                    <div class="panel-footer">
+                        footer
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

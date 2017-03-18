@@ -173,6 +173,7 @@
     <Compile Include="Controllers\ClassesController.cs" />
     <Compile Include="Controllers\GuardiansController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\StaffsController.cs" />
     <Compile Include="Controllers\StudentAwardsController.cs" />
@@ -195,6 +196,10 @@
     <Compile Include="Migrations\201703171125043_products.cs" />
     <Compile Include="Migrations\201703171125043_products.Designer.cs">
       <DependentUpon>201703171125043_products.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703182041288_orderDate.cs" />
+    <Compile Include="Migrations\201703182041288_orderDate.Designer.cs">
+      <DependentUpon>201703182041288_orderDate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
@@ -333,6 +338,12 @@
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Products\StoreView.cshtml" />
     <Content Include="Views\Products\BasketView.cshtml" />
+    <Content Include="Views\Orders\Create.cshtml" />
+    <Content Include="Views\Orders\Delete.cshtml" />
+    <Content Include="Views\Orders\Details.cshtml" />
+    <Content Include="Views\Orders\Edit.cshtml" />
+    <Content Include="Views\Orders\Index.cshtml" />
+    <Content Include="Views\Orders\OrderView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -357,6 +368,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703171125043_products.resx">
       <DependentUpon>201703171125043_products.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703182041288_orderDate.resx">
+      <DependentUpon>201703182041288_orderDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

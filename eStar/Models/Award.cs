@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FluentValidation;
+using FluentValidation.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,6 +8,7 @@ using System.Web;
 
 namespace eStar.Models
 {
+    [Validator(typeof(AwardValidator))]
     public class Award
     {
         [Key]
@@ -34,5 +37,13 @@ namespace eStar.Models
         public virtual RewardCategory RewardCategory { get; set; }
         public virtual Subject Subject { get; set; }
         
+    }
+
+    public class AwardValidator : AbstractValidator<Award>
+    {
+        public AwardValidator()
+        {
+            RuleFor(Award => Award.Subject_ID).GreaterThan(1).WithMessage("Please select a subject");
+        }
     }
 }

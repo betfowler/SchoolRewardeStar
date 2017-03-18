@@ -20,6 +20,9 @@ namespace eStar.Models
         public List<ProductOrder> Products { get; set; }
         [Display(Name = "No. Items")]
         public int ProductCount { get; set; }
+        [Display(Name = "Order Date")]
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
+        public DateTime? OrderDate { get; set; }
 
         public virtual OrderStatus OrderStatus { get; set; }
         public virtual ICollection<ProductOrder> ProductOrders { get; set; }

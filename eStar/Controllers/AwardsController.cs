@@ -318,10 +318,6 @@ namespace eStar.Controllers
                 PopulateSubjectDropDownList(award.Subject_ID);
                 PopulateCategoryDropDownList(award.RewardCategory_ID);
 
-                var test = award.Students;
-                var test2 = test[0];
-                var test3 = test[1];
-
                 //get staff userID
                 int userID = Convert.ToInt32(SessionPersister.UserID);
                 award.Staff_ID = userID;

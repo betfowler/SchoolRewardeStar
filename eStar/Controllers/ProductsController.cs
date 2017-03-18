@@ -124,6 +124,7 @@ namespace eStar.Controllers
             else
             {
                 order.OrderStatus_ID = 1; //pending
+                order.OrderDate = DateTime.Today;
                 Student student = db.Accounts.OfType<Student>().Where(ac => ac.User_ID.Equals(SessionPersister.UserID)).FirstOrDefault();
                 student.Balance = balance - order.TotalCost;
                 db.SaveChanges();
