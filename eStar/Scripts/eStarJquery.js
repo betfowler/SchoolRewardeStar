@@ -58,4 +58,8 @@
     $("#awardIcon img").mouseout(function () {
         $(this).attr("src", "../Content/Images/Awards.png")
     })
+
+    $('#selectAll').click(function () {
+        $('.selectedStudent').prop('checked', true).toggle(this.checked);
+    })
 })

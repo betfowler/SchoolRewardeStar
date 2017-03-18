@@ -1,32 +1,78 @@
-﻿@model eStar.Models.Staff
+﻿@model IEnumerable<eStar.Models.Class>
 @{
+
     ViewBag.Title = "StaffIndex";
 }
 
 <h2>Welcome to eStar</h2>
 
+@using (Html.BeginForm("Index", "Awards", FormMethod.Get))
+{
+    <div class="searchContainer">
+        @Html.DropDownList("classID", "All")
+        @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search student names" })
+        <input class="btn btn-primary" type="submit" value="Search Students" id="searchSubmit" />
+    </div>
+}
+<div class="row" id="smlBreak"></div>
 <div class="row" id="homeIcons">
-    <div class="col-md-2" id="awardIcon">
-        <a href="../Awards/ClassAwards">
-            <img src="../Content/Images/Awards.png" />
-        </a>
+    <div class="row">
+        <div class="col-md-2" id="awardIcon">
+            <a href="../Awards/ClassAwards">
+                <img src="../Content/Images/Awards.png" />
+            </a>
+        </div>
+        <div class="col-md-2" id="prevAwards">
+            <a href="../Awards/ViewAwards">
+                <img src="../Content/Images/Awarded.png" />
+            </a>
+        </div>
     </div>
-    <div class="col-md-2" id="prevAwards">
-        <a href="../Awards/ViewAwards">
-            <img src="../Content/Images/Awarded.png" />
-        </a>
+    <div class="row">
+        <div class="col-md-2">
+            <h3>Allocate Awards</h3>
+        </div>
+        <div class="col-md-2">
+            <h3>View Previous Awards</h3>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-2">
-        <h3>Allocate Awards</h3>
-    </div>
-    <div class="col-md-2">
-        <h3>View Previous Awards</h3>
-    </div>
-</div>
-<div class="row">
-    <h3></h3>
-    @Html.DisplayFor(model => model.Awards[0])
 </div>
 
+<div class="row">
+    <h3>Your Classes</h3>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Class_Name)
+        </th>
+        <th>
+            Class Staff
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Class_Name)
+            </td>
+            <td>
+
+                @for (var i = 0; i < item.ClassStaff.Count; i++)
+                {
+                    @Html.DisplayFor(modelItem => item.ClassStaff[i].Staff.FullName)
+
+                    if (i < item.ClassStaff.Count - 1)
+                    {
+                        <span> | </span>
+                    }
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Award", "Create", "Awards", new { classID = Convert.ToInt32(item.Class_ID) }, null) |
+                @Html.ActionLink("View Students", "Index", "Awards", new { classID = Convert.ToInt32(item.Class_ID) }, null)
+            </td>
+        </tr>
+    }
+</table>

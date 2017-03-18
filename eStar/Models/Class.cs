@@ -13,6 +13,7 @@ namespace eStar.Models
     {
         [Key]
         public int Class_ID { get; set; }
+        [Display(Name = "Class Name")]
         public string Class_Name { get; set; }
         public int Subject_ID { get; set; }
 

@@ -30,19 +30,26 @@ namespace eStar.Controllers
                 award.Add(db.Awards.Where(aw => aw.Award_ID.Equals(sAward.Award_ID)).FirstOrDefault());
             }
 
+            award = award.OrderByDescending(aw => aw.AwardDate).Take(5).ToList();
+
             ViewBag.ProductCategory_ID = new SelectList(db.ProductCategories, "ProductCategory_ID", "CategoryName");
             return View(award.ToList());
         }
 
         public ActionResult StaffIndex()
         {
-            Staff staff = new Staff();
-
+            List<Class> classes = new List<Class>();
             int currentID = Convert.ToInt32(SessionPersister.UserID);
 
-            staff.Awards = db.Accounts.OfType<Staff>().Where(acc => acc.User_ID.Equals(currentID)).FirstOrDefault().Awards.ToList();
+            var classList = db.ClassStaffs.Where(cs => cs.User_ID.Equals(currentID)).ToList();
 
-            return View(staff);
+            foreach(var @class in classList)
+            {
+                classes.Add(db.Classes.Where(cl => cl.Class_ID.Equals(@class.Class_ID)).FirstOrDefault());
+            }
+
+            ViewBag.classID = new SelectList(db.Classes, "Class_ID", "Class_Name");
+            return View(classes);
         }
 
         public ActionResult GuardianIndex()

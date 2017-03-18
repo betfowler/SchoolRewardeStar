@@ -57,7 +57,7 @@ namespace eStar.Controllers
 
             if (classRadio == "userClasses")
             {
-                int currentID = Convert.ToInt32(Session["UserID"]);
+                int currentID = Convert.ToInt32(SessionPersister.UserID);
                 List<int> classIDs = new List<int>();
                 foreach(var row in db.ClassStaffs)
                 {
@@ -103,46 +103,36 @@ namespace eStar.Controllers
         }
 
         // GET: Awards
-        public ActionResult Index(string sortOrder, string searchString, int? classID, string yearGroup, string tutorGroup)
+        public ActionResult Index(string sortOrder, string searchString, string classID, string yearGroup, string tutorGroup)
         {
-            if (classID == 0)
-                classID = null;
-
-            ViewBag.ClassID = Convert.ToInt32(classID);
+            ViewBag.classID = new SelectList(db.Classes, "Class_ID", "Class_Name");
             ViewBag.Search = searchString;
             ViewBag.FirstNameSortParm = sortOrder == "FirstName" ? "FirstName_desc" : "FirstName";
             ViewBag.SurnameSortParm = String.IsNullOrEmpty(sortOrder) ? "Surname_desc" : "";
             ViewBag.YearGroupSortParm = sortOrder == "YearGroup" ? "YearGroup_desc" : "YearGroup";
             ViewBag.TutorGroupSortParm = sortOrder == "TutorGroup" ? "TutorGroup_desc" : "TutorGroup";
-            ViewBag.ClassName = "All Students";
             
 
             List<Student> students = new List<Student>();
-            if (classID != null)
+            int number;
+
+            if (int.TryParse(classID, out number))
             {
+                int class_id = Convert.ToInt32(classID);
+                var studentClass = db.Enrolments.Where(en => en.Class_ID.Equals(class_id)).ToList();
 
-                List<int> studentIDs = new List<int>();
-                List<Student> studentList = new List<Student>();
-                int class_ID = Convert.ToInt32(classID);
-
-                //get class name if ID is not null
-                ViewBag.ClassName = db.Classes.Where(cl => cl.Class_ID.Equals(class_ID)).FirstOrDefault().Class_Name;
-
-                foreach (var enrol in db.Enrolments.Where(en => en.Class_ID.Equals(class_ID)))
+                foreach(var enrol in studentClass)
                 {
-                    studentIDs.Add(enrol.User_ID);
+                    students.Add(db.Accounts.OfType<Student>().Where(ac => ac.User_ID.Equals(enrol.User_ID)).FirstOrDefault());
                 }
-
-                foreach (var student in studentIDs)
-                {
-                    studentList.Add(db.Accounts.OfType<Student>().Where(acc => acc.User_ID.Equals(student)).FirstOrDefault());
-
-                }
-
-                students = studentList;
+                ViewBag.ClassName = db.Classes.Where(cl => cl.Class_ID.Equals(class_id)).FirstOrDefault().Class_Name;
+                students = students.ToList();
             }
             else
+            {
                 students = db.Accounts.OfType<Student>().ToList();
+                ViewBag.ClassName = "All Students";
+            }
 
             if(yearGroup == "all" || yearGroup == null)
             {
@@ -316,7 +306,7 @@ namespace eStar.Controllers
                 PopulateCategoryDropDownList(award.RewardCategory_ID);
 
                 //get staff userID
-                int userID = Convert.ToInt32(Session["UserID"]);
+                int userID = Convert.ToInt32(SessionPersister.UserID);
                 award.Staff_ID = userID;
                 award.AwardDate = DateTime.Today;
 

@@ -24,9 +24,12 @@
                 </a>
                 <div id="studentFilter" class="panel-collapse collapse in">
                     <div class="panel-body">
-                        @Html.TextBox("SearchString", null, new { @class="clearable", @placeholder = "Search class name" })
-                        @Html.Hidden("classID")
-                        <input class="btn btn-primary" type="submit" value="Search" id="searchSubmit" />
+                        <div class="searchContainer">
+                            <div id="class">All &nbsp; </div>
+                            @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search class name" })
+                            @Html.Hidden("classID")
+                            <input class="btn btn-primary" type="submit" value="Search" id="searchSubmit" />
+                        </div>
                     </div>
                     <div class="panel-footer">
                         <div class="row">
@@ -34,6 +37,7 @@
                         </div>
                         <div class="row">
                             View My Classes<input name="classRadio" id="classCheck" type="radio" value="userClasses" @ViewBag.CheckedMy />
+                            &nbsp;
                             View All Classes<input name="classRadio" id="classCheck" type="radio" value="allClasses" @ViewBag.CheckedAll />
                         </div>
                         <div class="row" style="float: right">
