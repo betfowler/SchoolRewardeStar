@@ -60,6 +60,6 @@
     })
 
     $('#selectAll').click(function () {
-        $('.selectedStudent').prop('checked', true).toggle(this.checked);
+        $('.selectedStudent').prop('checked', !$('.selectedStudent').prop('checked'));
     })
 })

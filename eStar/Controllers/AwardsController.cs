@@ -103,8 +103,13 @@ namespace eStar.Controllers
         }
 
         // GET: Awards
-        public ActionResult Index(string sortOrder, string searchString, string classID, string yearGroup, string tutorGroup)
+        public ActionResult Index(string sortOrder, string searchString, string classID, string yearGroup, string tutorGroup, string message)
         {
+            if (message == "Fail")
+            {
+                ViewBag.Error = "You do not have enough points left this week to make this award, you have " + SessionPersister.RemainingPoints + " left.";
+            }
+
             ViewBag.classID = new SelectList(db.Classes, "Class_ID", "Class_Name");
             ViewBag.Search = searchString;
             ViewBag.FirstNameSortParm = sortOrder == "FirstName" ? "FirstName_desc" : "FirstName";
@@ -244,7 +249,7 @@ namespace eStar.Controllers
         }
 
         // GET: Awards/Create
-        public ActionResult Create(List<int?> student, int? classID)
+        public ActionResult Create(List<int?> student, string classID)
         {
             //dropdown
             PopulateSubjectDropDownList();
@@ -270,6 +275,11 @@ namespace eStar.Controllers
                 }
                 ViewBag.stud = award.Students.ToList();
 
+                if (SessionPersister.RemainingPoints < award.StudentCount)
+                {
+                    ViewBag.Error = ViewBag.Error = "You do not have enough points left this week to make this award, you have " + SessionPersister.RemainingPoints + " left.";
+                }
+
                 return View(award);
             }
 
@@ -284,8 +294,11 @@ namespace eStar.Controllers
                     award.StudentNames.Add(am.findUsingID(row.User_ID).FullName);
                     award.StudentCount = award.StudentCount + 1;
                 }
-                Console.Write(award.StudentCount);
                 ViewBag.stud = award.Students.ToList();
+                if (SessionPersister.RemainingPoints < award.StudentCount)
+                {
+                    ViewBag.Error = ViewBag.Error = "You do not have enough points left this week to make this award, you have " + SessionPersister.RemainingPoints + " left.";
+                }
 
                 return View(award);
             }
@@ -304,6 +317,10 @@ namespace eStar.Controllers
             {
                 PopulateSubjectDropDownList(award.Subject_ID);
                 PopulateCategoryDropDownList(award.RewardCategory_ID);
+
+                var test = award.Students;
+                var test2 = test[0];
+                var test3 = test[1];
 
                 //get staff userID
                 int userID = Convert.ToInt32(SessionPersister.UserID);
@@ -356,8 +373,7 @@ namespace eStar.Controllers
 
                 else
                 {
-                    ViewBag.Error = "You do not have enough points left this week to make this award, you have " + remainingPoints + " left.";
-                    return View(award);
+                    return RedirectToAction("Index", new {message = "Fail" });
                 }
             }
             return View(award);
