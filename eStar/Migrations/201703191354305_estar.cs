@@ -7,12 +7,12 @@ namespace eStar.Migrations
     {
         public override void Up()
         {
-            
+            AddColumn("dbo.Products", "Stock", c => c.Int(nullable: false));
         }
         
         public override void Down()
         {
-
+            DropColumn("dbo.Products", "Stock");
         }
     }
 }

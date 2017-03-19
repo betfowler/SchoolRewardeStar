@@ -143,7 +143,7 @@ textarea {
     padding-bottom: 10px;
     margin-bottom: 10px;
     margin-top: 10px;
-    height: 300px;
+    height: 320px;
 }
 
 .product h3{
@@ -252,4 +252,11 @@ textarea {
 .indPanel{
     border: 2px solid #428bca;
     border-radius: 5px;
+}
+
+#instock{
+    color: green;
+}
+#outstock{
+    color: red;
 }

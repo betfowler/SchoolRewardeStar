@@ -62,4 +62,5 @@
     $('#selectAll').click(function () {
         $('.selectedStudent').prop('checked', !$('.selectedStudent').prop('checked'));
     })
+
 })

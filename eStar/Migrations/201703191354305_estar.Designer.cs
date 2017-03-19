@@ -7,13 +7,13 @@ namespace eStar.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class products : IMigrationMetadata
+    public sealed partial class estar : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(products));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(estar));
         
         string IMigrationMetadata.Id
         {
-            get { return "201703171125043_products"; }
+            get { return "201703191354305_estar"; }
         }
         
         string IMigrationMetadata.Source

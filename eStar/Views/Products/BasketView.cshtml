@@ -18,6 +18,11 @@
     }
 }
 
+<div class="alert alert-warning">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Warning!</strong> Some items may become unavaliable to purchase if they become out of stock.
+</div>
+
 <h2><i class="fa fa-shopping-cart" aria-hidden="true"></i> Your Basket</h2>
 <div class="row" id="smlBreak"></div>
 
@@ -65,20 +70,39 @@
                         <div class="row">
                             <b>@Html.DisplayFor(model => model.Products[i].ProductPrice) Points</b>
                         </div>
+                        @{
+                            if (Model.Products[i].Products.Stock > 0)
+                            {
+                                <div class="row" id="instock">
+                                    @Html.DisplayFor(model => model.Products[i].Products.Stock) In Stock
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row" id="outstock">
+                                    Out Of Stock
+                                </div>
+                            }
+                        }
                     </div>
                     <div class="col-md-4">
                         @Html.ActionLink("x Remove", "RemoveItem", "Products", new { productOrderID = Model.Products[i].ProductOrder_ID, orderID = Model.Order_ID }, null)
                     </div>
                 </div>
                 <hr />
-            }
+                            }
         </div>
-        <div class="row" style="text-align: right">
-            <h3>
-                @Html.DisplayNameFor(model => model.TotalCost):
-                <b>@Html.DisplayFor(model => model.TotalCost)</b>
-            </h3>
-            <a href="@Url.Action("PurchaseItems", "Products", new { orderID = Model.Order_ID})" class="btn btn-primary">Buy Now <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+        <div class="row">
+            <div class="col-md-6">
+                <h4>@Html.ActionLink("Continue Shopping", "StoreView", "Products")</h4>
+            </div>
+            <div class="col-md-6" style="text-align: right">
+                <h3>
+                    @Html.DisplayNameFor(model => model.TotalCost):
+                    <b>@Html.DisplayFor(model => model.TotalCost)</b>
+                </h3>
+                <a href="@Url.Action("PurchaseItems", "Products", new { orderID = Model.Order_ID})" class="btn btn-primary">Buy Now <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+            </div>
         </div>
-    }
+                            }
 }

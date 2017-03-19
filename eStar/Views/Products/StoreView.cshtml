@@ -84,23 +84,43 @@
                     <div class="row" id="desc">
                         @Html.DisplayFor(modelItem => item.Description)
                     </div>
-                    <div class="row">
                         @{
                             if (item.Price == 0)
                             {
-                                @Html.EditorFor(modelItem => item.Price, new { htmlAttributes = new { id = "donationPrice", placeholder = "Enter points to donate" } })
+                                <div class="row">
+                                    @Html.EditorFor(modelItem => item.Price, new { htmlAttributes = new { id = "donationPrice", placeholder = "Enter points to donate" } })
+                                </div>
+                                <div class="row" id="button">
+                                    <a href="@Url.Action("AddItem", "Products", new { productID = item.Product_ID})" class="btn btn-primary" id="productAdd">Add To Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </div>
                             }
                             else
                             {
-                                <h4>@Html.DisplayFor(modelItem => item.Price) Points</h4>
+                                <div class="row">
+                                    <h4>@Html.DisplayFor(modelItem => item.Price) Points</h4>
+                                </div>
+                                    if (item.Stock > 0)
+                                    {
+                                        <div class="row" id="instock">
+                                            In Stock
+                                        </div>
+                                        <div class="row" id="button">
+                                            <a href="@Url.Action("AddItem", "Products", new { productID = item.Product_ID})" class="btn btn-primary" id="productAdd">Add To Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="row" id="outstock">
+                                            Out Of Stock
+                                        </div>
+                                        <div class="row" id="button">
+                                            <a href="@Url.Action("AddItem", "Products", new { productID = item.Product_ID})" class="btn btn-primary" id="productAdd" disabled="disabled">Add To Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                        </div>
+                                    }
                             }
                         }
-                    </div>
-                    <div class="row" id="button">
-                        <a href="@Url.Action("AddItem", "Products", new { productID = item.Product_ID})" class="btn btn-primary" id="productAdd">Add To Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                    </div>
                 </div>
             </div>
         </div>
-                            }
+        }
 </div>

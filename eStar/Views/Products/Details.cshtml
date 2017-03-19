@@ -4,55 +4,52 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h3>'@Html.DisplayFor(model => model.Name)' Details</h3>
 
 <div>
-    <h4>Product</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ProductCategories.CategoryName)
-        </dt>
+    <div class="row">
+        <div class="product">
+            <div class="row">
+                <h3>@Html.DisplayFor(model => model.Name)</h3>
+            </div>
+            <div class="row">
+                <i>@Html.DisplayFor(model => model.ProductCategories.CategoryName)</i>
+            </div>
+            <div class="row" id="productImage">
+                <img class="object-fit_cover" src="..\..@Model.Image" />
+            </div>
+            <div class="row" id="desc">
+                @Html.DisplayFor(model => model.Description)
+            </div>
+            <div class="row">
+                <h4>@Html.DisplayFor(model => model.Price) Points</h4>
+            </div>
+            @{
+                if (Model.Stock > 0)
+                {
+                    <div class="row" id="instock">
+                        @Html.DisplayFor(model => model.Stock) In Stock
+                    </div>
+                }
+                if (Model.Price == 0)
+                {
+                    <div class="row" id="instock">
+                        In Stock
+                    </div>
+                }
+                else
+                {
+                    <div class="row" id="outstock">
+                        Out Of Stock
+                    </div>
+                }
+            }
 
-        <dd>
-            @Html.DisplayFor(model => model.ProductCategories.CategoryName)
-        </dd>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Product_ID }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Back to List", "Index")
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+        </div>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-
-    </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Product_ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

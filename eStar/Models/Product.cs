@@ -19,6 +19,7 @@ namespace eStar.Models
         public string Image { get; set; }
         [Display(Name = "Product Category")]
         public int ProductCategory_ID { get; set; }
+        public int Stock { get; set; }
 
         public virtual ProductCategory ProductCategories { get; set; }
         public virtual ICollection<ProductOrder> ProductOrders { get; set; }
@@ -27,7 +28,9 @@ namespace eStar.Models
     public class ProductCategory
     {
         [Key]
+        [Display(Name = "Product Category")]
         public int ProductCategory_ID { get; set; }
+        [Display(Name = "Category")]
         public string CategoryName { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }

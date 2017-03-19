@@ -23,10 +23,23 @@ namespace eStar.Controllers
         }*/
 
         // GET: Products
+        //**Admin Product List**//
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.ProductCategories);
-            return View(products.ToList());
+            var products = db.Products.Include(p => p.ProductCategories).ToList();
+            int count = 0;
+            foreach(var item in products)
+            {
+                if(item.Stock < 1 && item.Price > 0)
+                {
+                    count++;
+                }
+            }
+            if(count > 0)
+            {
+                ViewBag.Warning = "There are " + count + " item(s) out of stock and highlighted below.";
+            }
+            return View(products);
         }
         public Product find(int productID)
         {
@@ -53,6 +66,13 @@ namespace eStar.Controllers
             if (message == "Success")
             {
                 ViewBag.Success = "Your order has been made.";
+                message = "";
+            }
+            if (message == "outstock")
+            {
+                int id = Convert.ToInt32(productID);
+                string productName = db.Products.Find(id).Name;
+                ViewBag.Error = "Oh no! Sorry but '" + productName + "' is now out of stock.  Keep looking out for when it's back in stock.  Please remove " + productName + " from your basket";
                 message = "";
             }
 
@@ -116,8 +136,17 @@ namespace eStar.Controllers
         {
             Order order = db.Orders.Find(orderID);
             int balance = db.Accounts.OfType<Student>().Where(ac => ac.User_ID.Equals(SessionPersister.UserID)).FirstOrDefault().Balance;
+
+            foreach (var product in db.ProductOrders.Where(po => po.Order_ID.Equals(order.Order_ID)).ToList())
+            {
+                if(product.Products.Stock < 1)
+                {
+                    return RedirectToAction("BasketView", new { message = "outstock", productID  = product.Product_ID});
+                }
+            }
+
             //if balance too low
-            if(order.TotalCost > balance)
+            if (order.TotalCost > balance)
             {
                 return RedirectToAction("BasketView", new { message = "Fail" });
             }
@@ -135,6 +164,7 @@ namespace eStar.Controllers
             }
         }
 
+        //**ADDING ITEM TO BASKET**//
         public ActionResult AddItem(int productID)
         {
             if(SessionPersister.UserType == "Admin")
@@ -144,41 +174,50 @@ namespace eStar.Controllers
 
             int price = find(productID).Price;
 
-            //check active order exists
-            Order order = db.Orders.Where(or => or.OrderStatus_ID.Equals(5) && or.User_ID.Equals(SessionPersister.UserID)).FirstOrDefault();
-            ProductOrder prodOrder = new ProductOrder();
-
-            if (order == null)
+            //check item is still in stock
+            if(db.Products.Find(productID).Stock < 1)
             {
-                order = new Order();
-                order.User_ID = SessionPersister.UserID;
-                order.OrderStatus_ID = 5; //5 = "Active"
-                order.ProductCount = 1;
-                order.TotalCost = price;
-                db.Orders.Add(order);
-                db.SaveChanges();
+                return RedirectToAction("StoreView", new { productID = productID, addMessage = "Fail" });
             }
             else
             {
-                order.ProductCount = order.ProductCount + 1;
-                order.TotalCost = order.TotalCost + price;
+                //check active order exists
+                Order order = db.Orders.Where(or => or.OrderStatus_ID.Equals(5) && or.User_ID.Equals(SessionPersister.UserID)).FirstOrDefault();
+                ProductOrder prodOrder = new ProductOrder();
+
+                if (order == null)
+                {
+                    order = new Order();
+                    order.User_ID = SessionPersister.UserID;
+                    order.OrderStatus_ID = 5; //5 = "Active"
+                    order.ProductCount = 1;
+                    order.TotalCost = price;
+                    db.Orders.Add(order);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    order.ProductCount = order.ProductCount + 1;
+                    order.TotalCost = order.TotalCost + price;
+                }
+
+                //set productorder
+                prodOrder.Order_ID = order.Order_ID;
+                prodOrder.Product_ID = productID;
+                prodOrder.ProductName = find(productID).Name;
+                prodOrder.ProductDesc = find(productID).Description;
+                int prodCatID = find(productID).ProductCategory_ID;
+                prodOrder.ProductCategory = db.ProductCategories.Where(pc => pc.ProductCategory_ID.Equals(prodCatID)).FirstOrDefault().CategoryName;
+                prodOrder.ProductPrice = find(productID).Price;
+                db.ProductOrders.Add(prodOrder);
+
+                db.SaveChanges();
+
+                SessionPersister.Basket = order.ProductCount;
+
+                return RedirectToAction("StoreView", new { productID = productID, addMessage = "Success" });
             }
 
-            //set productorder
-            prodOrder.Order_ID = order.Order_ID;
-            prodOrder.Product_ID = productID;
-            prodOrder.ProductName = find(productID).Name;
-            prodOrder.ProductDesc = find(productID).Description;
-            int prodCatID = find(productID).ProductCategory_ID;
-            prodOrder.ProductCategory = db.ProductCategories.Where(pc => pc.ProductCategory_ID.Equals(prodCatID)).FirstOrDefault().CategoryName;
-            prodOrder.ProductPrice = find(productID).Price;
-            db.ProductOrders.Add(prodOrder);
-
-            db.SaveChanges();
-
-            SessionPersister.Basket = order.ProductCount;
-
-            return RedirectToAction("StoreView", new { productID = productID, addMessage = "Success" });
         }
 
 
@@ -190,6 +229,14 @@ namespace eStar.Controllers
                 int productid = Convert.ToInt32(productID);
                 string name = db.Products.Where(pr => pr.Product_ID.Equals(productid)).FirstOrDefault().Name.ToString();
                 ViewBag.Success = name + " has been added to your basket. <a href='../Products/BasketView' class='alert-link'>View your basket</a>";
+                addMessage = "";
+                productID = null;
+            }
+            if (addMessage == "Fail")
+            {
+                int productid = Convert.ToInt32(productID);
+                string name = db.Products.Where(pr => pr.Product_ID.Equals(productid)).FirstOrDefault().Name.ToString();
+                ViewBag.Error = "Oh no! Sorry but " + name + " is now out of stock.  Keep looking out for when it's back in stock.";
                 addMessage = "";
                 productID = null;
             }
@@ -284,7 +331,7 @@ namespace eStar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Product_ID,Name,Description,Price,Image,ProductCategory_ID")] Product product)
+        public ActionResult Create([Bind(Include = "Product_ID,Name,Description,Price,Image,ProductCategory_ID,Stock")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -296,17 +343,10 @@ namespace eStar.Controllers
                         var fileName = Path.GetFileName(file.FileName);
                         var path = Path.Combine(Server.MapPath("../Content/Images/ProductImages"), fileName);
 
-                        //if file doesn't already exist
                         string pathToString = path.ToString();
                         string imageLocation = "\\Content\\Images\\ProductImages";
                         int pathIndex = pathToString.IndexOf(imageLocation);
                         string imagePathToSave = pathToString.Substring(pathIndex);
-
-                        if (db.Products.Where(pr => pr.Image.Equals(imagePathToSave)).FirstOrDefault() != null)
-                        {
-                            ViewBag.Error = "An image with this name already exists.";
-                            return View("Create");
-                        }
 
                         product.Image = imagePathToSave;
                         file.SaveAs(path);
@@ -363,7 +403,7 @@ namespace eStar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Product_ID,Name,Description,Price,Image,ProductCategory_ID")] Product product)
+        public ActionResult Edit([Bind(Include = "Product_ID,Name,Description,Price,Image,ProductCategory_ID,Stock")] Product product)
         {
             if (ModelState.IsValid)
             {
