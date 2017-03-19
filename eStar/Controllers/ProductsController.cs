@@ -152,6 +152,14 @@ namespace eStar.Controllers
             }
             else
             {
+                //alter stock level
+                foreach (var prod in db.ProductOrders.Where(po => po.Order_ID.Equals(order.Order_ID)).ToList())
+                {
+                    Product product = db.Products.Find(prod.Product_ID);
+                    product.Stock = product.Stock - 1;
+                    
+                } 
+
                 order.OrderStatus_ID = 1; //pending
                 order.OrderDate = DateTime.Today;
                 Student student = db.Accounts.OfType<Student>().Where(ac => ac.User_ID.Equals(SessionPersister.UserID)).FirstOrDefault();

@@ -13,6 +13,8 @@ namespace eStar.Security
 
         public static int Balance { get; internal set; }
         public static int Basket { get; internal set; }
+        public static int Stock { get; set; }
+        public static int Orders { get; set; }
 
         public static string Email
         {

@@ -58,6 +58,11 @@ namespace eStar.Controllers
             {
                 SessionPersister.RemainingPoints = am.findStaffPoints(avm.Account.Email);
             }
+            if(SessionPersister.UserType.ToString() == "Admin")
+            {
+                SessionPersister.Stock = db.Products.Where(pr => pr.Stock < 1 && pr.Price > 0).Count();
+                SessionPersister.Orders = db.Orders.Where(or => or.OrderStatus_ID.Equals(1) || or.OrderStatus_ID.Equals(2)).Count();
+            }
             if(SessionPersister.UserType.ToString() == "Student")
             {
                 SessionPersister.TotalPoints = am.findStudent(avm.Account.Email).Total_Points;
