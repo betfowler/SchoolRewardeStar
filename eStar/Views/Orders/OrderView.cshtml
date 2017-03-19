@@ -5,46 +5,78 @@
 
 <h2>Your Orders</h2>
 
-@foreach (var item in Model)
-{
-    <div class="panel-group">
-        <div class="panel panel-default">
-            <div class="panel-heading" id="searchbar">
-                <a data-toggle="collapse" href="#orderDetails">
-                    <div class="panel-title">
-                        <div class="row">
-                            <div class="col-md-3">
-                                @Html.DisplayNameFor(model => model.Order_ID):
-                                &nbsp;
-                                @Html.DisplayFor(modelItem => item.Order_ID)
-                            </div>
-                            <div class="col-md-3">
-                                @Html.DisplayNameFor(model => model.ProductCount):
-                                &nbsp;
-                                @Html.DisplayFor(modelItem => item.ProductCount)
-                            </div>
-                            <div class="col-md-3">
-                                @Html.DisplayNameFor(model => model.TotalCost):
-                                &nbsp;
-                                @Html.DisplayFor(modelItem => item.TotalCost)
-                            </div>
-                            <div class="col-md-3">
-                                @Html.DisplayNameFor(model => model.OrderStatus.Status):
-                                &nbsp;
-                                @Html.DisplayFor(modelItem => item.OrderStatus.Status)
+<div class="container">
+    <div class="row">
+        <div id="orderAccordian" class="panel-group">
+
+            @foreach (var item in Model)
+            {
+                <div class="indPanel">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <a data-toggle="collapse" data-parent="#orderAccordian" href="#@item.Order_ID">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            @Html.DisplayNameFor(model => model.Order_ID):
+                                            &nbsp;
+                                            @Html.DisplayFor(modelItem => item.Order_ID)
+                                        </div>
+                                        <div class="col-md-2" id="orderDate">
+                                            @Html.DisplayNameFor(model => model.OrderDate):
+                                            &nbsp;
+                                            @Html.DisplayFor(modelItem => item.OrderDate)
+                                        </div>
+                                        <div class="col-md-2" id="itemNo">
+                                            @Html.DisplayNameFor(model => model.ProductCount):
+                                            &nbsp;
+                                            @Html.DisplayFor(modelItem => item.ProductCount)
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.DisplayNameFor(model => model.TotalCost):
+                                            &nbsp;
+                                            @Html.DisplayFor(modelItem => item.TotalCost)
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.DisplayNameFor(model => model.OrderStatus.Status):
+                                            &nbsp;
+                                            @Html.DisplayFor(modelItem => item.OrderStatus.Status)
+                                        </div>
+                                        <div class="col-md-2" id="orderview">
+                                            View Order Items <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </div>
-                </a>
-                <div id="orderDetails" class="panel-collapse collapse">
-                    <div class="panel-body" id="productSearchString">
-                        body
-                    </div>
-                    <div class="panel-footer">
-                        footer
+                    <div id="@item.Order_ID" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            @foreach (var productOrder in item.ProductOrders)
+                            {
+                                <div class="row" id="basketItemDets">
+                                    <div class="col-md-4">
+                                        <img src="..@productOrder.Products.Image" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <h3>@productOrder.ProductName</h3>
+                                        </div>
+                                        <div class="row">
+                                            @productOrder.ProductDesc
+                                        </div>
+                                        <div class="row">
+                                            <b>@productOrder.ProductPrice Points</b>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="row" id="smlBreak"></div>
+            }
         </div>
     </div>
-}
+</div>

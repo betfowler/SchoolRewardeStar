@@ -49,6 +49,7 @@ textarea {
     color: white;
 }
 
+
 .userDetails li a{
     padding-top: 0px;
     padding-bottom: 5px;
@@ -229,4 +230,26 @@ textarea {
 
 .searchContainer #searchSubmit{
     border: none;
+}
+
+#orderPanelTitle{
+    color: black;
+    font-size: 14px;
+}
+
+#orderview{
+    color: #428bca;
+}
+
+#orderDate{
+    padding: 0;
+}
+
+#itemNo{
+    text-align: center;
+}
+
+.indPanel{
+    border: 2px solid #428bca;
+    border-radius: 5px;
 }

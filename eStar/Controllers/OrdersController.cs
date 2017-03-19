@@ -24,12 +24,19 @@ namespace eStar.Controllers
 
         public ActionResult OrderView()
         {
-            var orders = db.Orders.Where(or => or.User_ID.Equals(SessionPersister.UserID)).Include(or => or.OrderStatus).ToList();
+            var orders = db.Orders.Where(or => or.User_ID.Equals(SessionPersister.UserID) && or.OrderStatus_ID != 5).Include(or => or.OrderStatus).ToList();
             if(orders == null)
             {
                 ViewBag.Empty = "You haven't made any orders.  Browse the eStore <a href = '../Products/StoreView'>here</a>.";
                 return View();
             }
+
+            foreach(var productOrder in orders)
+            {
+                productOrder.ProductOrders = db.ProductOrders.Where(po => po.Order_ID.Equals(productOrder.Order_ID)).ToList();
+            }
+
+            orders = orders.OrderByDescending(or => or.OrderDate).ToList();
 
             return View(orders);
         }

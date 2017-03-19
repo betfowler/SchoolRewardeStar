@@ -9,7 +9,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top" id="navbar">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -23,7 +23,15 @@
                 <ul class="nav navbar-nav">
                     <li class="active">@Html.ActionLink("Home", "StudentIndex", "Index")</li>
                     <li>@Html.ActionLink("eStore", "StoreView", "Products")</li>
-                    <li>@Html.ActionLink("About You", "#", "#")</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            About You
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@string.Format("../../Awards/ViewAwards/{0}", SessionPersister.UserID)">Your Awards</a></li>
+                            <li>@Html.ActionLink("Order History", "OrderView", "Orders")</li>
+                        </ul>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -41,15 +49,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a><i class="fa fa-trophy" aria-hidden="true"></i>Total Points: @SessionPersister.TotalPoints</a></li>
                     <li><a><i class="fa fa-star" aria-hidden="true"></i> Balance: @SessionPersister.Balance</a></li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Basket: @SessionPersister.Basket
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("View Your Basket", "BasketView", "Products")</li>
-                            <li>@Html.ActionLink("Your Orders", "OrderView", "Orders")</li>
-                        </ul>
-                    </li>
+                    <li><a href="@Url.Action("BasketView","Products")"><span class="fa fa-shopping-cart" aria-hidden="true"></span> Basket: @SessionPersister.Basket</a></li>
                 </ul>
             </div>
         </div>
