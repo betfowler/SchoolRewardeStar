@@ -32,7 +32,7 @@
                         @Html.DisplayFor(model => model.Stock) In Stock
                     </div>
                 }
-                if (Model.Price == 0)
+                else if (Model.Price == 0)
                 {
                     <div class="row" id="instock">
                         In Stock

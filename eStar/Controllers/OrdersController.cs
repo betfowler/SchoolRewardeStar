@@ -16,10 +16,48 @@ namespace eStar.Controllers
         private eStarContext db = new eStarContext();
 
         // GET: Orders
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString, string OrderStatus_ID, string statusRadio, string ownerRadio)
         {
-            var orders = db.Orders.Include(o => o.OrderStatus);
-            return View(orders.ToList());
+            ViewBag.OrderStatus_ID = new SelectList(db.OrderStatuses.Where(or => or.OrderStatus_ID.Equals(1) || or.OrderStatus_ID.Equals(2)).ToList(), "OrderStatus_ID", "Status");
+
+            var orders = db.Orders.Where(or => or.OrderStatus_ID.Equals(1) || or.OrderStatus_ID.Equals(2)).Include  (o => o.OrderStatus).ToList();
+            if(orders == null)
+            {
+                ViewBag.Empty = "There are no pending orders";
+                return View();
+            }
+
+            foreach(var productOrder in orders)
+            {
+                productOrder.ProductOrders = db.ProductOrders.Where(po => po.Order_ID.Equals(productOrder.Order_ID)).ToList();
+                if(productOrder.Admin == null)
+                {
+                    productOrder.Admin = "Unassigned";
+                }
+            }
+
+            ViewBag.All = "checked";
+
+            return View(orders);
+        }
+
+        public ActionResult AcceptOrder(int orderID)
+        {
+            Order order = db.Orders.Find(orderID);
+            order.OrderStatus_ID = 2;
+            order.Admin = db.Accounts.Find(SessionPersister.UserID).FullName;
+            db.SaveChanges();
+            SessionPersister.Orders = db.Orders.Where(or => or.OrderStatus_ID.Equals(1) || or.OrderStatus_ID.Equals(2)).Count();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult CompleteOrder(int orderID)
+        {
+            Order order = db.Orders.Find(orderID);
+            order.OrderStatus_ID = 3;
+            db.SaveChanges();
+            SessionPersister.Orders = db.Orders.Where(or => or.OrderStatus_ID.Equals(1) || or.OrderStatus_ID.Equals(2)).Count();
+            return RedirectToAction("Index");
         }
 
         public ActionResult OrderView()
@@ -40,106 +78,7 @@ namespace eStar.Controllers
 
             return View(orders);
         }
-
-        // GET: Orders/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Order order = db.Orders.Find(id);
-            if (order == null)
-            {
-                return HttpNotFound();
-            }
-            return View(order);
-        }
-
-        // GET: Orders/Create
-        public ActionResult Create()
-        {
-            ViewBag.OrderStatus_ID = new SelectList(db.OrderStatuses, "OrderStatus_ID", "Status");
-            return View();
-        }
-
-        // POST: Orders/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Order_ID,User_ID,OrderStatus_ID,TotalCost,ProductCount")] Order order)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Orders.Add(order);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.OrderStatus_ID = new SelectList(db.OrderStatuses, "OrderStatus_ID", "Status", order.OrderStatus_ID);
-            return View(order);
-        }
-
-        // GET: Orders/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Order order = db.Orders.Find(id);
-            if (order == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.OrderStatus_ID = new SelectList(db.OrderStatuses, "OrderStatus_ID", "Status", order.OrderStatus_ID);
-            return View(order);
-        }
-
-        // POST: Orders/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Order_ID,User_ID,OrderStatus_ID,TotalCost,ProductCount")] Order order)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(order).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.OrderStatus_ID = new SelectList(db.OrderStatuses, "OrderStatus_ID", "Status", order.OrderStatus_ID);
-            return View(order);
-        }
-
-        // GET: Orders/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Order order = db.Orders.Find(id);
-            if (order == null)
-            {
-                return HttpNotFound();
-            }
-            return View(order);
-        }
-
-        // POST: Orders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Order order = db.Orders.Find(id);
-            db.Orders.Remove(order);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -185,6 +185,22 @@
     <Compile Include="Migrations\201703191354305_estar.Designer.cs">
       <DependentUpon>201703191354305_estar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703200914021_order.cs" />
+    <Compile Include="Migrations\201703200914021_order.Designer.cs">
+      <DependentUpon>201703200914021_order.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703200914423_orders.cs" />
+    <Compile Include="Migrations\201703200914423_orders.Designer.cs">
+      <DependentUpon>201703200914423_orders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703200956014_orderStudent.cs" />
+    <Compile Include="Migrations\201703200956014_orderStudent.Designer.cs">
+      <DependentUpon>201703200956014_orderStudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703201039517_adminstring.cs" />
+    <Compile Include="Migrations\201703201039517_adminstring.Designer.cs">
+      <DependentUpon>201703201039517_adminstring.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountModel.cs" />
@@ -322,10 +338,6 @@
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Products\StoreView.cshtml" />
     <Content Include="Views\Products\BasketView.cshtml" />
-    <Content Include="Views\Orders\Create.cshtml" />
-    <Content Include="Views\Orders\Delete.cshtml" />
-    <Content Include="Views\Orders\Details.cshtml" />
-    <Content Include="Views\Orders\Edit.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Orders\OrderView.cshtml" />
   </ItemGroup>
@@ -343,6 +355,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201703191354305_estar.resx">
       <DependentUpon>201703191354305_estar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703200914021_order.resx">
+      <DependentUpon>201703200914021_order.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703200914423_orders.resx">
+      <DependentUpon>201703200914423_orders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703200956014_orderStudent.resx">
+      <DependentUpon>201703200956014_orderStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703201039517_adminstring.resx">
+      <DependentUpon>201703201039517_adminstring.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

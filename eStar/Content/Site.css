@@ -213,7 +213,8 @@ textarea {
 }
 .searchContainer #ProductCategory_ID,
 .searchContainer #classID,
-.searchContainer #class {
+.searchContainer #class,
+.searchContainer #OrderStatus_ID {
     border: none;
     float: left;
     margin-top: 5px;
@@ -259,4 +260,11 @@ textarea {
 }
 #outstock{
     color: red;
+}
+
+#adminOrders{
+    font-size: 14px;
+}
+#adminOrderTitle{
+    font-weight: bold;
 }

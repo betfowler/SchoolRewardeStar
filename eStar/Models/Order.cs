@@ -11,6 +11,7 @@ namespace eStar.Models
         [Key]
         [Display(Name = "Order ID")]
         public int Order_ID { get; set; }
+        [Display(Name = "User ID")]
         public int User_ID { get; set; }
         [Display(Name = "Order Status")]
         public int OrderStatus_ID { get; set; }
@@ -23,8 +24,11 @@ namespace eStar.Models
         [Display(Name = "Order Date")]
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime? OrderDate { get; set; }
+        [Display(Name = "Order Accepted By")]
+        public string Admin { get; set; }
 
         public virtual OrderStatus OrderStatus { get; set; }
+        public virtual Student Students { get; set; }
         public virtual ICollection<ProductOrder> ProductOrders { get; set; }
     }
 

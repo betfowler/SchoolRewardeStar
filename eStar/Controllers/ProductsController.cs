@@ -360,14 +360,12 @@ namespace eStar.Controllers
                         file.SaveAs(path);
 
                     }
+                    //if no image selected
+                    else
+                    {
+                        product.Image = "/Content/Images/Store.png";
+                    }
                 }
-
-                //if no image selected
-                else
-                {
-                    product.Image = "/Content/Images/Store.png";
-                }
-
 
                 PopulateCategoryDropDownList(product.ProductCategory_ID);
                 db.Products.Add(product);

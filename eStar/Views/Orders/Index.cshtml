@@ -4,48 +4,230 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Orders</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderStatus.Status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.User_ID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TotalCost)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductCount)
-        </th>
-        <th></th>
-    </tr>
+@{ 
+    if(ViewBag.Empty != null)
+    {
+        <h3>@ViewBag.Empty</h3>
+    }
+    else
+    {
+        using (Html.BeginForm())
+        {
+            <div class="row" id="orderSearch">
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" id="searchbar">
+                            <a data-toggle="collapse" href="#orderFilter">
+                                <div class="panel-title"><b>Search Orders</b> <span style="float: right" class="glyphicon glyphicon-collapse-up" aria-hidden="true"></span></div>
+                            </a>
+                            <div id="orderFilter" class="panel-collapse collapse in">
+                                <div class="panel-body" id="productSearchString">
+                                    <div class="row">
+                                        <div class="searchContainer">
+                                            @Html.DropDownList("OrderStatus_ID", "All")
+                                            @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search order ID, user ID and student name" })
+                                            <input class="btn btn-primary" type="submit" value="Search" id="searchSubmit" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4>Filter By Status:</h4>
+                                            Pending <input name="statusRadio" id="statusCheck" type="radio" value="1" @ViewBag.Pending />
+                                            &nbsp;
+                                            In Progress <input name="statusRadio" id="statusCheck" type="radio" value="2" @ViewBag.InProgress />
+                                            &nbsp;
+                                            All <input name="statusRadio" id="statusCheck" type="radio" value="all" @ViewBag.All />
+                                            &nbsp;
+                                            <button class="btn btn-primary" type="submit" id="priceSubmit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h4>Filter By Owner:</h4>
+                                            Your Orders <input name="ownerRadio" id="ownerCheck" type="radio" value="myOrders" @ViewBag.myOrders />
+                                            &nbsp;
+                                            Unassigned Orders <input name="ownerRadio" id="ownerCheck" type="radio" value="unassignedOrders" @ViewBag.unassignedOrders />
+                                            &nbsp;
+                                            All Orders <input name="ownerRadio" id="ownerCheck" type="radio" value="allOrders" @ViewBag.allOrders />
+                                            &nbsp;
+                                            <button class="btn btn-primary" type="submit" id="priceSubmit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="float: right">
+                                        @Html.ActionLink("Order by Date", "StoreView", "Products", new { sortOrder = ViewBag.PriceParm, searchString = ViewBag.Search, min = ViewBag.min, max = ViewBag.max, ProductCategory_ID = ViewBag.ProductCategory_ID }, null)
+                                        &nbsp;|&nbsp;
+                                        @Html.ActionLink("Reset", "StoreView", "Products", new { sortOrder = "", searchString = "", min = "0", max = "1000", ProductCategory_ID = "" }, null)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="row" id="smlBreak"></div>
+        <div class="container">
+            <div class="row">
+                <div id="orderAccordian" class="panel-group">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderStatus.Status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User_ID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TotalCost)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductCount)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Order_ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Order_ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Order_ID })
-        </td>
-    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <div class="indPanel">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#orderAccordian" href="#@item.Order_ID" id="adminOrders">
+                                            <div class="row" id="adminOrderTitle">
+                                                <div class="col-md-2">
+                                                    @Html.DisplayNameFor(model => model.Order_ID)
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @Html.DisplayNameFor(model => model.User_ID)
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @Html.DisplayNameFor(model => model.OrderDate)
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @Html.DisplayNameFor(model => model.ProductCount)
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @Html.DisplayNameFor(model => model.OrderStatus.Status)
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @Html.DisplayNameFor(model => model.Admin)
+                                                    &nbsp;
+                                                    <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+                                                    &nbsp;
+                                                </div>
+                                            </div>
+                                            <!--Answer-->
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    @Html.DisplayFor(modelItem => item.Order_ID)
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @Html.DisplayFor(modelItem => item.User_ID)
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @Html.DisplayFor(modelItem => item.OrderDate)
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @Html.DisplayFor(modelItem => item.ProductCount)
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @Html.DisplayFor(modelItem => item.OrderStatus.Status)
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @Html.DisplayFor(modelItem => item.Admin)
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="@item.Order_ID" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h3>User Details</h3>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>@Html.DisplayNameFor(model => model.User_ID)</th>
+                                                    <td>@Html.DisplayFor(modelItem => item.User_ID)</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>@Html.DisplayNameFor(model => model.Students.FullName)</th>
+                                                    <td>@Html.DisplayFor(modelItem => item.Students.FullName)</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>@Html.DisplayNameFor(model => model.Students.Year_Group)</th>
+                                                    <td>@Html.DisplayFor(modelItem => item.Students.Year_Group)</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>@Html.DisplayNameFor(model => model.Students.Tutor_Group)</th>
+                                                    <td>@Html.DisplayFor(modelItem => item.Students.Tutor_Group)</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Order Details</h3>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>@Html.DisplayNameFor(model => model.Order_ID)</th>
+                                                    <td>@Html.DisplayFor(modelItem => item.Order_ID)</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>@Html.DisplayNameFor(model => model.OrderDate)</th>
+                                                    <td>@Html.DisplayFor(modelItem => item.OrderDate)</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>@Html.DisplayNameFor(model => model.ProductCount)</th>
+                                                    <td>@Html.DisplayFor(modelItem => item.ProductCount)</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>@Html.DisplayNameFor(model => model.TotalCost)</th>
+                                                    <td>@Html.DisplayFor(modelItem => item.TotalCost)</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>@Html.DisplayNameFor(model => model.OrderStatus.Status)</th>
+                                                    <td>@Html.DisplayFor(modelItem => item.OrderStatus.Status)</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>@Html.DisplayNameFor(model => model.Admin)</th>
+                                                    <td>@Html.DisplayFor(modelItem => item.Admin)</td>
+                                                </tr>
+                                                <tr>
+                                                    @{
+                                                        if (item.Admin == "Unassigned")
+                                                        {
+                                                            <td>@Html.ActionLink("Accept This Order", "AcceptOrder", "Orders", new { orderID = item.Order_ID }, new { @class = "btn btn-primary" })</td>
+                                                            <td><button disabled ="disabled" class="btn btn-success">Order Complete</button></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><button disabled="disabled" class="btn btn-primary">Accept This Order</button></td>
+                                                            <td>@Html.ActionLink("Order Complete", "CompleteOrder", "Orders", new { orderID = item.Order_ID }, new { @class = "btn btn-success" })</td>
+                                                        }
+                                                    }
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>Product(s) Details</h3>
+                                            @foreach (var productOrder in item.ProductOrders)
+                                            {
+                                                <div class="row" id="basketItemDets">
+                                                    <div class="col-md-4">
+                                                        <img src="..@productOrder.Products.Image" />
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="row">
+                                                            <h3>@productOrder.ProductName</h3>
+                                                        </div>
+                                                        <div class="row">
+                                                            @productOrder.ProductDesc
+                                                        </div>
+                                                        <div class="row">
+                                                            <b>@productOrder.ProductPrice Points</b>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                            }
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="smlBreak"></div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
 }
-
-</table>
