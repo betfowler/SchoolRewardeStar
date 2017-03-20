@@ -38,6 +38,13 @@ namespace eStar.Controllers
                 }
             }
 
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var search = searchString.ToUpper();
+                orders = orders.Where(s => s.Order_ID.ToString().ToUpper().Contains(search) || s.User_ID.ToString().ToUpper().Contains(search)).ToList();
+
+            }
+
             //order status radio buttons
             if (statusRadio == "1")
             {
@@ -55,8 +62,28 @@ namespace eStar.Controllers
             }
 
             //order 'owner' radio buttons
+            if(ownerRadio == "myOrders")
+            {
+                ViewBag.myOrders = "checked";
+                orders = orders.Where(or => or.Admin.Equals(SessionPersister.Username)).ToList();
+            }
+            else if(ownerRadio == "unassignedOrders"){
+                ViewBag.unassignedOrders = "checked";
+                orders = orders.Where(or => or.Admin.Equals("Unassigned") || or.Admin.Equals(null)).ToList();
+            }
+            else{
+                ViewBag.allOrders = "checked";
+            }
 
-            ViewBag.allOrders = "checked";
+            switch (sortOrder)
+            {
+                case "Date_desc":
+                    orders = orders.OrderByDescending(o => o.OrderDate).ToList();
+                    break;
+                default:
+                    orders = orders.OrderBy(o => o.OrderDate).ToList();
+                    break;
+            }
 
             return View(orders);
         }
