@@ -26,7 +26,6 @@
                                 <div class="panel-body" id="productSearchString">
                                     <div class="row">
                                         <div class="searchContainer">
-                                            @Html.DropDownList("OrderStatus_ID", "All")
                                             @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search order ID, user ID and student name" })
                                             <input class="btn btn-primary" type="submit" value="Search" id="searchSubmit" />
                                         </div>
@@ -56,7 +55,7 @@
                                         </div>
                                     </div>
                                     <div class="row" style="float: right">
-                                        @Html.ActionLink("Order by Date", "StoreView", "Products", new { sortOrder = ViewBag.PriceParm, searchString = ViewBag.Search, min = ViewBag.min, max = ViewBag.max, ProductCategory_ID = ViewBag.ProductCategory_ID }, null)
+                                        @Html.ActionLink("Order by Date", "StoreView", "Products", new { sortOrder = ViewBag.DateParm, searchString = ViewBag.Search, min = ViewBag.min, max = ViewBag.max, ProductCategory_ID = ViewBag.ProductCategory_ID }, null)
                                         &nbsp;|&nbsp;
                                         @Html.ActionLink("Reset", "StoreView", "Products", new { sortOrder = "", searchString = "", min = "0", max = "1000", ProductCategory_ID = "" }, null)
                                     </div>

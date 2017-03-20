@@ -16,9 +16,11 @@ namespace eStar.Controllers
         private eStarContext db = new eStarContext();
 
         // GET: Orders
-        public ActionResult Index(string sortOrder, string searchString, string OrderStatus_ID, string statusRadio, string ownerRadio)
+        public ActionResult Index(string sortOrder, string searchString, string statusRadio, string ownerRadio)
         {
-            ViewBag.OrderStatus_ID = new SelectList(db.OrderStatuses.Where(or => or.OrderStatus_ID.Equals(1) || or.OrderStatus_ID.Equals(2)).ToList(), "OrderStatus_ID", "Status");
+
+            ViewBag.Search = searchString;
+            ViewBag.DateParm = String.IsNullOrEmpty(sortOrder) ? "Date_desc" : "";
 
             var orders = db.Orders.Where(or => or.OrderStatus_ID.Equals(1) || or.OrderStatus_ID.Equals(2)).Include  (o => o.OrderStatus).ToList();
             if(orders == null)
@@ -36,7 +38,25 @@ namespace eStar.Controllers
                 }
             }
 
-            ViewBag.All = "checked";
+            //order status radio buttons
+            if (statusRadio == "1")
+            {
+                ViewBag.Pending = "checked";
+                orders = orders.Where(or => or.OrderStatus_ID.Equals(1)).ToList();
+            }
+            else if(statusRadio == "2")
+            {
+                ViewBag.InProgress = "checked";
+                orders = orders.Where(or => or.OrderStatus_ID.Equals(2)).ToList();
+            }
+            else
+            {
+                ViewBag.All = "checked";
+            }
+
+            //order 'owner' radio buttons
+
+            ViewBag.allOrders = "checked";
 
             return View(orders);
         }
