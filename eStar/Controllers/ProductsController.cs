@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using eStar.Models;
 using System.IO;
 using eStar.Security;
+using PagedList;
 
 namespace eStar.Controllers
 {
@@ -24,7 +25,7 @@ namespace eStar.Controllers
 
         // GET: Products
         //**Admin Product List**//
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             var products = db.Products.Include(p => p.ProductCategories).ToList();
             int count = 0;
@@ -40,7 +41,10 @@ namespace eStar.Controllers
                 ViewBag.Warning = "There are " + count + " item(s) out of stock and highlighted below.";
             }
             SessionPersister.Stock = count;
-            return View(products);
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(products.ToPagedList(pageNumber, pageSize));
         }
         public Product find(int productID)
         {
