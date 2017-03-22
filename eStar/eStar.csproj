@@ -210,6 +210,7 @@
     <Compile Include="Models\Enrolment.cs" />
     <Compile Include="Models\eStarContext.cs" />
     <Compile Include="Models\IeStarContext.cs" />
+    <Compile Include="Models\IeStarRepository.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductOrder.cs" />

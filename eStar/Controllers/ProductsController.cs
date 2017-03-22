@@ -39,6 +39,7 @@ namespace eStar.Controllers
             {
                 ViewBag.Warning = "There are " + count + " item(s) out of stock and highlighted below.";
             }
+            SessionPersister.Stock = count;
             return View(products);
         }
         public Product find(int productID)
@@ -360,7 +361,6 @@ namespace eStar.Controllers
                         file.SaveAs(path);
 
                     }
-                    //if no image selected
                     else
                     {
                         product.Image = "/Content/Images/Store.png";

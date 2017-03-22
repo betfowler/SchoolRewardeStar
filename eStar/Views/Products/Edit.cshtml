@@ -54,11 +54,11 @@
                 <div class="col-md-5" id="editImg">
                     <img src="@ViewBag.ImagePath" />
                     <div class="row">
-                        @Html.DisplayFor(model => model.Image)
+                        @Html.HiddenFor(model => model.Image, new {htmlAttributes = new { @class="form-control" }})
                     </div>
                 </div>
                 <div class="col-md-5">
-                    Change Image: <span><input type="file" name="pic" id="Image" accept="image/*" /></span>
+                    Change Image: <span><input type="file" name="pic" id="Image" accept="image/*"/></span>
                 </div>
             </div>
         </div>
