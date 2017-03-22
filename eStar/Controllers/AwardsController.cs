@@ -341,6 +341,7 @@ namespace eStar.Controllers
 
                     //save award
                     db.Awards.Add(award);
+                    db.SaveChanges();
 
                     //for number of students selected
                     for (var i = 0; i < award.StudentCount; i++)

@@ -46,7 +46,7 @@
                                     @foreach (var studentName in Model.StudentNames)
                                     {
                                         <div class="studentName">
-                                            @Html.Display(studentName, new { htmlAttributes = new { @class = "studentList" } })
+                                            <span id="studentList">@studentName</span>
                                         </div>
                                     }
                                 </div>
