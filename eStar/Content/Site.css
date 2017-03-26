@@ -272,5 +272,10 @@ textarea {
 .studentDetailsTitle,
 .studentDetails{
     display: none;
+    color: #4d4d4d;
+    background-color: #d9d9d9;
+}
+
+#nostudent{
     color: grey;
 }

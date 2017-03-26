@@ -60,34 +60,42 @@
                 @Html.ActionLink("Details", "Details", new { id = item.User_ID }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.User_ID })
             </td>
-            <td><a onclick="guardianstudentlist(@item.User_ID)">View Students <i class="fa fa-angle-double-down" aria-hidden="true"></a></td>
+            @if (@item.StudentCount < 1)
+            {
+                <td id="nostudent"><i>No Students Listed</i></td>
+            }
+            else
+            {
+                <td><a id="@item.User_ID" onclick="guardianstudentlist(@item.User_ID)">View Students <i class="fa fa-angle-double-down" aria-hidden="true"></i></a></td>
+            }
+            
         </tr>
         var hiddenstudentTitles = "studentTitle" + @item.User_ID.ToString();
-        var hiddenstudentList = "student" + @item.User_ID.ToString();
-        <tr class="studentDetailsTitle" id="@hiddenstudentTitles">
+        var hiddenstudent = "student" + @item.User_ID.ToString();
+        <tr class="studentDetailsTitle @hiddenstudent">
             <th>
                 Student ID
             </th>
             <th>
-                Student Prefix
+                Prefix
             </th>
             <th>
-                Student First Name
+                First Name
             </th>
             <th>
-                Student Surname
+                Surname
             </th>
             <th>
-                Student Year Group
+                Year Group
             </th>
             <th>
-                Student Tutor Group
+                Tutor Group
             </th>
         </tr>
 
         foreach(var student in item.StudentGuardians)
         {
-            <tr class="studentDetails" id="@hiddenstudentList">
+            <tr class="studentDetails @hiddenstudent">
                 <td>
                     @student.Student_User_ID
                 </td>
