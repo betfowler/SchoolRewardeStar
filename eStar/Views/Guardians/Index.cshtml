@@ -9,6 +9,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
 <table class="table">
     <tr>
         <th>
@@ -26,32 +27,86 @@
         <th>
             @Html.DisplayNameFor(model => model.User_Type)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentCount)
+        </th>
+        <th></th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Prefix)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.First_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Surname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User_Type)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.User_ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.User_ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.User_ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr class="guardian guardian-heading">
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prefix)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.First_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User_Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentCount)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.User_ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.User_ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.User_ID })
+            </td>
+            <td><a onclick="guardianstudentlist(@item.User_ID)">View Students <i class="fa fa-angle-double-down" aria-hidden="true"></a></td>
+        </tr>
+        var hiddenstudentTitles = "studentTitle" + @item.User_ID.ToString();
+        var hiddenstudentList = "student" + @item.User_ID.ToString();
+        <tr class="studentDetailsTitle" id="@hiddenstudentTitles">
+            <th>
+                Student ID
+            </th>
+            <th>
+                Student Prefix
+            </th>
+            <th>
+                Student First Name
+            </th>
+            <th>
+                Student Surname
+            </th>
+            <th>
+                Student Year Group
+            </th>
+            <th>
+                Student Tutor Group
+            </th>
+        </tr>
 
+        foreach(var student in item.StudentGuardians)
+        {
+            <tr class="studentDetails" id="@hiddenstudentList">
+                <td>
+                    @student.Student_User_ID
+                </td>
+                <td>
+                    @student.Students.Prefix
+                </td>
+                <td>
+                    @student.Students.First_Name
+                </td>
+                <td>
+                    @student.Students.Surname
+                </td>
+                <td>
+                    @student.Students.Year_Group
+                </td>
+                <td>
+                    @student.Students.Tutor_Group
+                </td>
+            </tr>
+        }
+    }
 </table>

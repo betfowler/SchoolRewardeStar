@@ -43,10 +43,12 @@ namespace eStar.Models
         public int Total_Points { get; set; }
         [Display(Name = "Current Balance")]
         public int Balance { get; set; }
+        public int? GuardianCount { get; set; }
 
         public virtual ICollection<StudentAward> StudentAwards { get; set; }
         public virtual ICollection<Enrolment> Enrolments { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<StudentGuardian> StudentGuardians { get; set; }
 
     }
 
@@ -66,6 +68,8 @@ namespace eStar.Models
 
     public class Guardian : Account
     {
+        public int? StudentCount { get; set; }
+        public virtual ICollection<StudentGuardian> StudentGuardians { get; set; }
     }
 
     public class AccountValidator : AbstractValidator<Account>

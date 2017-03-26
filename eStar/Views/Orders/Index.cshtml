@@ -181,7 +181,7 @@
                                                     @{
                                                         if (item.Admin == "Unassigned")
                                                         {
-                                                            <td>@Html.ActionLink("Accept This Order", "AcceptOrder", "Orders", new { orderID = item.Order_ID }, new { @class = "btn btn-primary" })</td>
+                                                            <td>@Html.ActionLink("Begin Processing This Order", "AcceptOrder", "Orders", new { orderID = item.Order_ID }, new { @class = "btn btn-primary" })</td>
                                                             <td><button disabled ="disabled" class="btn btn-success">Order Complete</button></td>
                                                         }
                                                         else

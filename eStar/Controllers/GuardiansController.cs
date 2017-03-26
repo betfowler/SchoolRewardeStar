@@ -19,6 +19,14 @@ namespace eStar.Controllers
         // GET: Guardians
         public ActionResult Index()
         {
+            foreach(var guardian in db.Accounts.OfType<Guardian>().ToList())
+            {
+                guardian.StudentGuardians = db.StudentGuardians.Where(sg => sg.Guardian_User_ID.Equals(guardian.User_ID)).ToList();
+                foreach(var student in guardian.StudentGuardians)
+                {
+                    student.Students = db.Accounts.OfType<Student>().Where(s => s.User_ID.Equals(student.Student_User_ID)).FirstOrDefault();
+                }
+            }
             return View(db.Accounts.OfType<Guardian>().ToList());
         }
 

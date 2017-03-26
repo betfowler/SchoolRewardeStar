@@ -185,6 +185,7 @@
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\StaffsController.cs" />
     <Compile Include="Controllers\StudentAwardsController.cs" />
+    <Compile Include="Controllers\StudentGuardiansController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -209,6 +210,10 @@
     <Compile Include="Migrations\201703201039517_adminstring.Designer.cs">
       <DependentUpon>201703201039517_adminstring.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703251516509_studentguardian.cs" />
+    <Compile Include="Migrations\201703251516509_studentguardian.Designer.cs">
+      <DependentUpon>201703251516509_studentguardian.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountModel.cs" />
@@ -224,6 +229,7 @@
     <Compile Include="Models\ProductOrder.cs" />
     <Compile Include="Models\RewardCategory.cs" />
     <Compile Include="Models\StudentAward.cs" />
+    <Compile Include="Models\StudentGuardian.cs" />
     <Compile Include="Models\Subject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\CustomPrincipals.cs" />
@@ -231,6 +237,7 @@
     <Compile Include="Security\SessionPersister.cs" />
     <Compile Include="ViewModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\EnrolmentViewModel.cs" />
+    <Compile Include="ViewModels\StudentGuardianViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -282,6 +289,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\showHideOnclick.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -350,6 +358,11 @@
     <Content Include="Views\Products\BasketView.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Orders\OrderView.cshtml" />
+    <Content Include="Views\StudentGuardians\Create.cshtml" />
+    <Content Include="Views\StudentGuardians\Delete.cshtml" />
+    <Content Include="Views\StudentGuardians\Details.cshtml" />
+    <Content Include="Views\StudentGuardians\Edit.cshtml" />
+    <Content Include="Views\StudentGuardians\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -377,6 +390,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703201039517_adminstring.resx">
       <DependentUpon>201703201039517_adminstring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703251516509_studentguardian.resx">
+      <DependentUpon>201703251516509_studentguardian.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

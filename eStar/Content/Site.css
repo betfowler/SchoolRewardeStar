@@ -268,3 +268,9 @@ textarea {
 #adminOrderTitle{
     font-weight: bold;
 }
+
+.studentDetailsTitle,
+.studentDetails{
+    display: none;
+    color: grey;
+}
