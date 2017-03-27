@@ -1,0 +1,93 @@
+﻿@model eStar.ViewModels.StudentGuardianViewModel
+
+<h2>Student Awards</h2>
+
+@{
+    var count = 0;
+    var divClass = "";
+    var link = "#";
+}
+
+<ul class="nav nav-tabs">
+
+    @foreach (var student in Model.Students)
+    {
+        link = "#" + student.User_ID;
+        if (count == 0)
+        {
+            divClass = "active";
+        }
+        else
+        {
+            divClass = "";
+        }
+
+        <li class="@divClass">
+            @Html.ActionLink(@student.FullName, "GuardianAwardView", new { studentid = @student.User_ID }, new { data_toggle = "tab"})
+        </li>
+        count = count + 1;
+    }
+</ul>
+
+
+
+<div class="tab-content">
+    @{
+        count = 0;
+    }
+    @foreach (var student in Model.Students)
+    {
+        var divclass = "tab-pane fade";
+        if (count == 0)
+        {
+            divclass = "tab-pane fade in active";
+        }
+        count = count + 1;
+
+        <div id="@student.User_ID" class="@divclass">
+            <h3>@student.FullName</h3>
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(modelStudent => student.Year_Group)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(modelStudent => student.Year_Group)
+                    </td>
+                    <th>
+                        @Html.DisplayNameFor(modelStudent => student.Tutor_Group)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(modelStudent => student.Tutor_Group)
+                    </td>
+                    <th>
+                        @Html.DisplayNameFor(modelStudent => student.Total_Points)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(modelStudent => student.Total_Points)
+                    </td>
+                </tr>
+            </table>
+            <hr />
+            <h4>@student.First_Name's Awards</h4>
+            <table class="table">
+                <tr>
+                    <th>
+                        Award
+                    </th>
+                </tr>
+                @foreach (var award in Model.Awards)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelAward => award.Award_ID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelAward => award.Num_Points)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</div>

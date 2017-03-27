@@ -57,38 +57,113 @@
 
         <!--modal for password reset-->
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#resetModal">Reset password</button>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#resetModal">Reset password</button>
+                </div>
+            </div>
+
+            <div class="modal fade" id="resetModal" role="alert">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">
+                                Are you sure you want to reset the password?
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p style="text-align: center">The user will be alerted that their password has been reset and they will have to use the 'first time logging in' section.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" name="reset" value="Yes, reset" class="btn btn-warning" />
+                            <input type="button" value="No, close" data-dismiss="modal" class="btn btn-default" />
+                        </div>
                     </div>
                 </div>
-
-                <div class="modal fade" id="resetModal" role="alert">
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dissmiss="modal">&times;</button>
-                                <h4 class="modal-title">
-                                    Are you sure you want to reset the password?
-                                </h4>
-                            </div>
-                            <div class="modal-body">
-                                <p style="text-align: center">The user will be alerted that their password has been reset and they will have to use the 'first time logging in' section.</p>
-                            </div>
-                            <div class="modal-footer">
-                                <input type="submit" name="reset" value="Yes, reset" class="btn btn-default" />
-                                <input type="button" value="No, close" data-dissmiss="modal" class="btn btn-default" />
-                            </div>
+            </div>
+            <!-- remove student modal-->
+            <div class="modal fade" id="removeStudentModal" role="alert">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">
+                                Remove Student Link?
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p style="text-align: center">Are you sure you want to remove this student link? The guardian link to this user will also be removed from the student.</p>
+                        </div>
+                        <div class="modal-footer">
+                            @Html.ActionLink("Yes, remove", "removeStudentGuardian", "Guardians", new { guardianID = Model.User_ID}, new { @class = "btn btn-danger removestudent" })
+                            <input type="button" value="No, close" data-dismiss="modal" class="btn btn-default keepstudent" />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <h3  style="margin-top: 0px;">Guardian Students</h3>
+    </div>
+    <div class="col-md-6">
+        <span style="float: right;">@Html.ActionLink("Add Student", "addStudent", "Guardians", new { guardianId = Model.User_ID }, new { @class = "btn btn-default" })</span>
+    </div>
 </div>
+<div>
+    <table class="table">
+        <tr>
+            <th>
+                Student ID
+            </th>
+            <th>
+                Prefix
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                Surname
+            </th>
+            <th>
+                Year Group
+            </th>
+            <th>
+                Tutor Group
+            </th>
+            <th></th>
+        </tr>
+        @foreach(var item in Model.StudentGuardians)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Student_User_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Students.Prefix)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Students.First_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Students.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Students.Year_Group)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Students.Tutor_Group)
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger studentModal" id="@item.Student_User_ID" data-toggle="modal" data-target="#removeStudentModal">Remove Student</button>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+@Html.ActionLink("Back to List", "Index")

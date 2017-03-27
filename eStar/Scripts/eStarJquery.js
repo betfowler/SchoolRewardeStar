@@ -63,4 +63,15 @@
         $('.selectedStudent').prop('checked', !$('.selectedStudent').prop('checked'));
     })
 
+
+    $(".studentModal").click(function () {
+
+        var _href = $(".removestudent").attr("href");
+        $(".removestudent").attr('href', _href + '&studentID=' + $(this).attr('id'));
+
+        $(".keepstudent").click(function(){
+            $(".removestudent").attr('href', _href);
+        })
+    })
+
 })

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using eStar.Models;
+using eStar.ViewModels;
 using eStar.Security;
 
 namespace eStar.Controllers
@@ -14,6 +15,52 @@ namespace eStar.Controllers
     public class AwardsController : Controller
     {
         private eStarContext db = new eStarContext();
+
+        public ActionResult GuardianAwardView(int? studentid)
+        {
+            StudentGuardianViewModel studentguardian = new StudentGuardianViewModel();
+            int userid = SessionPersister.UserID;
+
+            if(userid != 0)
+            {
+                List<Student> students = new List<Student>();
+                foreach (var row in db.StudentGuardians.Where(sg => sg.Guardian_User_ID.Equals(userid)))
+                {
+                    students.Add(db.Accounts.OfType<Student>().Where(ac => ac.User_ID.Equals(row.Student_User_ID)).FirstOrDefault());
+                }
+                studentguardian.Students = students;
+                List<Award> awards = new List<Award>();
+                var id = 0;
+
+                if (studentid == null)
+                {
+                    if (students != null)
+                    {
+                        id = Convert.ToInt32(students[0].User_ID);
+
+                    }
+                    else
+                    {
+                        ViewBag.Empty = "Oh no - you don't have any students linked to your account.";
+                        return View();
+                    }
+                }
+                else
+                {
+                    id = Convert.ToInt32(studentid);
+                }
+
+                foreach (var award in db.StudentAwards.Where(st => st.Student_ID.Equals(id)))
+                {
+                    awards.Add(db.Awards.Where(aw => aw.Award_ID.Equals(award.Award_ID)).FirstOrDefault());
+                }
+                studentguardian.Awards = awards;
+                return View(studentguardian);
+
+            }
+
+            return View();
+        }
         
         public ActionResult ViewAwards()
         {

@@ -83,6 +83,19 @@ namespace eStar.Controllers
             return View(guardian);
         }
 
+        public ActionResult removeStudentGuardian(int guardianID, int studentID)
+        {
+            var studentguardianid = db.StudentGuardians.Where(sg => sg.Guardian_User_ID.Equals(guardianID) && sg.Student_User_ID.Equals(studentID)).FirstOrDefault().StudentGuardianID;
+            return RedirectToAction("Delete", "StudentGuardians", new { id = studentguardianid });
+        }
+
+        public ActionResult addStudent(int guardianID)
+        {
+            StudentGuardian studentGuardian = new StudentGuardian();
+            studentGuardian.Guardian_User_ID = guardianID;
+            return RedirectToAction("CreateExisting", "StudentGuardians", studentGuardian);
+        }
+
         // GET: Guardians/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -94,6 +107,13 @@ namespace eStar.Controllers
             if (guardian == null)
             {
                 return HttpNotFound();
+            }
+            else
+            {
+                foreach (var guard in db.Accounts.OfType<Guardian>().ToList())
+                {
+                    guardian.StudentGuardians = db.StudentGuardians.Where(sg => sg.Guardian_User_ID.Equals(guard.User_ID)).ToList();
+                }
             }
             return View(guardian);
         }

@@ -1,8 +1,30 @@
-﻿
+﻿@using eStar.Security
+
 @{
     ViewBag.Title = "GuardianIndex";
 }
 
-<div class="jumbotron">
-    <h1>Welcome to the guardian page</h1>
+<h2>Welcome to eStar</h2>
+
+<div class="row" id="homeIcons">
+    <div class="row">
+        <div class="col-md-2" id="awardIcon">
+            <a href='@string.Format("../Awards/GuardianAwardView/{0}", SessionPersister.UserID)'>
+                <img src="../Content/Images/Awards.png" />
+            </a>
+        </div>
+        <div class="col-md-2" id="prevAwards">
+            <a href="../Awards/ViewAwards">
+                <img src="../Content/Images/Awarded.png" />
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <h3>Allocate Awards</h3>
+        </div>
+        <div class="col-md-2">
+            <h3>View Previous Awards</h3>
+        </div>
+    </div>
 </div>

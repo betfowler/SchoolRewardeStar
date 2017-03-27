@@ -8,8 +8,7 @@ namespace eStar.ViewModels
 {
     public class StudentGuardianViewModel
     {
-        public StudentGuardian StudentGuardian { get; set; }
-        public Student Student { get; set; }
-        public Guardian Guardian { get; set; }
+        public List<Student> Students { get; set; }
+        public List<Award> Awards { get; set; }
     }
 }

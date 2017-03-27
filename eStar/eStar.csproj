@@ -363,6 +363,7 @@
     <Content Include="Views\StudentGuardians\Details.cshtml" />
     <Content Include="Views\StudentGuardians\Edit.cshtml" />
     <Content Include="Views\StudentGuardians\Index.cshtml" />
+    <Content Include="Views\Awards\GuardianAwardView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
