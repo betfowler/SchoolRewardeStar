@@ -17,3 +17,11 @@
         $("#" + id).html("View Students <i class='fa fa-angle-double-down' aria-hidden='true'></i>");
     }
 }
+
+function test(id) {
+
+    $(document).ready(function () {
+        $('li').removeClass("active");
+        $(this).parent('li').addClass("active");
+    })
+}

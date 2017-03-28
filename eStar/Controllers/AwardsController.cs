@@ -16,7 +16,7 @@ namespace eStar.Controllers
     {
         private eStarContext db = new eStarContext();
 
-        public ActionResult GuardianAwardView(int? studentid)
+        public ActionResult GuardianAwardView()
         {
             StudentGuardianViewModel studentguardian = new StudentGuardianViewModel();
             int userid = SessionPersister.UserID;
@@ -29,36 +29,36 @@ namespace eStar.Controllers
                     students.Add(db.Accounts.OfType<Student>().Where(ac => ac.User_ID.Equals(row.Student_User_ID)).FirstOrDefault());
                 }
                 studentguardian.Students = students;
-                List<Award> awards = new List<Award>();
-                var id = 0;
 
-                if (studentid == null)
+                if (students != null)
                 {
-                    if (students != null)
-                    {
-                        id = Convert.ToInt32(students[0].User_ID);
+                    List<Award> awards = new List<Award>();
+                    List<int> awardCount = new List<int>();
 
-                    }
-                    else
+                    foreach (var student in students)
                     {
-                        ViewBag.Empty = "Oh no - you don't have any students linked to your account.";
-                        return View();
+                        List<Award> orderAward = new List<Award>();
+                        var indvAwardCount = 0;
+                        foreach (var award in db.StudentAwards.Where(st => st.Student_ID.Equals(student.User_ID)))
+                        {
+                            awards.Add(db.Awards.Where(aw => aw.Award_ID.Equals(award.Award_ID)).FirstOrDefault());
+                            indvAwardCount = indvAwardCount + 1;
+                        }
+                        awardCount.Add(indvAwardCount);
                     }
+
+                    studentguardian.Awards = awards;
+                    studentguardian.AwardID = awardCount;
+
+                    return View(studentguardian);
+
                 }
                 else
                 {
-                    id = Convert.ToInt32(studentid);
+                    ViewBag.Empty = "Oh no - you don't have any students linked to your account.";
+                    return View();
                 }
-
-                foreach (var award in db.StudentAwards.Where(st => st.Student_ID.Equals(id)))
-                {
-                    awards.Add(db.Awards.Where(aw => aw.Award_ID.Equals(award.Award_ID)).FirstOrDefault());
-                }
-                studentguardian.Awards = awards;
-                return View(studentguardian);
-
             }
-
             return View();
         }
         
