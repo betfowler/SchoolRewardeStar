@@ -360,10 +360,10 @@
     <Content Include="Views\Orders\OrderView.cshtml" />
     <Content Include="Views\StudentGuardians\Create.cshtml" />
     <Content Include="Views\StudentGuardians\Delete.cshtml" />
-    <Content Include="Views\StudentGuardians\Details.cshtml" />
-    <Content Include="Views\StudentGuardians\Edit.cshtml" />
     <Content Include="Views\StudentGuardians\Index.cshtml" />
     <Content Include="Views\Awards\GuardianAwardView.cshtml" />
+    <Content Include="Views\StudentGuardians\CreateStudentGuardian.cshtml" />
+    <Content Include="Views\StudentGuardians\CreateGuardianStudent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -20,21 +20,6 @@ namespace eStar.Controllers
             return View(db.StudentGuardians.ToList());
         }
 
-        // GET: StudentGuardians/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            StudentGuardian studentGuardian = db.StudentGuardians.Find(id);
-            if (studentGuardian == null)
-            {
-                return HttpNotFound();
-            }
-            return View(studentGuardian);
-        }
-
         // GET: StudentGuardians/Create
         public ActionResult Create(int? studentId, int? guardianId)
         {
@@ -43,6 +28,86 @@ namespace eStar.Controllers
             var guardianID = Convert.ToInt32(guardianId);
             studentGuardian.Student_User_ID = studentID;
             studentGuardian.Guardian_User_ID = guardianID;
+            return View(studentGuardian);
+        }
+
+        //create with studentID
+        public ActionResult CreateStudentGuardian(int studentId, string searchString)
+        {
+            ViewBag.Search = searchString;
+            List<Guardian> guardians = new List<Guardian>();
+            StudentGuardian studentGuardian = new StudentGuardian();
+            studentGuardian.Student_User_ID = studentId;
+            ViewBag.StudentName = db.Accounts.OfType<Student>().Where(s => s.User_ID.Equals(studentId)).FirstOrDefault().FullName;
+
+            foreach(var guardian in db.Accounts.OfType<Guardian>())
+            {
+                var checkExisting = false;
+                if(db.Accounts.OfType<Student>().Where(s => s.User_ID.Equals(studentId)).FirstOrDefault().GuardianCount != 0)
+                {
+                    foreach (var studentguardian in db.StudentGuardians.Where(sg => sg.Student_User_ID.Equals(studentId)))
+                    {
+                        if (guardian.User_ID == studentguardian.Guardian_User_ID)
+                        {
+                            checkExisting = true;
+                        }
+                    }
+                }
+
+                if(checkExisting == false || db.Accounts.OfType<Student>().Where(s => s.User_ID.Equals(studentId)).FirstOrDefault().GuardianCount == 0)
+                {
+                    guardians.Add(guardian);
+                }
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var search = searchString.ToUpper();
+                guardians = guardians.Where(g => g.FullName.ToUpper().Contains(search)).ToList();
+            }
+
+            ViewBag.Guardians = guardians;
+
+            return View(studentGuardian);
+        }
+
+        //create with guardianID
+        public ActionResult CreateGuardianStudent(int guardianId, string searchString)
+        {
+            ViewBag.Search = searchString;
+            List<Student> students = new List<Student>();
+            StudentGuardian studentGuardian = new StudentGuardian();
+            studentGuardian.Guardian_User_ID = guardianId;
+            ViewBag.GuardianName = db.Accounts.OfType<Guardian>().Where(s => s.User_ID.Equals(guardianId)).FirstOrDefault().FullName;
+
+            foreach (var s in db.Accounts.OfType<Student>())
+            {
+                var checkExisting = false;
+                if (db.Accounts.OfType<Guardian>().Where(g => g.User_ID.Equals(guardianId)).FirstOrDefault().StudentCount != 0)
+                {
+                    foreach (var studentguardian in db.StudentGuardians.Where(sg => sg.Guardian_User_ID.Equals(guardianId)))
+                    {
+                        if (s.User_ID == studentguardian.Student_User_ID)
+                        {
+                            checkExisting = true;
+                        }
+                    }
+                }
+
+                if (checkExisting == false || db.Accounts.OfType<Guardian>().Where(g => g.User_ID.Equals(guardianId)).FirstOrDefault().StudentCount == 0)
+                {
+                    students.Add(s);
+                }
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var search = searchString.ToUpper();
+                students = students.Where(g => g.FullName.ToUpper().Contains(search)).ToList();
+            }
+
+            ViewBag.Students = students;
+
             return View(studentGuardian);
         }
 
@@ -60,37 +125,6 @@ namespace eStar.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(studentGuardian);
-        }
-
-        // GET: StudentGuardians/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            StudentGuardian studentGuardian = db.StudentGuardians.Find(id);
-            if (studentGuardian == null)
-            {
-                return HttpNotFound();
-            }
-            return View(studentGuardian);
-        }
-
-        // POST: StudentGuardians/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "StudentGuardianID,Student_User_ID,Guardian_User_ID")] StudentGuardian studentGuardian)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(studentGuardian).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
             return View(studentGuardian);
         }
 

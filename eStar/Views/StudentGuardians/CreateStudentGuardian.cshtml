@@ -1,0 +1,64 @@
+﻿@model eStar.Models.StudentGuardian
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h3>Select A Guardian For: @ViewBag.StudentName</h3>
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm())
+        {
+            <div class="panel-body">
+                <div class="searchContainer">
+                    @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search guardian names"})
+                    <input type="submit" value="Search" class="btn btn-primary"/>
+                    <span>@Html.ActionLink("Reset", "CreateStudentGuardian", "StudentGuardians", new { searchString  = "", studentId = Model.Student_User_ID}, null)</span>
+                </div>
+            </div>
+        }
+            
+    </div>
+</div>
+
+@using (Html.BeginForm("Create", "StudentGuardians", FormMethod.Post, new { id = "createForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Student_User_ID)
+    @Html.HiddenFor(model => model.Guardian_User_ID)
+
+    <table class="table">
+        <tr>
+            <th>User ID</th>
+            <th>Prefix</th>
+            <th>First Name</th>
+            <th>Surname</th>
+            <th></th>
+        </tr>
+        @foreach (var item in ViewBag.Guardians)
+        {
+            <tr>
+                <td>
+                    @item.User_ID
+                </td>
+                <td>
+                    @item.Prefix
+                </td>
+                <td>
+                    @item.First_Name
+                </td>
+                <td>
+                    @item.Surname
+                </td>
+                <td>
+                    <input value="Select Guardian" class="btn btn-primary" onclick="setGuardianId(@item.User_ID)" type="button"/>
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+<div>
+    @Html.ActionLink("Back to User", "Edit", "Students", new { id = Model.Student_User_ID}, null)
+</div>

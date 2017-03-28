@@ -1,0 +1,72 @@
+﻿@model eStar.Models.StudentGuardian
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h3>Select A Student For: @ViewBag.GuardianName</h3>
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm())
+        {
+            <div class="panel-body">
+                <div class="searchContainer">
+                    @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search student names" })
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                    <span>@Html.ActionLink("Reset", "CreateGuardianStudent", "StudentGuardians", new { searchString = "", guardianId = Model.Guardian_User_ID }, null)</span>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+@using (Html.BeginForm("Create", "StudentGuardians", FormMethod.Post, new { id = "createForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Student_User_ID)
+    @Html.HiddenFor(model => model.Guardian_User_ID)
+
+    <table class="table">
+        <tr>
+            <th>User ID</th>
+            <th>Prefix</th>
+            <th>First Name</th>
+            <th>Surname</th>
+            <th>Year Group</th>
+            <th>Tutor Group</th>
+            <th></th>
+        </tr>
+        @foreach (var item in ViewBag.Students)
+        {
+            <tr>
+                <td>
+                    @item.User_ID
+                </td>
+                <td>
+                    @item.Prefix
+                </td>
+                <td>
+                    @item.First_Name
+                </td>
+                <td>
+                    @item.Surname
+                </td>
+                <td>
+                    @item.Year_Group
+                </td>
+                <td>
+                    @item.Tutor_Group
+                </td>
+                <td>
+                    <input value="Select Student" class="btn btn-primary" onclick="setStudentId(@item.User_ID)" type="button" />
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+<div>
+    @Html.ActionLink("Back to User", "Edit", "Guardians", new { id = Model.Guardian_User_ID }, null)
+</div>

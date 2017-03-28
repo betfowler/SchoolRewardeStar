@@ -36,3 +36,13 @@ function studentguardianlist(id) {
         $("#" + id).html("View Guardians <i class='fa fa-angle-double-down' aria-hidden='true'></i>");
     }
 }
+
+function setGuardianId(id) {
+    $("#Guardian_User_ID").attr("Value", id);
+    $("#createForm").submit();
+}
+
+function setStudentId(id) {
+    $("#Student_User_ID").attr("Value", id);
+    $("#createForm").submit();
+}
