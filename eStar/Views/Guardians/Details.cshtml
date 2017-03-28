@@ -19,14 +19,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Prefix)
         </dt>
 
@@ -60,6 +52,53 @@
 
     </dl>
 </div>
+<hr />
+<h5>Guardian Students</h5>
+<table class="table">
+    <tr>
+        <th>
+            Student ID
+        </th>
+        <th>
+            Prefix
+        </th>
+        <th>
+            First Name
+        </th>
+        <th>
+            Surname
+        </th>
+        <th>
+            Year Group
+        </th>
+        <th>
+            Tutor Group
+        </th>
+    </tr>
+    @foreach(var item in Model.StudentGuardians)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student_User_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Students.Prefix)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Students.First_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Students.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Students.Year_Group)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Students.Tutor_Group)
+            </td>
+        </tr>
+    }
+</table>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.User_ID }) |
     @Html.ActionLink("Back to List", "Index")

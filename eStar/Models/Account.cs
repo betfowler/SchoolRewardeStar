@@ -43,6 +43,7 @@ namespace eStar.Models
         public int Total_Points { get; set; }
         [Display(Name = "Current Balance")]
         public int Balance { get; set; }
+        [Display(Name = "Guardians")]
         public int? GuardianCount { get; set; }
 
         public virtual ICollection<StudentAward> StudentAwards { get; set; }

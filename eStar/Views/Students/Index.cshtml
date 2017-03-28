@@ -34,10 +34,15 @@
         <th>
             @Html.DisplayNameFor(model => model.Balance)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GuardianCount)
+        </th>
+        <th></th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Email)
@@ -64,11 +69,76 @@
             @Html.DisplayFor(modelItem => item.Balance)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.User_ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.User_ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.User_ID })
+            @Html.DisplayFor(modelItem => item.GuardianCount)
         </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.User_ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.User_ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.User_ID })
+        </td>
+        @if (@item.GuardianCount < 1)
+        {
+            <td id="noguardian"><i>No Guardians Listed</i></td>
+        }
+        else
+        {
+            <td><a class="guardiandropdown" id="@item.User_ID" onclick="studentguardianlist(@item.User_ID)">View Guardians <i class="fa fa-angle-double-down" aria-hidden="true"></i></a></td>
+        }
+
     </tr>
+    var hiddenguardianTitles = "guardianTitle" + @item.User_ID.ToString();
+    var hiddenguardian = "guardian" + @item.User_ID.ToString();
+    <tr class="guardianDetailsTitle @hiddenguardian">
+        <th>
+            Guardian ID
+        </th>
+        <th>
+            Prefix
+        </th>
+        <th>
+            First Name
+        </th>
+        <th>
+            Surname
+        </th>
+        <th>
+            Email
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    foreach (var guardian in item.StudentGuardians)
+    {
+        <tr class="guardianDetails @hiddenguardian">
+            <td>
+                @guardian.Guardians.Email
+            </td>
+            <td>
+                @guardian.Guardians.Prefix
+            </td>
+            <td>
+                @guardian.Guardians.First_Name
+            </td>
+            <td>
+                @guardian.Guardians.Surname
+            </td>
+            <td>
+                @guardian.Guardians.User_ID
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    }
+
 }
 
 </table>

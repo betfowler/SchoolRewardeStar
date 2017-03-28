@@ -19,6 +19,18 @@ namespace eStar.Controllers
         // GET: Students
         public ActionResult Index()
         {
+            Student student = new Student();
+            foreach (var students in db.Accounts.OfType<Student>().ToList())
+            {
+                students.StudentGuardians = db.StudentGuardians.Where(sg => sg.Student_User_ID.Equals(students.User_ID)).ToList();
+                student = db.Accounts.OfType<Student>().Where(s => s.User_ID.Equals(students.User_ID)).FirstOrDefault();
+                student.GuardianCount = students.StudentGuardians.Count();
+                foreach (var guardian in students.StudentGuardians)
+                {
+                    guardian.Guardians = db.Accounts.OfType<Guardian>().Where(g => g.User_ID.Equals(guardian.Guardian_User_ID)).FirstOrDefault();
+                }
+            }
+            db.SaveChanges();
             return View(db.Accounts.OfType<Student>().ToList());
         }
 
@@ -33,6 +45,14 @@ namespace eStar.Controllers
             if (student == null)
             {
                 return HttpNotFound();
+            }
+            else
+            {
+                var userID = Convert.ToInt32(id);
+                foreach (var row in db.StudentGuardians.Where(sg => sg.Student_User_ID.Equals(userID)).ToList())
+                {
+                    student.StudentGuardians.Add(row);
+                }
             }
             return View(student);
         }
@@ -73,6 +93,12 @@ namespace eStar.Controllers
             return View(student);
         }
 
+        public ActionResult removeStudentGuardian(int studentID, int guardianID)
+        {
+            var studentguardianid = db.StudentGuardians.Where(sg => sg.Student_User_ID.Equals(studentID) && sg.Guardian_User_ID.Equals(guardianID)).FirstOrDefault().StudentGuardianID;
+            return RedirectToAction("Delete", "StudentGuardians", new { id = studentguardianid });
+        }
+
         // GET: Students/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -84,6 +110,14 @@ namespace eStar.Controllers
             if (student == null)
             {
                 return HttpNotFound();
+            }
+            else
+            {
+                var userID = Convert.ToInt32(id);
+                foreach (var row in db.StudentGuardians.Where(sg => sg.Student_User_ID.Equals(userID)).ToList())
+                {
+                    student.StudentGuardians.Add(row);
+                }
             }
             return View(student);
         }

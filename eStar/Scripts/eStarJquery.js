@@ -74,4 +74,14 @@
         })
     })
 
+    $(".guardianModal").click(function () {
+
+        var _href = $(".removeguardian").attr("href");
+        $(".removeguardian").attr('href', _href + '&guardianID=' + $(this).attr('id'));
+
+        $(".keepguardian").click(function () {
+            $(".removeguardian").attr('href', _href);
+        })
+    })
+
 })

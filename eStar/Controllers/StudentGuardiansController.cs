@@ -36,14 +36,14 @@ namespace eStar.Controllers
         }
 
         // GET: StudentGuardians/Create
-        public ActionResult Create()
+        public ActionResult Create(int? studentId, int? guardianId)
         {
-            return View();
-        }
-
-        public ActionResult CreateExisting(StudentGuardian studentGuardian)
-        {
-            return RedirectToAction("Create", studentGuardian);
+            StudentGuardian studentGuardian = new StudentGuardian();
+            var studentID = Convert.ToInt32(studentId);
+            var guardianID = Convert.ToInt32(guardianId);
+            studentGuardian.Student_User_ID = studentID;
+            studentGuardian.Guardian_User_ID = guardianID;
+            return View(studentGuardian);
         }
 
         // POST: StudentGuardians/Create

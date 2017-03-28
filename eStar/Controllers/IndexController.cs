@@ -54,7 +54,17 @@ namespace eStar.Controllers
 
         public ActionResult GuardianIndex()
         {
-            return View();
+            List<Student> Students = new List<Student>();
+            var userID = Convert.ToInt32(SessionPersister.UserID);
+
+            foreach(var studentID in db.StudentGuardians.Where(sg => sg.Guardian_User_ID.Equals(userID)))
+            {
+                foreach(var student in db.Accounts.OfType<Student>().Where(s => s.User_ID.Equals(studentID.Student_User_ID)))
+                {
+                    Students.Add(student);
+                }
+            }
+            return View(Students.ToList());
         }
 
         public ActionResult AdminIndex()

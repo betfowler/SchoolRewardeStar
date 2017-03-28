@@ -46,6 +46,14 @@ namespace eStar.Controllers
             {
                 return HttpNotFound();
             }
+            else
+            {
+                var userID = Convert.ToInt32(id);
+                foreach (var row in db.StudentGuardians.Where(sg => sg.Guardian_User_ID.Equals(userID)).ToList())
+                {
+                    guardian.StudentGuardians.Add(row);
+                }
+            }
             return View(guardian);
         }
 
@@ -89,13 +97,6 @@ namespace eStar.Controllers
             return RedirectToAction("Delete", "StudentGuardians", new { id = studentguardianid });
         }
 
-        public ActionResult addStudent(int guardianID)
-        {
-            StudentGuardian studentGuardian = new StudentGuardian();
-            studentGuardian.Guardian_User_ID = guardianID;
-            return RedirectToAction("CreateExisting", "StudentGuardians", studentGuardian);
-        }
-
         // GET: Guardians/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -110,9 +111,10 @@ namespace eStar.Controllers
             }
             else
             {
-                foreach (var guard in db.Accounts.OfType<Guardian>().ToList())
+                var userID = Convert.ToInt32(id);
+                foreach(var row in db.StudentGuardians.Where(sg => sg.Guardian_User_ID.Equals(userID)).ToList())
                 {
-                    guardian.StudentGuardians = db.StudentGuardians.Where(sg => sg.Guardian_User_ID.Equals(guard.User_ID)).ToList();
+                    guardian.StudentGuardians.Add(row);
                 }
             }
             return View(guardian);

@@ -19,14 +19,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Prefix)
         </dt>
 
@@ -93,32 +85,47 @@
     </dl>
 </div>
 
-<div class="display-label">
-    @Html.LabelFor(model => model.StudentAwards)
-</div>
-<div class="display-field">
-    <table>
+<hr />
+<h5>Student Guardians</h5>
+<table class="table">
+    <tr>
+        <th>
+            Guardian ID
+        </th>
+        <th>
+            Email Address
+        </th>
+        <th>
+            Prefix
+        </th>
+        <th>
+            First Name
+        </th>
+        <th>
+            Surname
+        </th>
+    </tr>
+    @foreach (var item in Model.StudentGuardians)
+    {
         <tr>
-            <th>Award Points</th>
-            <th>Reward Category</th>
-            <th>Staff Member</th>
+            <td>
+                @Html.DisplayFor(modelItem => item.Guardian_User_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Guardians.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Guardians.Prefix)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Guardians.First_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Guardians.Surname)
+            </td>
         </tr>
-        @foreach (var item in Model.StudentAwards)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Award.Num_Points)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Award.RewardCategory.Reward_Category)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Award.Staff.First_Name)
-                </td>
-            </tr>
-        }
-    </table>
-</div>
+    }
+</table>
 
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.User_ID }) |

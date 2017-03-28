@@ -18,10 +18,21 @@
     }
 }
 
-function test(id) {
+function studentguardianlist(id) {
 
-    $(document).ready(function () {
-        $('li').removeClass("active");
-        $(this).parent('li').addClass("active");
-    })
+    $(".guardianDetailsTitle").css("display", "none");
+    $(".guardianDetails").css("display", "none");
+
+
+    if ($("#" + id).text() == "View Guardians ") {
+        var value = "guardian" + id;
+        $(".guardiandropdown").html("View Guardians <i class='fa fa-angle-double-down' aria-hidden='true'></i>");
+
+        $("." + value).css("display", "table-row");
+
+        $("#" + id).html("Hide Guardians <i class='fa fa-angle-double-up' aria-hidden='true'></i>");
+    }
+    else {
+        $("#" + id).html("View Guardians <i class='fa fa-angle-double-down' aria-hidden='true'></i>");
+    }
 }
