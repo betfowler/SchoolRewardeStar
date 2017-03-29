@@ -84,4 +84,64 @@
         })
     })
 
+    $(".checkedStaff").click(function () {
+        var textValue = $("#selectedStaff").attr('value');
+        var userName = $(this).attr('id')
+        var count = parseInt($("#staffCount").attr('value'));
+
+        if ($(this).prop('checked') == true) {
+            if (textValue == null || textValue == "") {
+                textValue = userName;
+            }
+            else {
+                textValue = textValue + ", " + userName;
+            }
+            count = count + 1;
+        }
+        else {
+            var replace = userName + ", ";
+            var index = textValue.indexOf(replace)
+            if (index >= 0) {
+                textValue = textValue.replace(userName + ", ", "");
+            }
+            else {
+                textValue = textValue.replace(userName, "");
+            }
+            count = count - 1;
+        }
+
+        $("#selectedStaff").attr('value', textValue);
+        $("#staffCount").attr('value', count);
+    })
+
+    $(".checkedStudents").click(function () {
+        var textValue = $("#selectedStudents").attr('value');
+        var userName = $(this).attr('value')
+        var count = parseInt($("#studentcount").attr('value'));
+
+        if ($(this).prop('checked') == true) {
+            if (textValue == null || textValue == "") {
+                textValue = userName;
+            }
+            else {
+                textValue = textValue + ", " + userName;
+            }
+            count = count + 1;
+        }
+        else {
+            var replace = userName + ", ";
+            var index = textValue.indexOf(replace)
+            if (index >= 0) {
+                textValue = textValue.replace(userName + ", ", "");
+            }
+            else {
+                textValue = textValue.replace(userName, "");
+            }
+            count = count - 1;
+        }
+
+        $("#selectedStudents").attr('value', textValue);
+        $("#studentcount").attr('value', count);
+    })
+    
 })

@@ -1,30 +1,185 @@
-﻿@model eStar.Models.Class
+﻿@model eStar.ViewModels.EnrolmentViewModel
 
 @{
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Add New Class</h2>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Class</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.Class_Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="control-label col-md-2">
+                @Html.LabelFor(model => model.Class.Class_Name)
+                <i class="fa fa-question-circle" aria-hidden="true" title="Enter a unique class name"></i>
+            </div>
+            
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Class_Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Class_Name, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Class.Class_Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Class.Class_Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2">
+                <label>Staff</label>
+                <i class="fa fa-question-circle" aria-hidden="true" title="Select one or more staff member involved or responsible for this class"></i>
+            </div>
+            <div class="col-md-1">
+                <input type="number" id="staffCount" disabled="disabled" class="form-control" value="0"/>
+            </div>
+            <div class="col-md-7">
+                <input type="text" disabled="disabled" class="form-control" id="selectedStaff" placeholder="No staff selected"/>
+            </div>
+            <div class="col-md-2">
+                <a onclick="selectstaff()" id="showstafflink">Select Staff <i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="selectStaff">
+                <hr />
+
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                    <div class="searchContainer">
+                        <div id="class">&nbsp; &nbsp;</div>
+                        @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search staff names" })
+                        @Html.Hidden("classID")
+                        <input class="btn btn-primary" type="submit" value="Search" id="searchSubmit" />
+                    </div>
+                    <div class="row" id="smlBreak"></div>
+                    <table class="table">
+                        <tr>
+                            <th>
+                                Select Staff
+                            </th>
+                            <th>
+                                Prefix
+                            </th>
+                            <th>
+                                First Name
+                            </th>
+                            <th>
+                                Surname
+                            </th>
+                            <th>
+                                Job Role
+                            </th>
+                        </tr>
+                        @foreach(var staffmember in Model.Staff)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="checkedStaff" id="@staffmember.FullName" name="staff" value="@staffmember.User_ID" />
+                                </td>
+                                <td>
+                                    @staffmember.Prefix
+                                </td>
+                                <td>
+                                    @staffmember.First_Name
+                                </td>
+                                <td>
+                                    @staffmember.Surname
+                                </td>
+                                <td>
+                                    @staffmember.Job_Role
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+                <hr />
+            </div>
+        </div>
+
+        <div class="row" id="smlBreak"></div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2">
+                <label>Students</label>
+                <i class="fa fa-question-circle" aria-hidden="true" title="Select one or more students in this class"></i>
+            </div>
+            <div class="col-md-1">
+                <input type="number" disabled="disabled" id="studentcount" class="form-control" value="0" />
+            </div>
+            <div class="col-md-7">
+                <input type="text" disabled="disabled" class="form-control" id="selectedStudents" placeholder="No students selected" />
+            </div>
+            <div class="col-md-2">
+                <a onclick="selectstudent()" id="showstudentslink">Select Students <i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="selectStudents">
+                <hr />
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                    <div class="searchContainer">
+                        <div id="class">&nbsp; &nbsp;</div>
+                        @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search student names" })
+                        @Html.Hidden("classID")
+                        <input class="btn btn-primary" type="submit" value="Search" id="searchSubmit" />
+                    </div>
+                    <div class="row" id="smlBreak"></div>
+                    <table class="table">
+                        <tr>
+                            <th>
+                                Select Student
+                            </th>
+                            <th>
+                                Prefix
+                            </th>
+                            <th>
+                                First Name
+                            </th>
+                            <th>
+                                Surname
+                            </th>
+                            <th>
+                                Year Group
+                            </th>
+                            <th>
+                                Tutor Group
+                            </th>
+                        </tr>
+                        @foreach (var students in Model.Students)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="checkedStudents" value="@students.FullName" name="student" id="@students.User_ID" />
+                                </td>
+                                <td>
+                                    @students.Prefix
+                                </td>
+                                <td>
+                                    @students.First_Name
+                                </td>
+                                <td>
+                                    @students.Surname
+                                </td>
+                                <td>
+                                    @students.Year_Group
+                                </td>
+                                <td>
+                                    @students.Tutor_Group
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Add Staff" class="btn btn-default" />
+                <input type="submit" value="Create Class" class="btn btn-default" />
             </div>
         </div>
     </div>

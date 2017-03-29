@@ -116,13 +116,22 @@ namespace eStar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StudentGuardianID,Student_User_ID,Guardian_User_ID")] StudentGuardian studentGuardian)
+        public ActionResult Create([Bind(Include = "StudentGuardianID,Student_User_ID,Guardian_User_ID")] StudentGuardian studentGuardian, string redirect)
         {
             if (ModelState.IsValid)
             {
                 db.StudentGuardians.Add(studentGuardian);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                if(redirect == null)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("Index", redirect);
+                }
+                
             }
 
             return View(studentGuardian);

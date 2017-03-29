@@ -6,15 +6,20 @@
 
 <h3>Select A Guardian For: @ViewBag.StudentName</h3>
 
+<div>
+    @Html.ActionLink("Back to User", "Edit", "Students", new { id = Model.Student_User_ID }, null) | 
+    @Html.ActionLink("Back to Students", "Index", "Students")
+</div>
+
 <div class="row">
     <div class="col-md-12">
         @using (Html.BeginForm())
         {
             <div class="panel-body">
-                <div class="searchContainer">
+                <div class="SGsearchContainer">
                     @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search guardian names"})
                     <input type="submit" value="Search" class="btn btn-primary"/>
-                    <span>@Html.ActionLink("Reset", "CreateStudentGuardian", "StudentGuardians", new { searchString  = "", studentId = Model.Student_User_ID}, null)</span>
+                    <span id="resetSearch">@Html.ActionLink("Reset", "CreateStudentGuardian", "StudentGuardians", new { searchString  = "", studentId = Model.Student_User_ID}, null)</span>
                 </div>
             </div>
         }
@@ -22,7 +27,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm("Create", "StudentGuardians", FormMethod.Post, new { id = "createForm" }))
+@using (Html.BeginForm("Create", "StudentGuardians", new { redirect = "Students"}, FormMethod.Post, new { id = "createForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Student_User_ID)
@@ -58,7 +63,3 @@
         }
     </table>
 }
-
-<div>
-    @Html.ActionLink("Back to User", "Edit", "Students", new { id = Model.Student_User_ID}, null)
-</div>

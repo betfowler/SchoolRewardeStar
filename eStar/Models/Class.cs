@@ -18,6 +18,7 @@ namespace eStar.Models
         public int Subject_ID { get; set; }
 
         public virtual List<Enrolment> Enrolments { get; set; }
+        [Display(Name = "Staff")]
         public virtual List<ClassStaff> ClassStaff { get; set; }
         public virtual Subject Subject { get; set; }
     }

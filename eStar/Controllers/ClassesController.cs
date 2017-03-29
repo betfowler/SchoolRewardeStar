@@ -63,13 +63,24 @@ namespace eStar.Controllers
         // GET: Classes/Create
         public ActionResult Create()
         {
-            return View();
+            EnrolmentViewModel evm = new EnrolmentViewModel();
+            evm.Staff = db.Accounts.OfType<Staff>().ToList();
+            evm.Students = db.Accounts.OfType<Student>().ToList();
+            return View(evm);
+        }
+
+        public ActionResult AddClass(List<int?> staff, string class_name)
+        {
+            var listLength = staff;
+            var testing = class_name;
+
+            return RedirectToAction("Create");
         }
 
         public ActionResult getStudents(int classID)
         {
             EnrolmentViewModel evm = new EnrolmentViewModel();
-            evm.ClassID = classID;
+            evm.Class.Class_ID = classID;
             evm.Students = db.Accounts.OfType<Student>().ToList();
             return View(evm);
         }
@@ -97,7 +108,7 @@ namespace eStar.Controllers
         public ActionResult getStaff(string className)
         {
             EnrolmentViewModel evm = new EnrolmentViewModel();
-            evm.ClassID = db.Classes.Where(cl => cl.Class_Name.Equals(className)).FirstOrDefault().Class_ID;
+            //evm.Class.Class_ID = 37;
             evm.Staff = db.Accounts.OfType<Staff>().ToList();
             return View(evm);
         }
@@ -128,13 +139,33 @@ namespace eStar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Class_ID,Class_Name")] Class @class)
+        public ActionResult Create([Bind(Include = "Class_ID,Class_Name")] Class @class, List<int?> student, List<int?> staff)
         {
             if (ModelState.IsValid)
             {
+                Enrolment enrolment = new Enrolment();
+                ClassStaff classStaff = new ClassStaff();
                 db.Classes.Add(@class);
                 db.SaveChanges();
-                return RedirectToAction("getStaff", new { className = @class.Class_Name}); 
+
+                foreach (var row in student)
+                {
+                    var id = Convert.ToInt32(row);
+                    enrolment.Class_ID = @class.Class_ID;
+                    enrolment.User_ID = id;
+                    db.Enrolments.Add(enrolment);
+                    db.SaveChanges();
+                }
+                foreach(var row in staff)
+                {
+                    var id = Convert.ToInt32(row);
+                    classStaff.Class_ID = @class.Class_ID;
+                    classStaff.User_ID = id;
+                    db.ClassStaffs.Add(classStaff);
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("Index");
             }
 
             return View(@class);

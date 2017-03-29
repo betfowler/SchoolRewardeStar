@@ -46,3 +46,26 @@ function setStudentId(id) {
     $("#Student_User_ID").attr("Value", id);
     $("#createForm").submit();
 }
+
+function selectstaff() {
+
+    if ($("#showstafflink").text() == "Select Staff ") {
+        $("#showstafflink").html("Hide Staff <i class='fa fa-angle-double-up' aria-hidden='true'></i>");
+        $(".selectStaff").css("display", "block");
+    }
+    else {
+        $("#showstafflink").html("Select Staff <i class='fa fa-angle-double-down' aria-hidden='true'></i>");
+        $(".selectStaff").css("display", "none");
+    }
+}
+
+function selectstudent() {
+    if ($("#showstudentslink").text() == "Select Students ") {
+        $("#showstudentslink").html("Hide Students <i class='fa fa-angle-double-up' aria-hidden='true'></i>");
+        $(".selectStudents").css("display", "block");
+    }
+    else {
+        $("#showstudentslink").html("Select Students <i class='fa fa-angle-double-down' aria-hidden='true'></i>");
+        $(".selectStudents").css("display", "none");
+    }
+}

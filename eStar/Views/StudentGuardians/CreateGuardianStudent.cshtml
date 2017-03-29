@@ -11,7 +11,7 @@
         @using (Html.BeginForm())
         {
             <div class="panel-body">
-                <div class="searchContainer">
+                <div class="SGsearchContainer">
                     @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search student names" })
                     <input type="submit" value="Search" class="btn btn-primary" />
                     <span>@Html.ActionLink("Reset", "CreateGuardianStudent", "StudentGuardians", new { searchString = "", guardianId = Model.Guardian_User_ID }, null)</span>
@@ -22,7 +22,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm("Create", "StudentGuardians", FormMethod.Post, new { id = "createForm" }))
+@using (Html.BeginForm("Create", "StudentGuardians", new { redirect = "Guardians" }, FormMethod.Post, new { id = "createForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Student_User_ID)
