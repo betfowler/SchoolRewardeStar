@@ -84,6 +84,34 @@
         })
     })
 
+    //when editing select students already in class
+    var selectedStaff = $("#staffIDList").text();
+    selectedStaff = selectedStaff.slice(0, -1);
+    var array = selectedStaff.split(',');
+    for (var i = 0; i < array.length; i++) {
+        var value = parseInt(array[i]);
+        $("#" + value).prop('checked', true);
+    }
+
+
+    //display in boxes
+    $(".checkedStaff").each(function () {
+        if ($(this).prop('checked') == true) {
+            var textValue = $("#selectedStaff").attr('value');
+            var userName = $(this).attr('alt');
+            var count = parseInt($("#staffCount").attr('value'));
+            if (textValue == null || textValue == "") {
+                textValue = userName;
+            }
+            else {
+                textValue = textValue + ", " + userName;
+            }
+            count = count + 1;
+            $("#selectedStaff").attr('value', textValue);
+            $("#staffCount").attr('value', count);
+        }
+    })
+
     $(".checkedStaff").click(function () {
         var textValue = $("#selectedStaff").attr('value');
         var userName = $(this).attr('id')
@@ -113,6 +141,36 @@
         $("#selectedStaff").attr('value', textValue);
         $("#staffCount").attr('value', count);
     })
+
+    //when editing select students already in class
+    var selectedStudents = $("#studentIDList").text();
+    selectedStudents = selectedStudents.slice(0, -1);
+    var array = selectedStudents.split(',');
+    for (var i = 0; i < array.length; i++) {
+        var value = parseInt(array[i]);
+        $("#" + value).prop('checked', true);
+    }
+
+
+    //display in boxes
+    $(".checkedStudents").each(function () {
+        if ($(this).prop('checked') == true) {
+            var textValue = $("#selectedStudents").attr('value');
+            var userName = $(this).attr('alt');
+            var count = parseInt($("#studentcount").attr('value'));
+            if (textValue == null || textValue == "") {
+                textValue = userName;
+            }
+            else {
+                textValue = textValue + ", " + userName;
+            }
+            count = count + 1;
+            $("#selectedStudents").attr('value', textValue);
+            $("#studentcount").attr('value', count);
+        }
+    })
+    
+
 
     $(".checkedStudents").click(function () {
         var textValue = $("#selectedStudents").attr('value');

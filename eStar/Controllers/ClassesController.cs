@@ -130,7 +130,25 @@ namespace eStar.Controllers
             {
                 return HttpNotFound();
             }
-            return View(@class);
+
+            EnrolmentViewModel evm = new EnrolmentViewModel();
+            string students = "";
+            string staff = "";
+            var classID = Convert.ToInt32(id);
+            evm.Class = db.Classes.Find(classID);
+            foreach (var enrolment in db.Enrolments.Where(e => e.Class_ID.Equals(classID)))
+            {
+                students = students + enrolment.User_ID + ",";
+            }
+            foreach (var classStaff in db.ClassStaffs.Where(cs => cs.Class_ID.Equals(classID)))
+            {
+                staff = staff + classStaff.User_ID + ",";
+            }
+            evm.Staff = db.Accounts.OfType<Staff>().ToList();
+            evm.Students = db.Accounts.OfType<Student>().ToList();
+            ViewBag.Students = students;
+            ViewBag.Staff = staff;
+            return View(evm);
         }
 
         // POST: Classes/Edit/5
@@ -138,15 +156,32 @@ namespace eStar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Class_ID,Class_Name")] Class @class)
+        public ActionResult Edit([Bind(Include = "Class_ID,Class_Name")] Class @class, List<int?> student, List<int?> staff)
         {
-            if (ModelState.IsValid)
+            Enrolment enrolment = new Enrolment();
+            ClassStaff classStaff = new ClassStaff();
+            db.Entry(@class).State = EntityState.Modified;
+            db.SaveChanges();
+
+            foreach (var row in student)
             {
-                db.Entry(@class).State = EntityState.Modified;
+                var id = Convert.ToInt32(row);
+                enrolment.Class_ID = @class.Class_ID;
+                enrolment.User_ID = id;
+                db.Entry(enrolment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-            return View(@class);
+            foreach (var row in staff)
+            {
+                var id = Convert.ToInt32(row);
+                classStaff.Class_ID = @class.Class_ID;
+                classStaff.User_ID = id;
+                db.ClassStaffs
+                db.ClassStaffs.Add(classStaff);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
         }
 
         // GET: Classes/Delete/5
