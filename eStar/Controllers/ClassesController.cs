@@ -57,7 +57,24 @@ namespace eStar.Controllers
             {
                 return HttpNotFound();
             }
-            return View(@class);
+
+            EnrolmentViewModel evm = new EnrolmentViewModel();
+            List<Student> students = new List<Student>();
+            List<Staff> staff = new List<Staff>();
+            var classID = Convert.ToInt32(id);
+            evm.Class = db.Classes.Find(classID);
+            foreach(var enrolment in db.Enrolments.Where(e => e.Class_ID.Equals(classID)))
+            {
+                students.Add(enrolment.Student);
+            }
+            foreach(var classStaff in db.ClassStaffs.Where(cs => cs.Class_ID.Equals(classID)))
+            {
+                staff.Add(classStaff.Staff);
+            }
+            evm.Students = students;
+            evm.Staff = staff;
+
+            return View(evm);
         }
 
         // GET: Classes/Create
@@ -69,71 +86,6 @@ namespace eStar.Controllers
             return View(evm);
         }
 
-        public ActionResult AddClass(List<int?> staff, string class_name)
-        {
-            var listLength = staff;
-            var testing = class_name;
-
-            return RedirectToAction("Create");
-        }
-
-        public ActionResult getStudents(int classID)
-        {
-            EnrolmentViewModel evm = new EnrolmentViewModel();
-            evm.Class.Class_ID = classID;
-            evm.Students = db.Accounts.OfType<Student>().ToList();
-            return View(evm);
-        }
-
-        [HttpPost]
-        public ActionResult getStudents(List<int?> student, int? classID)
-        {
-            if (student != null)
-            {
-                //create enrolments
-                for (var i = 0; i < student.Count; i++)
-                {
-                    Enrolment enrolment = new Enrolment();
-                    enrolment.Class_ID = Convert.ToInt32(classID);
-                    enrolment.User_ID = Convert.ToInt32(student[i]);
-                    db.Enrolments.Add(enrolment);
-                }
-
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
-
-        public ActionResult getStaff(string className)
-        {
-            EnrolmentViewModel evm = new EnrolmentViewModel();
-            //evm.Class.Class_ID = 37;
-            evm.Staff = db.Accounts.OfType<Staff>().ToList();
-            return View(evm);
-        }
-        
-        [HttpPost]
-        public ActionResult getStaff(List<int?> staff, int? classID)
-        {
-            if(staff != null)
-            {
-                //create classStaff
-                for(var i=0; i<staff.Count; i++)
-                {
-                    ClassStaff classStaff = new ClassStaff();
-                    classStaff.Class_ID = Convert.ToInt32(classID);
-                    classStaff.User_ID = Convert.ToInt32(staff[i]);
-                    db.ClassStaffs.Add(classStaff);
-                }
-
-                db.SaveChanges();
-                return RedirectToAction("getStudents", new { classID = classID });
-
-            }
-            return View(classID);
-        }
-
         // POST: Classes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -141,8 +93,6 @@ namespace eStar.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Class_ID,Class_Name")] Class @class, List<int?> student, List<int?> staff)
         {
-            if (ModelState.IsValid)
-            {
                 Enrolment enrolment = new Enrolment();
                 ClassStaff classStaff = new ClassStaff();
                 db.Classes.Add(@class);
@@ -166,9 +116,6 @@ namespace eStar.Controllers
                 }
 
                 return RedirectToAction("Index");
-            }
-
-            return View(@class);
         }
 
         // GET: Classes/Edit/5
@@ -214,7 +161,23 @@ namespace eStar.Controllers
             {
                 return HttpNotFound();
             }
-            return View(@class);
+
+            EnrolmentViewModel evm = new EnrolmentViewModel();
+            List<Student> students = new List<Student>();
+            List<Staff> staff = new List<Staff>();
+            var classID = Convert.ToInt32(id);
+            evm.Class = db.Classes.Find(classID);
+            foreach (var enrolment in db.Enrolments.Where(e => e.Class_ID.Equals(classID)))
+            {
+                students.Add(enrolment.Student);
+            }
+            foreach (var classStaff in db.ClassStaffs.Where(cs => cs.Class_ID.Equals(classID)))
+            {
+                staff.Add(classStaff.Staff);
+            }
+            evm.Students = students;
+            evm.Staff = staff;
+            return View(evm);
         }
 
         // POST: Classes/Delete/5
@@ -223,6 +186,14 @@ namespace eStar.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Class @class = db.Classes.Find(id);
+            foreach (var enrolment in db.Enrolments.Where(e => e.Class_ID.Equals(id)))
+            {
+                db.Enrolments.Remove(enrolment);
+            }
+            foreach (var classStaff in db.ClassStaffs.Where(cs => cs.Class_ID.Equals(id)))
+            {
+                db.ClassStaffs.Remove(classStaff);
+            }
             db.Classes.Remove(@class);
             db.SaveChanges();
             return RedirectToAction("Index");

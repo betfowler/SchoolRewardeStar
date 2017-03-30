@@ -1,4 +1,4 @@
-﻿@model eStar.Models.Class
+﻿@model eStar.ViewModels.EnrolmentViewModel
 
 @{
     ViewBag.Title = "Delete";
@@ -8,18 +8,95 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Class</h4>
+    <h4>Class: @Html.DisplayFor(model => model.Class.Class_Name)</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Class_Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Class_Name)
-        </dd>
-
-    </dl>
+    <h4>Staff:</h4>
+    <table class="table">
+        <tr>
+            <th>
+                Staff ID
+            </th>
+            <th>
+                Prefix
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                Surname
+            </th>
+            <th>
+                Job Role
+            </th>
+        </tr>
+        @foreach (var staff in Model.Staff)
+        {
+            <tr>
+                <td>
+                    @staff.User_ID
+                </td>
+                <td>
+                    @staff.Prefix
+                </td>
+                <td>
+                    @staff.First_Name
+                </td>
+                <td>
+                    @staff.Surname
+                </td>
+                <td>
+                    @staff.Job_Role
+                </td>
+            </tr>
+        }
+    </table>
+    <hr />
+    <h4>Students:</h4>
+    <table class="table">
+        <tr>
+            <th>
+                Student ID
+            </th>
+            <th>
+                Prefix
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                Surname
+            </th>
+            <th>
+                Year Group
+            </th>
+            <th>
+                Tutor Group
+            </th>
+        </tr>
+        @foreach (var student in Model.Students)
+        {
+            <tr>
+                <td>
+                    @student.User_ID
+                </td>
+                <td>
+                    @student.Prefix
+                </td>
+                <td>
+                    @student.First_Name
+                </td>
+                <td>
+                    @student.Surname
+                </td>
+                <td>
+                    @student.Year_Group
+                </td>
+                <td>
+                    @student.Tutor_Group
+                </td>
+            </tr>
+        }
+    </table>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
