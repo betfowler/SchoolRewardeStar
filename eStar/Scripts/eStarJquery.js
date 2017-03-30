@@ -114,7 +114,7 @@
 
     $(".checkedStaff").click(function () {
         var textValue = $("#selectedStaff").attr('value');
-        var userName = $(this).attr('id')
+        var userName = $(this).attr('alt');
         var count = parseInt($("#staffCount").attr('value'));
 
         if ($(this).prop('checked') == true) {
@@ -127,10 +127,10 @@
             count = count + 1;
         }
         else {
-            var replace = userName + ", ";
+            var replace = ", " + userName;
             var index = textValue.indexOf(replace)
             if (index >= 0) {
-                textValue = textValue.replace(userName + ", ", "");
+                textValue = textValue.replace(", " + userName, "");
             }
             else {
                 textValue = textValue.replace(userName, "");
@@ -174,7 +174,7 @@
 
     $(".checkedStudents").click(function () {
         var textValue = $("#selectedStudents").attr('value');
-        var userName = $(this).attr('value')
+        var userName = $(this).attr('alt');
         var count = parseInt($("#studentcount").attr('value'));
 
         if ($(this).prop('checked') == true) {
@@ -187,10 +187,10 @@
             count = count + 1;
         }
         else {
-            var replace = userName + ", ";
+            var replace = ", " + userName;
             var index = textValue.indexOf(replace)
             if (index >= 0) {
-                textValue = textValue.replace(userName + ", ", "");
+                textValue = textValue.replace(", " + userName, "");
             }
             else {
                 textValue = textValue.replace(userName, "");

@@ -78,11 +78,18 @@ namespace eStar.Controllers
         }
 
         // GET: Classes/Create
-        public ActionResult Create()
+        public ActionResult Create(string searchString, string studentList, string staffList, string className)
         {
             EnrolmentViewModel evm = new EnrolmentViewModel();
             evm.Staff = db.Accounts.OfType<Staff>().ToList();
             evm.Students = db.Accounts.OfType<Student>().ToList();
+            ViewBag.Students = studentList;
+            ViewBag.Staff = staffList;
+            ViewBag.Search = searchString;
+            if(className != null)
+            {
+                evm.Class.Class_Name = className;
+            }
             return View(evm);
         }
 
@@ -158,28 +165,86 @@ namespace eStar.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Class_ID,Class_Name")] Class @class, List<int?> student, List<int?> staff)
         {
-            Enrolment enrolment = new Enrolment();
-            ClassStaff classStaff = new ClassStaff();
             db.Entry(@class).State = EntityState.Modified;
             db.SaveChanges();
 
-            foreach (var row in student)
+            //if student/staff removed
+            foreach(var enrolment in db.Enrolments.Where(e => e.Class_ID.Equals(@class.Class_ID)))
             {
-                var id = Convert.ToInt32(row);
-                enrolment.Class_ID = @class.Class_ID;
-                enrolment.User_ID = id;
-                db.Entry(enrolment).State = EntityState.Modified;
-                db.SaveChanges();
+                var removed = true;
+                foreach (var studentId in student)
+                {
+                    if(Convert.ToInt32(enrolment.User_ID) == studentId)
+                    {
+                        removed = false;
+                    }
+                }
+
+                if(removed == true)
+                {
+                    db.Enrolments.Remove(enrolment);
+                }
             }
-            foreach (var row in staff)
+
+            foreach(var classStaff in db.ClassStaffs.Where(cs => cs.Class_ID.Equals(@class.Class_ID)))
             {
-                var id = Convert.ToInt32(row);
-                classStaff.Class_ID = @class.Class_ID;
-                classStaff.User_ID = id;
-                db.ClassStaffs
-                db.ClassStaffs.Add(classStaff);
-                db.SaveChanges();
+                var removed = true;
+                foreach(var staffId in staff)
+                {
+                    if(Convert.ToInt32(classStaff.User_ID) == staffId)
+                    {
+                        removed = false;
+                    }
+                }
+
+                if(removed == true)
+                {
+                    db.ClassStaffs.Remove(classStaff);
+                }
             }
+
+            //if student/staff added
+            foreach(var studentId in student)
+            {
+                var @new = true;
+                foreach(var enrolment in db.Enrolments.Where(e => e.Class_ID.Equals(@class.Class_ID)))
+                {
+                    if(Convert.ToInt32(enrolment.User_ID) == studentId)
+                    {
+                        @new = false;
+                    }
+                }
+                if(@new == true)
+                {
+                    Enrolment enroll = new Enrolment();
+                    enroll.User_ID = Convert.ToInt32(studentId);
+                    enroll.Class_ID = @class.Class_ID;
+                    db.Enrolments.Add(enroll);
+                    db.SaveChanges();
+                }
+            }
+
+            foreach (var staffId in staff)
+            {
+                var @new = true;
+                foreach (var classStaff in db.ClassStaffs.Where(cs => cs.Class_ID.Equals(@class.Class_ID)))
+                {
+                    if (Convert.ToInt32(classStaff.User_ID) == staffId)
+                    {
+                        @new = false;
+                    }
+                }
+                if (@new == true)
+                {
+                    ClassStaff staffClass = new ClassStaff();
+                    staffClass.User_ID = Convert.ToInt32(staffId);
+                    staffClass.Class_ID = @class.Class_ID;
+                    db.ClassStaffs.Add(staffClass);
+                    db.SaveChanges();
+                }
+            }
+
+            db.SaveChanges();
 
             return RedirectToAction("Index");
         }

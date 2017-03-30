@@ -12,6 +12,7 @@
     
     <span id="studentIDList" hidden="hidden">@ViewBag.Students</span>
     <span id="staffIDList" hidden="hidden">@ViewBag.Staff</span>
+    @Html.HiddenFor(model => model.Class.Class_ID)
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
