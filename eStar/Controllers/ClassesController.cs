@@ -78,18 +78,29 @@ namespace eStar.Controllers
         }
 
         // GET: Classes/Create
-        public ActionResult Create(string searchString, string studentList, string staffList, string className)
+        public ActionResult Create(string staffSearch, string studentSearch, string student, string staff, string className, string warning)
         {
             EnrolmentViewModel evm = new EnrolmentViewModel();
             evm.Staff = db.Accounts.OfType<Staff>().ToList();
             evm.Students = db.Accounts.OfType<Student>().ToList();
-            ViewBag.Students = studentList;
-            ViewBag.Staff = staffList;
-            ViewBag.Search = searchString;
-            if(className != null)
+            ViewBag.className = className;
+            ViewBag.Students = student;
+            ViewBag.Staff = staff;
+            if (!String.IsNullOrEmpty(staffSearch))
             {
-                evm.Class.Class_Name = className;
+                var search = staffSearch.ToUpper();
+                evm.Staff = db.Accounts.OfType<Staff>().Where(st => st.First_Name.ToUpper().Contains(search) || st.Surname.ToUpper().Contains(search)).ToList();
             }
+            if (!String.IsNullOrEmpty(studentSearch))
+            {
+                var search = studentSearch.ToUpper();
+                evm.Students = db.Accounts.OfType<Student>().Where(st => st.First_Name.ToUpper().Contains(search) || st.Surname.ToUpper().Contains(search)).ToList();
+            }
+            if (!String.IsNullOrEmpty(warning))
+            {
+                ViewBag.Error = warning;
+            }
+
             return View(evm);
         }
 
@@ -100,6 +111,47 @@ namespace eStar.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Class_ID,Class_Name")] Class @class, List<int?> student, List<int?> staff)
         {
+            var name = db.Classes.Where(cl => cl.Class_Name.Equals(@class.Class_Name)).FirstOrDefault();
+            if (@class.Class_Name == null || name != null || student == null || staff == null)
+            {
+                var warning = "";
+                if(@class.Class_Name == null)
+                {
+                    warning = "Please enter a class name";
+                }
+                else if(name != null)
+                {
+                    warning = "The class name '" + @class.Class_Name + "' already exists";
+                }
+                else if(student == null)
+                {
+                    warning = "Please add students to the class";
+                }
+                else
+                {
+                    warning = "Please add staff to the class";
+                }
+                
+                var students = "";
+                var staffs = "";
+                if(student != null)
+                {
+                    foreach (var s in student)
+                    {
+                        students = students + s + ",";
+                    }
+                }
+                if(staff != null)
+                {
+                    foreach (var s in staff)
+                    {
+                        staffs = staffs + s + ",";
+                    }
+                }
+                return RedirectToAction("Create", new { warning= warning, className = @class.Class_Name, student = students, staff = staffs});
+            }
+            else
+            {
                 Enrolment enrolment = new Enrolment();
                 ClassStaff classStaff = new ClassStaff();
                 db.Classes.Add(@class);
@@ -113,7 +165,7 @@ namespace eStar.Controllers
                     db.Enrolments.Add(enrolment);
                     db.SaveChanges();
                 }
-                foreach(var row in staff)
+                foreach (var row in staff)
                 {
                     var id = Convert.ToInt32(row);
                     classStaff.Class_ID = @class.Class_ID;
@@ -123,6 +175,7 @@ namespace eStar.Controllers
                 }
 
                 return RedirectToAction("Index");
+            }
         }
 
         // GET: Classes/Edit/5

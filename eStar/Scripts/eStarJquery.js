@@ -85,15 +85,15 @@
     })
 
     //when editing select students already in class
-    var selectedStaff = $("#staffIDList").text();
-    selectedStaff = selectedStaff.slice(0, -1);
-    var array = selectedStaff.split(',');
-    for (var i = 0; i < array.length; i++) {
-        var value = parseInt(array[i]);
-        $("#" + value).prop('checked', true);
+    var selectedStaff = $("#staffList").text();
+    if (selectedStaff != null) {
+        selectedStaff = selectedStaff.slice(0, -1);
+        var array = selectedStaff.split(',');
+        for (var i = 0; i < array.length; i++) {
+            var value = parseInt(array[i]);
+            $("#" + value).prop('checked', true);
+        }
     }
-
-
     //display in boxes
     $(".checkedStaff").each(function () {
         if ($(this).prop('checked') == true) {
@@ -116,13 +116,17 @@
         var textValue = $("#selectedStaff").attr('value');
         var userName = $(this).attr('alt');
         var count = parseInt($("#staffCount").attr('value'));
+        var idList = $("#staffList").attr('value');
+        var id = $(this).attr('id');
 
         if ($(this).prop('checked') == true) {
             if (textValue == null || textValue == "") {
                 textValue = userName;
+                idList = id;
             }
             else {
                 textValue = textValue + ", " + userName;
+                idList = idList + "," + id;
             }
             count = count + 1;
         }
@@ -140,10 +144,11 @@
 
         $("#selectedStaff").attr('value', textValue);
         $("#staffCount").attr('value', count);
+        $("#staffList").attr('value', idList);
     })
 
     //when editing select students already in class
-    var selectedStudents = $("#studentIDList").text();
+    var selectedStudents = $("#studentList").text();
     selectedStudents = selectedStudents.slice(0, -1);
     var array = selectedStudents.split(',');
     for (var i = 0; i < array.length; i++) {
@@ -200,6 +205,24 @@
 
         $("#selectedStudents").attr('value', textValue);
         $("#studentcount").attr('value', count);
+    })
+
+    $("#userSearch").click(function () {
+        var staffSearch = $("#staffSearch").val();
+        var studentSearch = $("#studentSearch").val();
+        var className = $("#className").val();
+        var url = $(this).attr('href') + '?staffSearch=' + staffSearch +'&studentSearch=' + studentSearch + '&className=' + className;
+        location.href = url;
+        return false;
+    })
+
+    $("#search").click(function () {
+        var staffSearch = $("#staffSearch").val();
+        var studentSearch = $("#studentSearch").val();
+        var className = $("#className").val();
+        var url = $(this).attr('href') + '?staffSearch=' + staffSearch + '&studentSearch=' + studentSearch + '&className=' + className;
+        location.href = url;
+        return false;
     })
     
 })

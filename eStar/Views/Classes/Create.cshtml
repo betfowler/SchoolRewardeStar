@@ -2,6 +2,12 @@
 
 @{
     ViewBag.Title = "Create";
+    if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">
+            <strong>Error!</strong> @ViewBag.Error
+        </div>
+    }
 }
 
 <h2>Add New Class</h2>
@@ -9,8 +15,8 @@
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    <span id="studentIDList" hidden="hidden">@ViewBag.Students</span>
-    <span id="staffIDList" hidden="hidden">@ViewBag.Staff</span>
+    <span id="studentList" hidden="hidden">@ViewBag.Students</span>
+    <span id="staffList" hidden="hidden">@ViewBag.Staff</span>
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -21,8 +27,7 @@
             </div>
             
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Class.Class_Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Class.Class_Name, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Class.Class_Name, new { htmlAttributes = new { @class = "form-control", id="className", @Value = ViewBag.className} })
             </div>
         </div>
 
@@ -50,8 +55,8 @@
                 <div class="col-md-10">
                     <div class="searchContainer">
                         <div id="class">&nbsp; &nbsp;</div>
-                        <input type="text" value="@ViewBag.Search" class="clearable" placeholder="Search staff names" id="SearchString"/>
-                        @Html.ActionLink("Search", "Create", "Classes", new { searchString = ViewBag.Search, studentList = ViewBag.Students, staffList = ViewBag.Staff}, null)
+                        @Html.TextBox("staffSearch", null, new { @class = "clearable", @placeholder = "Search staff names"})
+                        @Html.ActionLink("Search", "Create", "Classes", null, new { id= "userSearch", @class="btn btn-primary"})
                     </div>
                     <div class="row" id="smlBreak"></div>
                     <table class="table">
@@ -123,9 +128,8 @@
                 <div class="col-md-10">
                     <div class="searchContainer">
                         <div id="class">&nbsp; &nbsp;</div>
-                        @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search student names" })
-                        @Html.Hidden("classID")
-                        <input class="btn btn-primary" type="submit" value="Search" id="searchSubmit" />
+                        @Html.TextBox("studentSearch", null, new { @class = "clearable", @placeholder = "Search student names" })
+                        @Html.ActionLink("Search", "Create", "Classes", null, new { id = "search", @class = "btn btn-primary" })
                     </div>
                     <div class="row" id="smlBreak"></div>
                     <table class="table">
