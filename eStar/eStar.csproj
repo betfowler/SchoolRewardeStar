@@ -183,6 +183,7 @@
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\StaffsController.cs" />
     <Compile Include="Controllers\StudentAwardsController.cs" />
     <Compile Include="Controllers\StudentGuardiansController.cs" />
@@ -362,6 +363,8 @@
     <Content Include="Views\Awards\GuardianAwardView.cshtml" />
     <Content Include="Views\StudentGuardians\CreateStudentGuardian.cshtml" />
     <Content Include="Views\StudentGuardians\CreateGuardianStudent.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\Reports\All_Students.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

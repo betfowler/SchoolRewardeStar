@@ -224,5 +224,4 @@
         location.href = url;
         return false;
     })
-    
 })
