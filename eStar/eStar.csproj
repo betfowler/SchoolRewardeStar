@@ -365,6 +365,7 @@
     <Content Include="Views\StudentGuardians\CreateGuardianStudent.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Reports\All_Students.cshtml" />
+    <Content Include="Views\Reports\Tutor_Groups.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

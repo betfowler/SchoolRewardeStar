@@ -3,13 +3,13 @@
 @{
     ViewBag.Title = "All_Students";
 }
+<a href="@Url.Action("Index","Reports")"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i> Back To Reports</a>
 
-<h2>All Student Points</h2>
+<h2>Allocated Points</h2>
 
 <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#all">All Students</a></li>
     <li><a data-toggle="tab" href="#top10">Top 10 Student Points</a></li>
-    <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
 </ul>
 
 <div class="tab-content">
@@ -49,10 +49,6 @@
             }
         </table>
     </div>
-    <div id="menu1" class="tab-pane fade">
-        <h3>Menu 1</h3>
-        <p>Some content in menu 1.</p>
-    </div>
 
     <div id="top10" class="tab-pane fade">
         <h3>Top 10 Student Points</h3>
@@ -61,7 +57,7 @@
                 <img src="@Url.Action("GetChartImage")" />
             </div>
             <div class="col-md-6">
-                <table>
+                <table class="table">
                     <tr>
                         <th>
                             Position
@@ -73,12 +69,26 @@
                             Points
                         </th>
                     </tr>
-                    <tr>
-                        @for(var i= 0; i < 10; i++){
-                            
-                        }
-                    </tr>
+                    @{
+                        var count = 1;
+                    }
+                    @foreach (var top10 in Model.Take(10))
+                    {
+                        <tr>
+                            <td>
+                                @count
+                            </td>
+                            <td>
+                                @Html.DisplayFor(topModel => top10.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(topModel => top10.Total_Points)
+                            </td>
+                        </tr>
+                        count = count + 1;
+                    }
                 </table>
+
             </div>
         </div>
         

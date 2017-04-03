@@ -22,11 +22,32 @@ namespace eStar.Controllers
         {
             return View(db.Accounts.OfType<Student>().OrderByDescending(st => st.Total_Points).ToList());
         }
-
-        public ActionResult GetTopTen()
+        public ActionResult Tutor_Groups()
+        {   
+            return View(db.Accounts.OfType<Student>().ToList());
+        }
+        public ActionResult getTutorGraph(string names, string values, string title, int width)
         {
-            var top10 = db.Accounts.OfType<Student>().OrderByDescending(st => st.Total_Points).Take(10).ToList();
-            return Content(top10);
+            List<string> name = names.Split(',').ToList<string>();
+            List<string> value = values.Split(',').ToList<string>();
+            var count = name.Count();
+
+            List<string> xValues = new List<string>();
+            List<int> yValues = new List<int>();
+
+            for (var i =0; i<count; i++)
+            {
+                xValues.Add(name[i]);
+                yValues.Add(Convert.ToInt32(value[i]));
+            }
+
+            var key = new Chart(width: width, height: 600)
+                .AddTitle(title)
+                .AddSeries(
+                chartType: "Column",
+                xValue: xValues,
+                yValues: yValues);
+            return File(key.ToWebImage().GetBytes(), "image/jpeg");
         }
 
         public ActionResult GetChartImage()

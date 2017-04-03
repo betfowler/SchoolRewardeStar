@@ -1,0 +1,336 @@
+﻿@model IEnumerable<eStar.Models.Student>
+@using System.Reflection;
+
+@{
+    ViewBag.Title = "Tutor_Group";
+}
+
+<a href="@Url.Action("Index","Reports")"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i> Back To Reports</a>
+
+@{
+    string tutorgroups = "Estrella, Stella, Étoile";
+    string yeargroups = "Year 7, Year 8, Year 9, Year 10, Year 11";
+    string yeartutorgroups = "Year 7 Estrella, Year 7 Stella, Year 7 Étoile, Year 8 Estrella, Year 8 Stella, Year 8 Étoile, Year 9 Estrella, Year 9 Stella, Year 9 Étoile, Year 10 Estrella, Year 10 Stella, Year 10 Étoile, Year 11 Estrella, Year 11 Stella, Year 11 Étoile";
+    var estrella = 0;
+    var stella = 0;
+    var etoile = 0;
+    var year7 = 0;
+    var year8 = 0;
+    var year9 = 0;
+    var year10 = 0;
+    var year11 = 0;
+    var yr7Estrella = 0;
+    var yr8Estrella = 0;
+    var yr9Estrella = 0;
+    var yr10Estrella = 0;
+    var yr11Estrella = 0;
+    var yr7Stella = 0;
+    var yr8Stella = 0;
+    var yr9Stella = 0;
+    var yr10Stella = 0;
+    var yr11Stella = 0;
+    var yr7Etoile = 0;
+    var yr8Etoile = 0;
+    var yr9Etoile = 0;
+    var yr10Etoile = 0;
+    var yr11Etoile = 0;
+
+    foreach (var year7Student in Model.Where(st => st.Year_Group.Equals("7")))
+    {
+        year7 = year7 + year7Student.Total_Points;
+    }
+    foreach (var year8Student in Model.Where(st => st.Year_Group.Equals("8")))
+    {
+        year8 = year8 + year8Student.Total_Points;
+    }
+    foreach (var year9Student in Model.Where(st => st.Year_Group.Equals("9")))
+    {
+        year9 = year9 + year9Student.Total_Points;
+    }
+    foreach (var year10Student in Model.Where(st => st.Year_Group.Equals("10")))
+    {
+        year10 = year10 + year10Student.Total_Points;
+    }
+    foreach (var year11Student in Model.Where(st => st.Year_Group.Equals("11")))
+    {
+        year11 = year11 + year11Student.Total_Points;
+    }
+
+    var yearGroupPoints = year7 + "," + year8 + "," + year9 + "," + year10 + "," + year11;
+
+    foreach(var estrellaStudent in Model.Where(st => st.Tutor_Group.Equals("Estrella")))
+    {
+        estrella = estrella + estrellaStudent.Total_Points;
+    }
+    foreach(var stellaStudent in Model.Where(st => st.Tutor_Group.Equals("Stella")))
+    {
+        stella = stella + stellaStudent.Total_Points;
+    }
+    foreach(var etoileStudent in Model.Where(st => st.Tutor_Group.Equals("Étoile")))
+    {
+        etoile = etoile + etoileStudent.Total_Points;
+    }
+
+    var tutorPoints = estrella + "," + stella + "," + etoile;
+
+    foreach(var Estrella7 in Model.Where(st => st.Year_Group.Equals("7") && st.Tutor_Group.Equals("Estrella")))
+    {
+        yr7Estrella = yr7Estrella + Estrella7.Total_Points;
+    }
+    foreach (var Estrella8 in Model.Where(st => st.Year_Group.Equals("8") && st.Tutor_Group.Equals("Estrella")))
+    {
+        yr8Estrella = yr8Estrella + Estrella8.Total_Points;
+    }
+    foreach (var Estrella9 in Model.Where(st => st.Year_Group.Equals("9") && st.Tutor_Group.Equals("Estrella")))
+    {
+        yr9Estrella = yr9Estrella + Estrella9.Total_Points;
+    }
+    foreach (var Estrella10 in Model.Where(st => st.Year_Group.Equals("10") && st.Tutor_Group.Equals("Estrella")))
+    {
+        yr10Estrella = yr10Estrella + Estrella10.Total_Points;
+    }
+    foreach (var Estrella11 in Model.Where(st => st.Year_Group.Equals("11") && st.Tutor_Group.Equals("Estrella")))
+    {
+        yr11Estrella = yr11Estrella + Estrella11.Total_Points;
+    }
+
+    foreach (var Stella7 in Model.Where(st => st.Year_Group.Equals("7") && st.Tutor_Group.Equals("Stella")))
+    {
+        yr7Stella = yr7Stella + Stella7.Total_Points;
+    }
+    foreach (var Stella8 in Model.Where(st => st.Year_Group.Equals("8") && st.Tutor_Group.Equals("Stella")))
+    {
+        yr8Stella = yr8Stella + Stella8.Total_Points;
+    }
+    foreach (var Stella9 in Model.Where(st => st.Year_Group.Equals("9") && st.Tutor_Group.Equals("Stella")))
+    {
+        yr9Stella = yr9Stella + Stella9.Total_Points;
+    }
+    foreach (var Stella10 in Model.Where(st => st.Year_Group.Equals("10") && st.Tutor_Group.Equals("Stella")))
+    {
+        yr10Stella = yr10Stella + Stella10.Total_Points;
+    }
+    foreach (var Stella11 in Model.Where(st => st.Year_Group.Equals("11") && st.Tutor_Group.Equals("Stella")))
+    {
+        yr11Stella = yr11Stella + Stella11.Total_Points;
+    }
+
+    foreach (var Etoile7 in Model.Where(st => st.Year_Group.Equals("7") && st.Tutor_Group.Equals("Etoile")))
+    {
+        yr7Etoile = yr7Etoile + Etoile7.Total_Points;
+    }
+    foreach (var Etoile8 in Model.Where(st => st.Year_Group.Equals("8") && st.Tutor_Group.Equals("Etoile")))
+    {
+        yr8Etoile = yr8Etoile + Etoile8.Total_Points;
+    }
+    foreach (var Etoile9 in Model.Where(st => st.Year_Group.Equals("9") && st.Tutor_Group.Equals("Etoile")))
+    {
+        yr9Etoile = yr9Etoile + Etoile9.Total_Points;
+    }
+    foreach (var Etoile10 in Model.Where(st => st.Year_Group.Equals("10") && st.Tutor_Group.Equals("Etoile")))
+    {
+        yr10Etoile = yr10Etoile + Etoile10.Total_Points;
+    }
+    foreach (var Etoile11 in Model.Where(st => st.Year_Group.Equals("11") && st.Tutor_Group.Equals("Etoile")))
+    {
+        yr11Etoile = yr11Etoile + Etoile11.Total_Points;
+    }
+
+    var yearTutorPoints = yr7Estrella + "," + yr7Stella + "," + yr7Etoile + "," + yr8Estrella + "," + yr8Stella + "," + yr8Etoile + "," + yr9Estrella + "," + yr9Stella + "," + yr9Etoile + "," + yr10Estrella + "," + yr10Stella + "," + yr10Etoile + "," + yr11Estrella + "," + yr11Stella + "," + yr11Etoile;
+}
+
+<h2>Group Points</h2>
+
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#all">Each Tutor Group</a></li>
+    <li><a data-toggle="tab" href="#yearGroup">Each Year Group</a></li>
+    <li><a data-toggle="tab" href="#tutorYearGroup">Each Tutor Group In Each Year Group</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="all" class="tab-pane fade in active">
+        <h3>Total Points For Each Tutor Group</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="@Url.Action("getTutorGraph", "Reports", new { names = tutorgroups, values = tutorPoints, title="Total Points For Each Tutor Group", width = 600})" />
+            </div>
+            <div class="col-md-6">
+                <table class="table">
+                    <tr>
+                        <th>Tutor Group</th>
+                        <th>Number of Points</th>
+                    </tr>
+                    <tr>
+                        <td>Estrella</td>
+                        <td>@estrella</td>
+                    </tr>
+                    <tr>
+                        <td>Stella</td>
+                        <td>@stella</td>
+                    </tr>
+                    <tr>
+                        <td>Étoile</td>
+                        <td>@etoile</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="yearGroup" class="tab-pane fade">
+        <h3>Total Points For Each Year Group</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="@Url.Action("getTutorGraph", "Reports", new { names = yeargroups, values = yearGroupPoints, title = "Total Points For Each Year Group", width = 600})" />
+            </div>
+            <div class="col-md-6">
+                <table class="table">
+                    <tr>
+                        <th>
+                            Year Group
+                        </th>
+                        <th>
+                            Number of Points
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Year 7
+                        </td>
+                        <td>
+                            @year7
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Year 8
+                        </td>
+                        <td>
+                            @year8
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Year 9
+                        </td>
+                        <td>
+                            @year9
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Year 10
+                        </td>
+                        <td>
+                            @year10
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Year 11
+                        </td>
+                        <td>
+                            @year11
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="tutorYearGroup" class="tab-pane fade">
+        <h3>Total Points For Each Tutor Group In Each Year Group</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <img src="@Url.Action("getTutorGraph", "Reports", new { names = yeartutorgroups, values = yearTutorPoints, title="Total Points For Each Tutor Group In Each Year Group", width=1200})" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <tr>
+                        <th>Year Group</th>
+                        <th>Tutor Group</th>
+                        <th>Number of Points</th>
+                    </tr>
+                    <tr>
+                        <td>Year 7</td>
+                        <td>Estrella</td>
+                        <td>@yr7Estrella</td>
+                    </tr>
+                    <tr>
+                        <td>Year 7</td>
+                        <td>Stella</td>
+                        <td>@yr7Stella</td>
+                    </tr>
+                    <tr>
+                        <td>Year 7</td>
+                        <td>Étoile</td>
+                        <td>@yr7Etoile</td>
+                    </tr>
+                    <tr>
+                        <td>Year 8</td>
+                        <td>Estrella</td>
+                        <td>@yr8Estrella</td>
+                    </tr>
+                    <tr>
+                        <td>Year 8</td>
+                        <td>Stella</td>
+                        <td>@yr8Stella</td>
+                    </tr>
+                    <tr>
+                        <td>Year 8</td>
+                        <td>Étoile</td>
+                        <td>@yr8Etoile</td>
+                    </tr>
+                    <tr>
+                        <td>Year 9</td>
+                        <td>Estrella</td>
+                        <td>@yr9Estrella</td>
+                    </tr>
+                    <tr>
+                        <td>Year 9</td>
+                        <td>Stella</td>
+                        <td>@yr9Stella</td>
+                    </tr>
+                    <tr>
+                        <td>Year 9</td>
+                        <td>Étoile</td>
+                        <td>@yr9Etoile</td>
+                    </tr>
+                    <tr>
+                        <td>Year 10</td>
+                        <td>Estrella</td>
+                        <td>@yr10Estrella</td>
+                    </tr>
+                    <tr>
+                        <td>Year 10</td>
+                        <td>Stella</td>
+                        <td>@yr10Stella</td>
+                    </tr>
+                    <tr>
+                        <td>Year 10</td>
+                        <td>Étoile</td>
+                        <td>@yr10Etoile</td>
+                    </tr>
+                    <tr>
+                        <td>Year 11</td>
+                        <td>Estrella</td>
+                        <td>@yr11Estrella</td>
+                    </tr>
+                    <tr>
+                        <td>Year 11</td>
+                        <td>Stella</td>
+                        <td>@yr11Stella</td>
+                    </tr>
+                    <tr>
+                        <td>Year 11</td>
+                        <td>Étoile</td>
+                        <td>@yr11Etoile</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
