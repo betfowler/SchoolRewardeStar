@@ -34,6 +34,11 @@ namespace eStar.Controllers
             return View(db.Accounts.OfType<Student>().ToList());
         }
 
+        public ActionResult UserProfile()
+        {
+            return View(db.Accounts.OfType<Student>().ToList());
+        }
+
         // GET: Students/Details/5
         public ActionResult Details(int? id)
         {

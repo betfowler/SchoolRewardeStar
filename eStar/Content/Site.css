@@ -304,3 +304,26 @@ textarea {
     overflow-y: scroll;
     height: 300px;
 }
+
+#basketDropdown{
+    border: 1px solid grey;
+    color: white;
+    background-color: grey;
+    padding: 5px;
+    display: none;
+    text-align: center;
+}
+
+#profileCircle img{
+    width: 100%;
+    display: block;
+    margin-left: 5%;
+}
+.profileText{
+    position: absolute;
+    top: 20px;
+    margin: auto;
+    width: 100%;
+    color: white;
+    text-align: center;
+}

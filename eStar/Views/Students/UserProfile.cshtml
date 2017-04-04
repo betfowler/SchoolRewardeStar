@@ -1,0 +1,63 @@
+﻿@model IEnumerable<eStar.Models.Student>
+
+@using eStar.Security;
+
+
+@{
+    ViewBag.Title = "UserProfile";
+}
+
+<h1 style="text-align: center">Your Profile</h1>
+
+<div class="row">
+    <div class="col-md-4" id="profileCircle">
+        <img src="~/Content/Images/Purple.png" />
+        <div class="profileText">
+            <span style="font-size: 100px"><i class="fa fa-trophy" aria-hidden="true"></i></span>
+            <h2>Total Points</h2>
+            <h1 style="font-size: 80px">@SessionPersister.TotalPoints</h1>
+        </div>
+    </div>
+    <div class="col-md-4" id="profileCircle">
+        <img src="~/Content/Images/Blue.png" />
+        <div class="profileText">
+            <span style="font-size: 100px"><i class="fa fa-star" aria-hidden="true"></i></span>
+            <h2>Your Balance</h2>
+            <h1 style="font-size: 80px">@SessionPersister.Balance</h1>
+        </div>
+    </div>
+    <div class="col-md-4" id="profileCircle">
+        <img src="~/Content/Images/Orange.png" />
+        <div class="profileText">
+            <span style="font-size: 100px"><i class="fa fa-certificate" aria-hidden="true"></i></span>
+            <h2>Your Position In School</h2>
+            @{
+                var count = 1;
+                foreach (var student in Model.OrderByDescending(m => m.Total_Points))
+                {
+                    int user = Convert.ToInt32(SessionPersister.UserID);
+                    if (student.User_ID.Equals(user))
+                    {
+                        if (count == 1)
+                        {
+                            <h1 style="font-size: 80px">@count st</h1>
+                        }
+                        else if (count == 2)
+                        {
+                            <h1 style="font-size: 80px">@count nd</h1>
+                        }
+                        else if (count == 3)
+                        {
+                            <h1 style="font-size: 80px">@count rd</h1>
+                        }
+                        else
+                        {
+                            <h1 style="font-size: 80px">@count th</h1>
+                        }
+                    }
+                    count = count + 1;
+                }
+            }
+        </div>
+    </div>
+</div>

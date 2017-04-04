@@ -249,8 +249,13 @@
     <Content Include="Content\Images\Awarded2.png" />
     <Content Include="Content\Images\Awards.png" />
     <Content Include="Content\Images\Awards2.png" />
+    <Content Include="Content\Images\Blue.png" />
     <Content Include="Content\Images\Classes2.png" />
     <Content Include="Content\Images\Classes.png" />
+    <Content Include="Content\Images\Orange.png" />
+    <Content Include="Content\Images\Orders.png" />
+    <Content Include="Content\Images\Purple.png" />
+    <Content Include="Content\Images\Reports.png" />
     <Content Include="Content\Images\smlAward.png" />
     <Content Include="Content\Images\Staff2.png" />
     <Content Include="Content\Images\StarLogo.png" />
@@ -366,6 +371,8 @@
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Reports\All_Students.cshtml" />
     <Content Include="Views\Reports\Tutor_Groups.cshtml" />
+    <Content Include="Views\Reports\userPointDetails.cshtml" />
+    <Content Include="Views\Students\UserProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

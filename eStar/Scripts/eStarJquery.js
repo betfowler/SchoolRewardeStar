@@ -224,4 +224,11 @@
         location.href = url;
         return false;
     })
+
+    $("#studentBasket").mouseover(function () {
+        $("#basketDropdown").css("display", "block");
+        $("#studentBasket").mouseout(function () {
+            $("#basketDropdown").css("display", "none");
+        })
+    })
 })

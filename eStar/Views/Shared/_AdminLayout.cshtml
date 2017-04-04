@@ -31,11 +31,32 @@
                             <li>@Html.ActionLink("Students", "Index", "Students")</li>
                             <li>@Html.ActionLink("Staffs", "Index", "Staffs")</li>
                             <li>@Html.ActionLink("Guardians", "Index", "Guardians")</li>
+                            <li>@Html.ActionLink("Classes", "Index", "Classes")</li>
                         </ul>
                     </li>
-                    <li>@Html.ActionLink("Awards", "Index", "Awards")</li>
-                    <li>@Html.ActionLink("Classes", "Index", "Classes")</li>
-                    <li>@Html.ActionLink("About You", "#", "#")</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Awards
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Allocate An Award", "Index", "Awards")</li>
+                            <li>@Html.ActionLink("Previous Awards", "ViewAwards", "Awards")</li>
+                        </ul>
+                    </li>
+                    
+                    <li>@Html.ActionLink("Orders", "Index", "Orders")</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Reports
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("All Students", "All_Students", "Reports")</li>
+                            <li>@Html.ActionLink("Tutor Groups", "Tutor_Groups", "Reports")</li>
+                            <li>@Html.ActionLink("View Student Awards", "userPointDetails", "Reports")</li>
+                        </ul>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
