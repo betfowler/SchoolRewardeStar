@@ -328,3 +328,7 @@ textarea {
     color: white;
     text-align: center;
 }
+
+#deadlineField{
+    display: none;
+}

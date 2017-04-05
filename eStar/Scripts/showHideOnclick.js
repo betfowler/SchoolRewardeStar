@@ -69,3 +69,16 @@ function selectstudent() {
         $(".selectStudents").css("display", "none");
     }
 }
+
+function deadline() {
+    var checkboxValue = $("#deadlineCheck").attr('value');
+    if (checkboxValue == "false") {
+        $("#deadlineCheck").attr('value', 'true');
+        $("#deadlineField").css('display', 'block');
+    }
+    else {
+        $("#deadlineCheck").attr('value', 'false');
+        $("#deadlineField").css('display', 'none');
+        $("#Deadline").val("");
+    }
+}

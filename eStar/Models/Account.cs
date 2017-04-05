@@ -50,6 +50,7 @@ namespace eStar.Models
         public virtual ICollection<Enrolment> Enrolments { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<StudentGuardian> StudentGuardians { get; set; }
+        public virtual ICollection<Pledge> Pledges { get; set; }
 
     }
 
@@ -71,6 +72,7 @@ namespace eStar.Models
     {
         public int? StudentCount { get; set; }
         public virtual ICollection<StudentGuardian> StudentGuardians { get; set; }
+        public virtual ICollection<Pledge> Pledges { get; set; }
     }
 
     public class AccountValidator : AbstractValidator<Account>

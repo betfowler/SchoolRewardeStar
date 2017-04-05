@@ -240,6 +240,26 @@
     <Compile Include="Migrations\201704051050315_pledge.Designer.cs">
       <DependentUpon>201704051050315_pledge.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704051425107_pledgestatus.cs" />
+    <Compile Include="Migrations\201704051425107_pledgestatus.Designer.cs">
+      <DependentUpon>201704051425107_pledgestatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704051532596_change.cs" />
+    <Compile Include="Migrations\201704051532596_change.Designer.cs">
+      <DependentUpon>201704051532596_change.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704051534471_changePledge.cs" />
+    <Compile Include="Migrations\201704051534471_changePledge.Designer.cs">
+      <DependentUpon>201704051534471_changePledge.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704051628300_comeon.cs" />
+    <Compile Include="Migrations\201704051628300_comeon.Designer.cs">
+      <DependentUpon>201704051628300_comeon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704051632085_arrgghh.cs" />
+    <Compile Include="Migrations\201704051632085_arrgghh.Designer.cs">
+      <DependentUpon>201704051632085_arrgghh.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountModel.cs" />
@@ -252,6 +272,7 @@
     <Compile Include="Models\IeStarRepository.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Pledge.cs" />
+    <Compile Include="Models\PledgeStatus.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductOrder.cs" />
     <Compile Include="Models\RewardCategory.cs" />
@@ -445,6 +466,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704051050315_pledge.resx">
       <DependentUpon>201704051050315_pledge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704051425107_pledgestatus.resx">
+      <DependentUpon>201704051425107_pledgestatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704051532596_change.resx">
+      <DependentUpon>201704051532596_change.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704051534471_changePledge.resx">
+      <DependentUpon>201704051534471_changePledge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704051628300_comeon.resx">
+      <DependentUpon>201704051628300_comeon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704051632085_arrgghh.resx">
+      <DependentUpon>201704051632085_arrgghh.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

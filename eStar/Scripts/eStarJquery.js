@@ -231,6 +231,4 @@
             $("#basketDropdown").css("display", "none");
         })
     })
-
-    $("#datepicker").datepicker({});
 })

@@ -46,6 +46,7 @@ namespace eStar.Models
         public DbSet<OrderStatus> OrderStatuses { get; set; }
         public DbSet<ProductOrder> ProductOrders { get; set; }
         public DbSet<StudentGuardian> StudentGuardians { get; set; }
+        public DbSet<PledgeStatus> PledgeStatuses { get; set; }
         public DbSet<Pledge> Pledges { get; set; }
     }
 }
