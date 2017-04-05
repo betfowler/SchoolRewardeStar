@@ -1,69 +1,168 @@
 ﻿@model IEnumerable<eStar.Models.Pledge>
+@using eStar.Security;
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Your Targets</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.PledgeStatus.Status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Target)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Deadline)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Students_User_ID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Guardians_User_ID)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PledgeStatus.Status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Target)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Deadline)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Students_User_ID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Guardians_User_ID)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PledgeID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PledgeID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PledgeID })
-        </td>
-    </tr>
-}
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#active">Active Targets</a></li>
+    <li><a data-toggle="tab" href="#unMet">Unmet Targets</a></li>
+    <li><a data-toggle="tab" href="#complete">Complete Targets</a></li>
+</ul>
 
-</table>
+<div class="tab-content">
+    <div id="active" class="tab-pane fade in active">
+        <h3>Active Targets</h3>
+        <table class="table">
+            <tr>
+                <th>
+                    Student Name
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Target)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Deadline)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.Where(m => m.PledgeStatusID.Equals(1)))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Students.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Target)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Deadline)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.PledgeID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.PledgeID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.PledgeID })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div id="unMet" class="tab-pane fade">
+        <h3>Unmet Targets</h3>
+        <table class="table">
+            <tr>
+                <th>
+                    Student Name
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Target)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Deadline)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.Where(m => m.PledgeStatusID.Equals(2)))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Students.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Target)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Deadline)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.PledgeID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.PledgeID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.PledgeID })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div id="complete" class="tab-pane fade">
+        <h3>Complete Targets</h3>
+        <table class="table">
+            <tr>
+                <th>
+                    Student Name
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Target)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Deadline)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.Where(m => m.PledgeStatusID.Equals(3)))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Students.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Target)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Deadline)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.PledgeID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.PledgeID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.PledgeID })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

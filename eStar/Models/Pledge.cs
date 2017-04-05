@@ -18,8 +18,8 @@ namespace eStar.Models
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         public int PledgeStatusID { get; set; }
-        public int Students_User_ID { get; set; }
-        public int Guardians_User_ID { get; set; }
+        public int Student_User_ID { get; set; }
+        public int Guardian_User_ID { get; set; }
 
         public virtual Guardian Guardians { get; set; }
         public virtual Student Students { get; set; }

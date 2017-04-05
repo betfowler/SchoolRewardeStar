@@ -260,6 +260,14 @@
     <Compile Include="Migrations\201704051632085_arrgghh.Designer.cs">
       <DependentUpon>201704051632085_arrgghh.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704051841135_again.cs" />
+    <Compile Include="Migrations\201704051841135_again.Designer.cs">
+      <DependentUpon>201704051841135_again.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704051844369_againagain.cs" />
+    <Compile Include="Migrations\201704051844369_againagain.Designer.cs">
+      <DependentUpon>201704051844369_againagain.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountModel.cs" />
@@ -481,6 +489,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704051632085_arrgghh.resx">
       <DependentUpon>201704051632085_arrgghh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704051841135_again.resx">
+      <DependentUpon>201704051841135_again.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704051844369_againagain.resx">
+      <DependentUpon>201704051844369_againagain.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
