@@ -22,7 +22,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="active">@Html.ActionLink("Home", "GuardianIndex", "Index")</li>
-                    <li>@Html.ActionLink("About You", "#", "#")</li>
+                    <li><a href="@string.Format("../../Awards/GuardianAwardView/{0}", SessionPersister.UserID)">Student Awards</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">

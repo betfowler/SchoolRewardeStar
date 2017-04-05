@@ -1,0 +1,64 @@
+﻿@model IEnumerable<eStar.Models.Pledge>
+@using eStar.Security;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", "Pledges", new { guardianID = SessionPersister.UserID }, null)
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Students_User_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Guardians_User_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Target)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Deadline)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Students_User_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Guardians_User_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Target)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Deadline)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PledgeID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PledgeID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PledgeID })
+        </td>
+    </tr>
+}
+
+</table>

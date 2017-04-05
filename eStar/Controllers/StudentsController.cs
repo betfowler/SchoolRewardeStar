@@ -9,6 +9,11 @@ using System.Web.Mvc;
 using eStar.Models;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using eStar.Security;
+//using System.Web.Helpers;
+using System.Web.UI.DataVisualization.Charting;
+using System.Drawing;
+using System.IO;
 
 namespace eStar.Controllers
 {
@@ -36,8 +41,119 @@ namespace eStar.Controllers
 
         public ActionResult UserProfile()
         {
-            return View(db.Accounts.OfType<Student>().ToList());
+            int userId = Convert.ToInt32(SessionPersister.UserID);
+            var count = 1;
+            foreach (var student in db.Accounts.OfType<Student>().OrderByDescending(m => m.Total_Points))
+            {
+                if (student.User_ID.Equals(userId))
+                {
+                    if (count == 1)
+                    {
+                        ViewBag.Position = "1st";
+                    }
+                    else if (count == 2)
+                    {
+                        ViewBag.Position = "2nd";
+                    }
+                    else if (count == 3)
+                    {
+                        ViewBag.Position = "3rd";
+                    }
+                    else
+                    {
+                        ViewBag.Position = count + "th";
+                    }
+                }
+                count = count + 1;
+            }
+            List<Award> awards = new List<Award>();
+            foreach(var award in db.StudentAwards.Where(sa => sa.Student_ID.Equals(userId)))
+            {
+                awards.Add(db.Awards.Where(aw => aw.Award_ID.Equals(award.Award_ID)).FirstOrDefault());
+            }
+
+            ViewBag.Awards = awards.ToList();
+            ViewBag.Subjects = db.Subjects.ToList();
+            ViewBag.Categories = db.RewardCategories.ToList();
+            string subjectName = "";
+            string catName = "";
+            int[] number = new int[db.Subjects.Count()];
+            int[] catNumber = new int[db.RewardCategories.Count()];
+            for(var i=0; i<db.Subjects.Count(); i++)
+            {  
+                number[i] = 0;
+            }
+            for (var i = 0; i < db.RewardCategories.Count(); i++)
+            {
+                catNumber[i] = 0;
+            }
+            foreach (var subject in db.Subjects.ToList())
+            {
+                subjectName = subjectName + subject.Subject_Name + ",";
+            }
+            foreach (var category in db.RewardCategories.ToList())
+            {
+                catName = catName + category.Reward_Category + ",";
+            }
+            ViewBag.Number = number;
+            ViewBag.SubjectNames = subjectName;
+            ViewBag.CatNumber = catNumber;
+            ViewBag.CatNames = catName;
+            return View();
         }
+
+        public ActionResult pieChart(string names, string values)
+        {
+            names = names.Remove(names.Length - 1);
+            values = values.Remove(values.Length - 1);
+            List<string> name = names.Split(',').ToList<string>();
+            List<string> value = values.Split(',').ToList<string>();
+            var val = name.Count();
+            int count = Convert.ToInt32(val);
+
+            List<string> xValues = new List<string>();
+            List<int> yValues = new List<int>();
+
+            for (var i = 0; i < count; i++)
+            {
+                if(Convert.ToInt32(value[i]) != 0){
+                    xValues.Add(name[i]);
+                    yValues.Add(Convert.ToInt32(value[i]));
+                }
+            }
+
+            val = xValues.Count();
+            count = Convert.ToInt32(val);
+
+            Chart chart = new Chart();
+            chart.ChartAreas.Add(new ChartArea());
+            chart.Height = 700;
+            chart.Width = 900;
+
+            chart.Series.Add(new Series("Data"));
+            chart.Legends.Add(new Legend("Stores"));
+            chart.Series["Data"].ChartType = SeriesChartType.Pie;
+            chart.Series["Data"]["PieLabelStyle"] = "Outside";
+            chart.Series["Data"]["PieLineColor"] = "Black";
+            for (var i = 0; i < count; i++)
+            {
+                chart.Series["Data"].Points.AddXY(
+                    xValues[i],
+                    yValues[i]);
+            }
+            chart.Series["Data"].Font = new Font("Segoe UI", 12.0f, FontStyle.Bold);
+            chart.Series["Data"].ChartType = SeriesChartType.Pie;
+            chart.Series["Data"]["PieLabelStyle"] = "Outside";
+            chart.Series["Data"].Label = "#VALX: #PERCENT{P2}";
+            chart.Legends["Stores"].Docking = Docking.Bottom;
+
+            var returnStream = new MemoryStream();
+            chart.ImageType = ChartImageType.Png;
+            chart.SaveImage(returnStream);
+            returnStream.Position = 0;
+            return new FileStreamResult(returnStream, "image/png");
+        }
+
 
         // GET: Students/Details/5
         public ActionResult Details(int? id)

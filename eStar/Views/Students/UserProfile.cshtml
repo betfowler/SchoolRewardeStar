@@ -1,7 +1,4 @@
-﻿@model IEnumerable<eStar.Models.Student>
-
-@using eStar.Security;
-
+﻿@using eStar.Security;
 
 @{
     ViewBag.Title = "UserProfile";
@@ -31,33 +28,56 @@
         <div class="profileText">
             <span style="font-size: 100px"><i class="fa fa-certificate" aria-hidden="true"></i></span>
             <h2>Your Position In School</h2>
-            @{
-                var count = 1;
-                foreach (var student in Model.OrderByDescending(m => m.Total_Points))
-                {
-                    int user = Convert.ToInt32(SessionPersister.UserID);
-                    if (student.User_ID.Equals(user))
-                    {
-                        if (count == 1)
-                        {
-                            <h1 style="font-size: 80px">@count st</h1>
-                        }
-                        else if (count == 2)
-                        {
-                            <h1 style="font-size: 80px">@count nd</h1>
-                        }
-                        else if (count == 3)
-                        {
-                            <h1 style="font-size: 80px">@count rd</h1>
-                        }
-                        else
-                        {
-                            <h1 style="font-size: 80px">@count th</h1>
-                        }
-                    }
-                    count = count + 1;
-                }
-            }
+            <h1 style="font-size: 80px">@ViewBag.Position</h1>
+
         </div>
     </div>
+</div>
+<div class="row">
+    @{
+        var awardCount = 0;
+        foreach (var award in ViewBag.Awards)
+        {
+            var subjectCount = 0;
+            foreach (var subject in ViewBag.Subjects)
+            {
+                if (award.Subject_ID == subject.Subject_ID)
+                {
+                    var count = ViewBag.Number[subjectCount];
+                    count = count + award.Num_Points;
+                    ViewBag.Number[subjectCount] = count;
+                }
+                subjectCount = subjectCount + 1;
+            }
+            var rewardCount = 0;
+            foreach (var category in ViewBag.Categories)
+            {
+                if (award.RewardCategory_ID == category.RewardCategory_ID)
+                {
+                    var rcount = ViewBag.CatNumber[rewardCount];
+                    rcount = rcount + award.Num_Points;
+                    ViewBag.CatNumber[rewardCount] = rcount;
+                }
+                rewardCount = rewardCount + 1;
+            }
+            awardCount = awardCount + 1;
+        }
+
+        string values = "";
+        foreach (var value in ViewBag.Number)
+        {
+            values = values + value + ",";
+        }
+        string catValues = "";
+        foreach (var catValue in ViewBag.CatNumber)
+        {
+            catValues = catValues + catValue + ",";
+        }
+    }
+
+
+    <h3>Your Subject Rewards</h3>
+    <img src="@Url.Action("pieChart", "Students", new { names = ViewBag.SubjectNames, values = values})" />
+    <h3>Your Reward Categories</h3>
+    <img src="@Url.Action("pieChart", "Students", new { names = ViewBag.CatNames, values = catValues})" />
 </div>

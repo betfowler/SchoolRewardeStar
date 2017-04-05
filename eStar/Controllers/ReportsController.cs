@@ -89,13 +89,13 @@ namespace eStar.Controllers
                 xValues.Add(name[i]);
                 yValues.Add(Convert.ToInt32(value[i]));
             }
-
             var key = new Chart(width: width, height: 600)
                 .AddTitle(title)
                 .AddSeries(
                 chartType: "Column",
                 xValue: xValues,
                 yValues: yValues);
+
             return File(key.ToWebImage().GetBytes(), "image/jpeg");
         }
 
