@@ -78,7 +78,7 @@ namespace eStar.Controllers
         }
 
         // GET: Classes/Create
-        public ActionResult Create(string staffSearch, string studentSearch, string student, string staff, string className, string warning)
+        public ActionResult Create(string staffSearch, string studentSearch, string className, string warning, string student, string staff)
         {
             EnrolmentViewModel evm = new EnrolmentViewModel();
             evm.Staff = db.Accounts.OfType<Staff>().ToList();
@@ -99,6 +99,46 @@ namespace eStar.Controllers
             if (!String.IsNullOrEmpty(warning))
             {
                 ViewBag.Error = warning;
+            }
+            if (!String.IsNullOrEmpty(staff))
+            {
+                List<string> staffMembers = staff.Split(',').ToList<string>();
+                foreach(var name in staffMembers)
+                {
+                    var exists = false;
+                    var id = Convert.ToInt32(name);
+                    foreach(var listedStaff in evm.Staff)
+                    {
+                        if(listedStaff.User_ID == id)
+                        {
+                            exists = true;
+                        }
+                    }
+                    if(exists == false)
+                    {
+                        evm.Staff.Add(db.Accounts.OfType<Staff>().Where(st => st.User_ID.Equals(id)).FirstOrDefault());
+                    }
+                }
+            }
+            if (!String.IsNullOrEmpty(student))
+            {
+                List<string> studentMembers = student.Split(',').ToList<string>();
+                foreach (var name in studentMembers)
+                {
+                    var exists = false;
+                    var id = Convert.ToInt32(name);
+                    foreach (var listedStudent in evm.Students)
+                    {
+                        if (listedStudent.User_ID == id)
+                        {
+                            exists = true;
+                        }
+                    }
+                    if (exists == false)
+                    {
+                        evm.Students.Add(db.Accounts.OfType<Student>().Where(st => st.User_ID.Equals(id)).FirstOrDefault());
+                    }
+                }
             }
 
             return View(evm);
@@ -140,6 +180,7 @@ namespace eStar.Controllers
                     {
                         students = students + s + ",";
                     }
+                    students = students.Remove(students.Length - 1);
                 }
                 if(staff != null)
                 {
@@ -147,6 +188,7 @@ namespace eStar.Controllers
                     {
                         staffs = staffs + s + ",";
                     }
+                    staffs = staffs.Remove(staffs.Length - 1);
                 }
                 return RedirectToAction("Create", new { warning= warning, className = @class.Class_Name, student = students, staff = staffs});
             }
@@ -179,7 +221,7 @@ namespace eStar.Controllers
         }
 
         // GET: Classes/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, string staffSearch, string studentSearch, string className, string warning, string student, string staff)
         {
             if (id == null)
             {
@@ -192,21 +234,81 @@ namespace eStar.Controllers
             }
 
             EnrolmentViewModel evm = new EnrolmentViewModel();
-            string students = "";
-            string staff = "";
-            var classID = Convert.ToInt32(id);
-            evm.Class = db.Classes.Find(classID);
-            foreach (var enrolment in db.Enrolments.Where(e => e.Class_ID.Equals(classID)))
-            {
-                students = students + enrolment.User_ID + ",";
-            }
-            foreach (var classStaff in db.ClassStaffs.Where(cs => cs.Class_ID.Equals(classID)))
-            {
-                staff = staff + classStaff.User_ID + ",";
-            }
             evm.Staff = db.Accounts.OfType<Staff>().ToList();
             evm.Students = db.Accounts.OfType<Student>().ToList();
-            ViewBag.Students = students;
+            var classID = Convert.ToInt32(id);
+            evm.Class = db.Classes.Find(classID);
+
+            if (String.IsNullOrEmpty(className))
+            {
+                student = "";
+                staff = "";
+                foreach (var enrolment in db.Enrolments.Where(e => e.Class_ID.Equals(classID)))
+                {
+                    student = student + enrolment.User_ID + ",";
+                }
+                foreach (var classStaff in db.ClassStaffs.Where(cs => cs.Class_ID.Equals(classID)))
+                {
+                    staff = staff + classStaff.User_ID + ",";
+                }
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(staffSearch))
+                {
+                    var search = staffSearch.ToUpper();
+                    evm.Staff = db.Accounts.OfType<Staff>().Where(st => st.First_Name.ToUpper().Contains(search) || st.Surname.ToUpper().Contains(search)).ToList();
+                }
+                if (!String.IsNullOrEmpty(studentSearch))
+                {
+                    var search = studentSearch.ToUpper();
+                    evm.Students = db.Accounts.OfType<Student>().Where(st => st.First_Name.ToUpper().Contains(search) || st.Surname.ToUpper().Contains(search)).ToList();
+                }
+                if (!String.IsNullOrEmpty(staff))
+                {
+                    staff = staff.Remove(staff.Length - 1);
+                    List<string> staffMembers = staff.Split(',').ToList<string>();
+                    foreach (var name in staffMembers)
+                    {
+                        var exists = false;
+                        var sid = Convert.ToInt32(name);
+                        foreach (var listedStaff in evm.Staff)
+                        {
+                            if (listedStaff.User_ID == sid)
+                            {
+                                exists = true;
+                            }
+                        }
+                        if (exists == false)
+                        {
+                            evm.Staff.Add(db.Accounts.OfType<Staff>().Where(st => st.User_ID.Equals(sid)).FirstOrDefault());
+                        }
+                    }
+                }
+                if (!String.IsNullOrEmpty(student))
+                {
+                    student = student.Remove(student.Length - 1);
+                    List<string> studentMembers = student.Split(',').ToList<string>();
+                    foreach (var name in studentMembers)
+                    {
+                        var exists = false;
+                        var sid = Convert.ToInt32(name);
+                        foreach (var listedStudent in evm.Students)
+                        {
+                            if (listedStudent.User_ID == sid)
+                            {
+                                exists = true;
+                            }
+                        }
+                        if (exists == false)
+                        {
+                            evm.Students.Add(db.Accounts.OfType<Student>().Where(st => st.User_ID.Equals(sid)).FirstOrDefault());
+                        }
+                    }
+                }
+            }
+            
+            ViewBag.Students = student;
             ViewBag.Staff = staff;
             return View(evm);
         }

@@ -300,7 +300,6 @@ textarea {
 
 .selectStaff,
 .selectStudents{
-    display: none;
     overflow-y: scroll;
     height: 300px;
 }

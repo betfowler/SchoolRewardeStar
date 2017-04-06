@@ -82,3 +82,21 @@ function deadline() {
         $("#Deadline").val("");
     }
 }
+
+function classSearchUsers() {
+    var staffList = String($("#staffList").attr("value"));
+    var studentList = String($("#studentList").attr("value"));
+    var searchStaff = $("#staffSearch").val();
+    var searchStudent = $("#studentSearch").val();
+    var name = $("#className").val();
+    window.location.href = "../Classes/Create?staffSearch=" + searchStaff + "&staff=" + staffList + "&className=" + name + "&student=" + studentList + "&studentSearch=" + searchStudent
+}
+
+function classSearchEdit(id) {
+    var staffList = String($("#staffList").attr("value"));
+    var studentList = String($("#studentList").attr("value"));
+    var searchStaff = $("#staffSearch").val();
+    var searchStudent = $("#studentSearch").val();
+    var name = $("#className").val();
+    window.location.href = "../../Classes/Edit/"+id+"?staffSearch=" + searchStaff + "&staff=" + staffList + "&className=" + name + "&student=" + studentList + "&studentSearch=" + searchStudent
+}

@@ -17,6 +17,7 @@
     @Html.AntiForgeryToken()
     <span id="studentList" hidden="hidden">@ViewBag.Students</span>
     <span id="staffList" hidden="hidden">@ViewBag.Staff</span>
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -43,20 +44,19 @@
                 <input type="text" disabled="disabled" class="form-control" id="selectedStaff" placeholder="No staff selected"/>
             </div>
             <div class="col-md-2">
-                <a onclick="selectstaff()" id="showstafflink">Select Staff <i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
+                <a onclick="selectstaff()" id="showstafflink">Hide Staff <i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
             </div>
         </div>
 
         <div class="row">
             <div class="selectStaff">
                 <hr />
-
                 <div class="col-md-2"></div>
                 <div class="col-md-10">
                     <div class="searchContainer">
                         <div id="class">&nbsp; &nbsp;</div>
                         @Html.TextBox("staffSearch", null, new { @class = "clearable", @placeholder = "Search staff names"})
-                        @Html.ActionLink("Search", "Create", "Classes", null, new { id= "userSearch", @class="btn btn-primary"})
+                        <a onclick="classSearchUsers()" class="btn btn-primary">Search</a>
                     </div>
                     <div class="row" id="smlBreak"></div>
                     <table class="table">
@@ -117,7 +117,7 @@
                 <input type="text" disabled="disabled" class="form-control" id="selectedStudents" placeholder="No students selected" />
             </div>
             <div class="col-md-2">
-                <a onclick="selectstudent()" id="showstudentslink">Select Students <i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
+                <a onclick="selectstudent()" id="showstudentslink">Hide Students <i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
             </div>
         </div>
 
@@ -129,7 +129,7 @@
                     <div class="searchContainer">
                         <div id="class">&nbsp; &nbsp;</div>
                         @Html.TextBox("studentSearch", null, new { @class = "clearable", @placeholder = "Search student names" })
-                        @Html.ActionLink("Search", "Create", "Classes", null, new { id = "search", @class = "btn btn-primary" })
+                        <a onclick="classSearchUsers()" class="btn btn-primary">Search</a>
                     </div>
                     <div class="row" id="smlBreak"></div>
                     <table class="table">

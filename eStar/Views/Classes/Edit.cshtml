@@ -40,7 +40,7 @@
                 <input type="text" disabled="disabled" class="form-control" id="selectedStaff" placeholder="No staff selected" />
             </div>
             <div class="col-md-2">
-                <a onclick="selectstaff()" id="showstafflink">Select Staff <i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
+                <a onclick="selectstaff()" id="showstafflink">Hide Staff <i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
             </div>
         </div>
 
@@ -54,7 +54,7 @@
                         <div id="class">&nbsp; &nbsp;</div>
                         @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search staff names" })
                         @Html.Hidden("classID")
-                        <input class="btn btn-primary" type="submit" value="Search" id="searchSubmit" />
+                        <a onclick="classSearchEdit(@Model.Class.Class_ID)" class="btn btn-primary">Search</a>
                     </div>
                     <div class="row" id="smlBreak"></div>
                     <table class="table">
@@ -115,7 +115,7 @@
                 <input type="text" disabled="disabled" class="form-control" id="selectedStudents" placeholder="No students selected" />
             </div>
             <div class="col-md-2">
-                <a onclick="selectstudent()" id="showstudentslink">Select Students <i class="fa fa-angle-double-down" aria-hidden="true"></i></a>
+                <a onclick="selectstudent()" id="showstudentslink">Hide Students <i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
             </div>
         </div>
 
@@ -128,7 +128,7 @@
                         <div id="class">&nbsp; &nbsp;</div>
                         @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search student names" })
                         @Html.Hidden("classID")
-                        <input class="btn btn-primary" type="submit" value="Search" id="searchSubmit" />
+                        <a onclick="classSearchUsers()" class="btn btn-primary">Search</a>
                     </div>
                     <div class="row" id="smlBreak"></div>
                     <table class="table">

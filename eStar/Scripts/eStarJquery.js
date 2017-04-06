@@ -86,8 +86,12 @@
 
     //when editing select students already in class
     var selectedStaff = $("#staffList").text();
+    var staffList = String($("#staffList").attr("value", selectedStaff));
     if (selectedStaff != null) {
-        selectedStaff = selectedStaff.slice(0, -1);
+        var last = selectedStaff.substr(selectedStaff.length - 1);
+        if (last == ",") {
+            selectedStaff = selectedStaff.slice(0, -1);
+        }
         var array = selectedStaff.split(',');
         for (var i = 0; i < array.length; i++) {
             var value = parseInt(array[i]);
@@ -147,14 +151,21 @@
         $("#staffList").attr('value', idList);
     })
 
-    //when editing select students already in class
+    //when editing select students already in class   
     var selectedStudents = $("#studentList").text();
-    selectedStudents = selectedStudents.slice(0, -1);
-    var array = selectedStudents.split(',');
-    for (var i = 0; i < array.length; i++) {
-        var value = parseInt(array[i]);
-        $("#" + value).prop('checked', true);
+    var studentList = String($("#studentList").attr("value", selectedStudents));
+    if (selectedStudents != null) {
+        var last = selectedStudents.substr(selectedStudents.length - 1);
+        if (last == ",") {
+            selectedStudents = selectedStudents.slice(0, -1);
+        }
+        var array = selectedStudents.split(',');
+        for (var i = 0; i < array.length; i++) {
+            var value = parseInt(array[i]);
+            $("#" + value).prop('checked', true);
+        }
     }
+    
 
 
     //display in boxes
@@ -181,13 +192,17 @@
         var textValue = $("#selectedStudents").attr('value');
         var userName = $(this).attr('alt');
         var count = parseInt($("#studentcount").attr('value'));
+        var idList = $("#studentList").attr('value');
+        var id = $(this).attr('id');
 
         if ($(this).prop('checked') == true) {
             if (textValue == null || textValue == "") {
                 textValue = userName;
+                idList = id;
             }
             else {
                 textValue = textValue + ", " + userName;
+                idList = idList + "," + id;
             }
             count = count + 1;
         }
@@ -205,6 +220,7 @@
 
         $("#selectedStudents").attr('value', textValue);
         $("#studentcount").attr('value', count);
+        $("#studentList").attr('value', idList);
     })
 
     $("#userSearch").click(function () {
