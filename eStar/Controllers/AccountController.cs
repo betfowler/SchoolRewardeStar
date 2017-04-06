@@ -76,6 +76,7 @@ namespace eStar.Controllers
                 {
                     SessionPersister.Basket = order.ProductCount;
                 }
+                SessionPersister.Pledge = db.Pledges.Where(p => p.Student_User_ID.Equals(SessionPersister.UserID) && p.PledgeStatusID.Equals(1)).Count();
                 
             }
             return RedirectToAction(SessionPersister.UserType + "Index", "Index");

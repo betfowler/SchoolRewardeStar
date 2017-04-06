@@ -34,6 +34,7 @@
                             <li>@Html.ActionLink("Your Profile", "UserProfile", "Students")</li>
                         </ul>
                     </li>
+                    <li>@Html.ActionLink("Your Targets", "Index", "Pledges")</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -49,8 +50,9 @@
             </div>
             <div class="userDetails">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a><i class="fa fa-trophy" aria-hidden="true"></i>Total Points: @SessionPersister.TotalPoints</a></li>
-                    <li><a><i class="fa fa-star" aria-hidden="true"></i> Balance: @SessionPersister.Balance</a></li>
+                    <li><a href="@Url.Action("Index", "Pledges")"><i class="fa fa-bullseye" aria-hidden="true"></i>Targets: @SessionPersister.Pledge</a></li>
+                    <li><a href="@string.Format("../../Awards/ViewAwards/{0}", SessionPersister.UserID)"><i class="fa fa-trophy" aria-hidden="true"></i>Total Points: @SessionPersister.TotalPoints</a></li>
+                    <li><a href="@Url.Action("UserProfile","Students")"><i class="fa fa-star" aria-hidden="true"></i> Balance: @SessionPersister.Balance</a></li>
                     <li><a href="@Url.Action("BasketView","Products")" id="studentBasket"><span class="fa fa-shopping-cart" aria-hidden="true"></span> Basket: @SessionPersister.Basket</a></li>
                 </ul>
             </div>

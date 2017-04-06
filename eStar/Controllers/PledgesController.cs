@@ -19,7 +19,39 @@ namespace eStar.Controllers
         public ActionResult Index()
         {
             int id = Convert.ToInt32(SessionPersister.UserID);
-            var pledges = db.Pledges.Include(p => p.PledgeStatus).Where(p => p.Guardian_User_ID.Equals(id));
+            var pledges = db.Pledges.Include(p => p.PledgeStatus);
+
+            if (SessionPersister.UserType == "Guardian")
+            {
+               pledges = db.Pledges.Include(p => p.PledgeStatus).Where(p => p.Guardian_User_ID.Equals(id));
+            }
+            else if(SessionPersister.UserType == "Student")
+            {
+                pledges = db.Pledges.Include(p => p.PledgeStatus).Where(p => p.Student_User_ID.Equals(id));
+            }
+            
+            foreach(var p in pledges)
+            {
+                Pledge pledge = db.Pledges.Find(p.PledgeID);
+                var student = db.Accounts.OfType<Student>().Where(s => s.User_ID.Equals(pledge.Student_User_ID)).FirstOrDefault();
+                if(pledge.Deadline < DateTime.Now && pledge.PledgeStatusID == 1)
+                {
+                    if (student.Total_Points >= pledge.Target)
+                    {
+                        pledge.PledgeStatusID = 3;
+                    }
+                    else
+                    {
+                        pledge.PledgeStatusID = 2;
+                    }
+                }
+                else if(student.Total_Points >= pledge.Target && pledge.PledgeStatusID == 1)
+                {
+                    pledge.PledgeStatusID = 3;
+                }
+                
+            }
+            db.SaveChanges();
             return View(pledges.ToList());
         }
 
@@ -35,6 +67,11 @@ namespace eStar.Controllers
             {
                 return HttpNotFound();
             }
+            var date = DateTime.Now;
+            if(pledge.Deadline != null)
+            {
+                ViewBag.Days = (pledge.Deadline.Date - date.Date).TotalDays;
+            }
             return View(pledge);
         }
 
@@ -44,6 +81,18 @@ namespace eStar.Controllers
             PopulateStudentDropDownList();
             ViewBag.PledgeStatusID = new SelectList(db.PledgeStatuses, "PledgeStatusID", "Status");
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult AjaxMethod (string studentID)
+        {
+            int id = Convert.ToInt32(studentID);
+            StudentPoints studentPoints = new StudentPoints
+            {
+                Name = db.Accounts.OfType<Student>().Where(s => s.User_ID.Equals(id)).FirstOrDefault().FullName,
+                Points = db.Accounts.OfType<Student>().Where(s => s.User_ID.Equals(id)).FirstOrDefault().Total_Points
+            };
+            return Json(studentPoints);
         }
 
         private void PopulateStudentDropDownList(object selectedStudent = null)
@@ -56,11 +105,15 @@ namespace eStar.Controllers
                 students.Add(db.Accounts.OfType<Student>().Where(s => s.User_ID.Equals(studentid)).FirstOrDefault());
             }
 
+            ViewBag.Student = students[0].User_ID;
+            ViewBag.StudentPoint = students[0].Total_Points;
+            ViewBag.Points = students;
+
             var query = from s in students
                         orderby s.First_Name
                         select s;
 
-            ViewBag.Students_User_ID = new SelectList(query, "User_ID", "FullName", selectedStudent);
+            ViewBag.Student_User_ID = new SelectList(query, "User_ID", "FullName", selectedStudent);
         }
 
         // POST: Pledges/Create
@@ -70,20 +123,22 @@ namespace eStar.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "PledgeID,Target,Deadline,Title,Description,PledgeStatusID,Student_User_ID,Guardian_User_ID")] Pledge pledge)
         {
-            if (ModelState.IsValid)
-            {
-                pledge.Guardians = new Guardian();
-                pledge.Students = new Student();
-                pledge.Guardians.User_ID = SessionPersister.UserID;
-                pledge.Students.User_ID = pledge.Student_User_ID;
-                pledge.Guardian_User_ID = SessionPersister.UserID;
-                pledge.PledgeStatusID = 1; //active
-                db.Pledges.Add(pledge);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            pledge.Guardians = db.Accounts.OfType<Guardian>().Where(g => g.User_ID.Equals(SessionPersister.UserID)).FirstOrDefault();
+            pledge.Students = db.Accounts.OfType<Student>().Where(s => s.User_ID.Equals(pledge.Student_User_ID)).FirstOrDefault();
+            pledge.Guardian_User_ID = SessionPersister.UserID;
 
-            ViewBag.PledgeStatusID = new SelectList(db.PledgeStatuses, "PledgeStatusID", "Status", pledge.PledgeStatusID);
+            if (pledge.Target > pledge.Students.Total_Points)
+            {
+                if (ModelState.IsValid)
+                {
+                    pledge.PledgeStatusID = 1; //active
+                    db.Pledges.Add(pledge);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            ViewBag.Error = "Please enter a target greater than their existing points";
+            PopulateStudentDropDownList();
             return View(pledge);
         }
 
@@ -99,7 +154,11 @@ namespace eStar.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.PledgeStatusID = new SelectList(db.PledgeStatuses, "PledgeStatusID", "Status", pledge.PledgeStatusID);
+            var date = DateTime.Now;
+            if (pledge.Deadline != null)
+            {
+                ViewBag.Days = (pledge.Deadline.Date - date.Date).TotalDays;
+            }
             return View(pledge);
         }
 
@@ -131,6 +190,11 @@ namespace eStar.Controllers
             if (pledge == null)
             {
                 return HttpNotFound();
+            }
+            var date = DateTime.Now;
+            if (pledge.Deadline != null)
+            {
+                ViewBag.Days = (pledge.Deadline.Date - date.Date).TotalDays;
             }
             return View(pledge);
         }

@@ -1,74 +1,49 @@
 ﻿@model eStar.Models.Pledge
+@using eStar.Security;
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Target Details</h2>
 
 <div>
-    <h4>Pledge</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PledgeStatus.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PledgeStatus.Status)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Target)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Target)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Deadline)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Deadline)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Student_User_ID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Student_User_ID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Guardian_User_ID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Guardian_User_ID)
-        </dd>
-
-    </dl>
+    @if (Model.PledgeStatusID == 1)
+    {
+        <div class="alert alert-info">
+            <strong>Active</strong> This target is still active <b>@ViewBag.Days left!</b>
+        </div>
+    }
+    else if (Model.PledgeStatusID == 2)
+    {
+        <div class="alert alert-danger">
+            <strong>Unmet</strong> This target wasn't met by the set deadline.
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success">
+            <strong>Complete</strong> This target was completed by the deadline.
+        </div>
+    }
+    <div class="row">
+        <div class="col-md-6" id="targetStudentDetails">
+            <h3>@Model.Students.FullName</h3>
+            <h4><b>Total Points: </b>@Model.Students.Total_Points</h4>
+            @if (SessionPersister.UserType == "Guardian")
+            {
+                <a href="@string.Format("../../Awards/GuardianAwardView/{0}", SessionPersister.UserID)" class="btn btn-default">View Awards</a>
+            }
+        </div>
+        <div class="col-md-6" id="targetDetails">
+            <h3>@Model.Title</h3>
+            <h4>@Model.Description</h4>
+            <h5><b>Deadline: </b>@Html.DisplayFor(model => model.Deadline)</h5>
+            @Model.PledgeStatus.Status
+        </div>
+    </div>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.PledgeID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

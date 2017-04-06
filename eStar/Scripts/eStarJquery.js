@@ -231,4 +231,42 @@
             $("#basketDropdown").css("display", "none");
         })
     })
+
+    $.ajax({
+        type: "POST",
+        url: "/Pledges/AjaxMethod",
+        data: '{studentID: "' + $("#Student_User_ID").val() + '" }',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            $("#student").text(response.Name);
+            $("#points").text(response.Points);
+        },
+        failure: function (response) {
+            $("#points").text("Failure");
+        },
+        error: function (response) {
+            $("#points").text("Error");
+        }
+    });
+
+    $("#Student_User_ID").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Pledges/AjaxMethod",
+            data: '{studentID: "' + $(this).val() + '" }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                $("#student").text(response.Name);
+                $("#points").text(response.Points);
+            },
+            failure: function (response) {
+                $("#pointsTest").text("Failure");
+            },
+            error: function (response) {
+                $("#pointsTest").text("Error");
+            }
+        });
+    });
 })

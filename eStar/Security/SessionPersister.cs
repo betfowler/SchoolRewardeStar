@@ -70,5 +70,7 @@ namespace eStar.Security
                 HttpContext.Current.Session[userSessionvar] = value;
             }
         }
+
+        public static int Pledge { get; internal set; }
     }
 }
