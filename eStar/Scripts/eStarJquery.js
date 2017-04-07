@@ -248,24 +248,6 @@
         })
     })
 
-    $.ajax({
-        type: "POST",
-        url: "/Pledges/AjaxMethod",
-        data: '{studentID: "' + $("#Student_User_ID").val() + '" }',
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (response) {
-            $("#student").text(response.Name);
-            $("#points").text(response.Points);
-        },
-        failure: function (response) {
-            $("#points").text("Failure");
-        },
-        error: function (response) {
-            $("#points").text("Error");
-        }
-    });
-
     $("#Student_User_ID").click(function () {
         $.ajax({
             type: "POST",
@@ -285,4 +267,51 @@
             }
         });
     });
+
+    $("#classid").attr('value', $("#classID").val());
+    $("#classID").click(function () {
+        $("#classid").attr('value', $("#classID").val());
+    })
+
+    //when editing select students already in class   
+    var selectedStudents = $("#studentList").text();
+    var studentList = String($("#studentList").attr("value", selectedStudents));
+    if (selectedStudents != null) {
+        var last = selectedStudents.substr(selectedStudents.length - 1);
+        if (last == ",") {
+            selectedStudents = selectedStudents.slice(0, -1);
+        }
+        var array = selectedStudents.split(',');
+        for (var i = 0; i < array.length; i++) {
+            var value = parseInt(array[i]);
+            $("#" + value).prop('checked', true);
+        }
+    }
+
+    $(".awardStudents").click(function () {
+        var idList = $("#studentList").attr('value');
+        var id = $(this).attr('id');
+
+        if ($(this).prop('checked') == true) {
+            if (idList == null || idList == "") {
+                idList = id;
+            }
+            else {
+                idList = idList + "," + id;
+            }
+        }
+        else {
+            var replace = ", " + id;
+            var index = idList.indexOf(replace)
+            if (index >= 0) {
+                idList = idList.replace(", " + id, "");
+            }
+            else {
+                idList = idList.replace(id, "");
+            }
+        }
+
+        $("#studentList").attr('value', idList);
+    })
+
 })

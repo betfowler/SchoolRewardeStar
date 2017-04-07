@@ -81,8 +81,7 @@ namespace eStar.Controllers
                     {
                         award.Add(db.Awards.Where(aw => aw.Award_ID.Equals(studentaward.Award_ID)).FirstOrDefault());
                     }
-
-                    return View(award.ToList());
+                    return View(award.OrderByDescending(aw => aw.AwardDate).ToList());
                 }
                 //STAFF
                 if(usertype == "Staff" || usertype == "Admin")
@@ -90,7 +89,7 @@ namespace eStar.Controllers
                     award = db.Awards.Where(aw => aw.Staff_ID.Equals(userid)).ToList();
                 }
 
-                return View(award);
+                return View(award.OrderByDescending(aw => aw.AwardDate).ToList());
             }
             return RedirectToAction("Index", "Index");
         }
@@ -150,7 +149,7 @@ namespace eStar.Controllers
         }
 
         // GET: Awards
-        public ActionResult Index(string sortOrder, string searchString, string classID, string yearGroup, string tutorGroup, string message)
+        public ActionResult Index(string sortOrder, string searchString, string classID, string yearGroup, string tutorGroup, string message, string student)
         {
             if (message == "Fail")
             {
@@ -163,7 +162,7 @@ namespace eStar.Controllers
             ViewBag.SurnameSortParm = String.IsNullOrEmpty(sortOrder) ? "Surname_desc" : "";
             ViewBag.YearGroupSortParm = sortOrder == "YearGroup" ? "YearGroup_desc" : "YearGroup";
             ViewBag.TutorGroupSortParm = sortOrder == "TutorGroup" ? "TutorGroup_desc" : "TutorGroup";
-            
+            ViewBag.Students = student;
 
             List<Student> students = new List<Student>();
             int number;
@@ -277,7 +276,28 @@ namespace eStar.Controllers
                     break;
             }
 
-            return View(students);
+            if (!String.IsNullOrEmpty(student))
+            {
+                List<string> studentMembers = student.Split(',').ToList<string>();
+                foreach (var name in studentMembers)
+                {
+                    var exists = false;
+                    var id = Convert.ToInt32(name);
+                    foreach (var listedStudent in students)
+                    {
+                        if (listedStudent.User_ID == id)
+                        {
+                            exists = true;
+                        }
+                    }
+                    if (exists == false)
+                    {
+                        students.Add(db.Accounts.OfType<Student>().Where(st => st.User_ID.Equals(id)).FirstOrDefault());
+                    }
+                }
+            }
+
+            return View(students.ToList());
         }
 
         // GET: Awards/Details/5

@@ -100,3 +100,19 @@ function classSearchEdit(id) {
     var name = $("#className").val();
     window.location.href = "../../Classes/Edit/"+id+"?staffSearch=" + searchStaff + "&staff=" + staffList + "&className=" + name + "&student=" + studentList + "&studentSearch=" + searchStudent
 }
+
+function studentAwardSearch(sortOrder) {
+    console.log(sortOrder);
+    var classID = $("#classid").attr('value');
+    var searchVal = $("#SearchString").val();
+    var yearGroup = $("input[name = yearGroup]:checked").val();
+    var tutorGroup = $("input[name = tutorGroup]:checked").val();
+    var studentList = String($("#studentList").attr("value"));
+    window.location.href="../../Awards?classID=" + classID + "&searchString=" + searchVal + "&yearGroup=" + yearGroup + "&tutorGroup=" + tutorGroup + "&student=" + studentList + "&sortOrder=" + sortOrder
+}
+
+function studentAwardReset() {
+    var classID = $("#classid").attr('value');
+    var studentList = String($("#studentList").attr("value"));
+    window.location.href = "../../Awards?classID=" + classID + "&yearGroup=all&tutorGroup=all&student=" + studentList
+}

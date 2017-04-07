@@ -6,6 +6,8 @@
 
 @using (Html.BeginForm())
 {
+    <span id="studentList" hidden="hidden">@ViewBag.Students</span>
+    <span id="classid" hidden="hidden"></span>
     <div class="row">
         <div class="col-md-8">
             <h3>Class/Group: @ViewBag.ClassName</h3>
@@ -29,7 +31,7 @@
                                 @Html.DropDownList("classID", "All")
                                 @Html.TextBox("SearchString", null, new { @class = "clearable", @placeholder = "Search student names" })
                                 @Html.Hidden("classID")
-                                <input class="btn btn-primary" type="submit" value="Search" id="searchSubmit" />
+                                <a onclick="studentAwardSearch('')" class="btn btn-primary">Search</a>
                             </div>
                         </div>
                         <div class="panel-footer">
@@ -58,7 +60,7 @@
                                 </div>
                             </div>
                             <div class="row" style="float: right">
-                                @Html.ActionLink("Reset", "Index", "Awards", new { id = "reset", classID = @ViewBag.ClassID, sortOrder = "", searchString = "", yearGroup = "all", tutorGroup = "all" }, null)
+                                <a onclick="studentAwardReset()" id="reset">Reset</a>
                             </div>
                         </div>
                     </div>
@@ -86,19 +88,19 @@
                 @Html.DisplayNameFor(model => model.Prefix)
             </th>
             <th>
-                @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.FirstNameSortParm, classID = ViewBag.classID, searchString = ViewBag.Search })
+                <a onclick="studentAwardSearch('FirstName')">First Name</a>
                 &#9662;
             </th>
             <th>
-                @Html.ActionLink("Surname", "Index", new { sortOrder = ViewBag.SurnameSortParm, classID = ViewBag.classID, searchString = ViewBag.Search })
+                <a onclick="studentAwardSearch('')">Surname</a>
                 &#9662;
             </th>
             <th>
-                @Html.ActionLink("Year Group", "Index", new { sortOrder = ViewBag.YearGroupSortParm, classID = ViewBag.classID, searchString = ViewBag.Search })
+                <a onclick="studentAwardSearch('YearGroup')">Year Group</a>
                 &#9662;
             </th>
             <th>
-                @Html.ActionLink("Tutor Group", "Index", new { sortOrder = ViewBag.TutorGroupSortParm, classID = ViewBag.classID, searchString = ViewBag.Search })
+                <a onclick="studentAwardSearch('TutorGroup')">Tutor Group</a>
                 &#9662;
             </th>
             <th></th>
@@ -108,7 +110,7 @@
         {
             <tr>
                 <td>
-                    <input type="checkbox" id="selectedStudent" name="student" value="@item.User_ID" class="selectedStudent"/>
+                    <input type="checkbox" id="@item.User_ID" name="student" value="@item.User_ID" class="awardStudents"/>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Prefix)

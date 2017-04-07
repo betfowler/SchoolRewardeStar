@@ -266,7 +266,10 @@ namespace eStar.Controllers
                 }
                 if (!String.IsNullOrEmpty(staff))
                 {
-                    staff = staff.Remove(staff.Length - 1);
+                    if (staff.EndsWith(","))
+                    {
+                        staff = staff.Remove(staff.Length - 1);
+                    }
                     List<string> staffMembers = staff.Split(',').ToList<string>();
                     foreach (var name in staffMembers)
                     {
@@ -287,7 +290,10 @@ namespace eStar.Controllers
                 }
                 if (!String.IsNullOrEmpty(student))
                 {
-                    student = student.Remove(student.Length - 1);
+                    if (student.EndsWith(","))
+                    {
+                        student = student.Remove(student.Length - 1);
+                    }
                     List<string> studentMembers = student.Split(',').ToList<string>();
                     foreach (var name in studentMembers)
                     {
