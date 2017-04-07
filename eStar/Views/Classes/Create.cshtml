@@ -129,6 +129,20 @@
                     <div class="searchContainer">
                         <div id="class">&nbsp; &nbsp;</div>
                         @Html.TextBox("studentSearch", null, new { @class = "clearable", @placeholder = "Search student names" })
+                        <select id="tutorDrop">
+                            <option value="">All Tutor Groups</option>
+                            <option value="Estrella">Estrella</option>
+                            <option value="Stella">Stella</option>
+                            <option value="Étoile">Étoile</option>
+                        </select>
+                        <select id="yearDrop">
+                            <option value="">All Year Groups</option>
+                            <option value="7">Year 7</option>
+                            <option value="8">Year 8</option>
+                            <option value="9">Year 9</option>
+                            <option value="10">Year 10</option>
+                            <option value="11">Year 11</option>
+                        </select>
                         <a onclick="classSearchUsers()" class="btn btn-primary">Search</a>
                     </div>
                     <div class="row" id="smlBreak"></div>

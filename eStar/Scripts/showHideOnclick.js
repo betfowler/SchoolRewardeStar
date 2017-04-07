@@ -84,31 +84,34 @@ function deadline() {
 }
 
 function classSearchUsers() {
+    var tutorGroup = $('#tutorDrop :selected').val();
+    var yearGroup = $('#yearDrop :selected').val();
     var staffList = String($("#staffList").attr("value"));
     var studentList = String($("#studentList").attr("value"));
     var searchStaff = $("#staffSearch").val();
     var searchStudent = $("#studentSearch").val();
     var name = $("#className").val();
-    window.location.href = "../Classes/Create?staffSearch=" + searchStaff + "&staff=" + staffList + "&className=" + name + "&student=" + studentList + "&studentSearch=" + searchStudent
+    window.location.href = "../Classes/Create?staffSearch=" + searchStaff + "&staff=" + staffList + "&className=" + name + "&student=" + studentList + "&studentSearch=" + searchStudent + "&tutorGroup=" + tutorGroup + "&yearGroup=" + yearGroup
 }
 
 function classSearchEdit(id) {
+    var tutorGroup = $('#tutorDrop :selected').val();
+    var yearGroup = $('#yearDrop :selected').val();
     var staffList = String($("#staffList").attr("value"));
     var studentList = String($("#studentList").attr("value"));
     var searchStaff = $("#staffSearch").val();
     var searchStudent = $("#studentSearch").val();
     var name = $("#className").val();
-    window.location.href = "../../Classes/Edit/"+id+"?staffSearch=" + searchStaff + "&staff=" + staffList + "&className=" + name + "&student=" + studentList + "&studentSearch=" + searchStudent
+    window.location.href = "../../Classes/Edit/" + id + "?staffSearch=" + searchStaff + "&staff=" + staffList + "&className=" + name + "&student=" + studentList + "&studentSearch=" + searchStudent + "&tutorGroup=" + tutorGroup + "&yearGroup=" + yearGroup
 }
 
 function studentAwardSearch(sortOrder) {
-    console.log(sortOrder);
     var classID = $("#classid").attr('value');
     var searchVal = $("#SearchString").val();
     var yearGroup = $("input[name = yearGroup]:checked").val();
     var tutorGroup = $("input[name = tutorGroup]:checked").val();
     var studentList = String($("#studentList").attr("value"));
-    window.location.href="../../Awards?classID=" + classID + "&searchString=" + searchVal + "&yearGroup=" + yearGroup + "&tutorGroup=" + tutorGroup + "&student=" + studentList + "&sortOrder=" + sortOrder
+    window.location.href = "../../Awards?classID=" + classID + "&searchString=" + searchVal + "&yearGroup=" + yearGroup + "&tutorGroup=" + tutorGroup + "&student=" + studentList + "&sortOrder=" + sortOrder + "&tutorGroup=" + tutorGroup
 }
 
 function studentAwardReset() {

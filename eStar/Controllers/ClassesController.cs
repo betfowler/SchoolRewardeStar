@@ -76,9 +76,9 @@ namespace eStar.Controllers
 
             return View(evm);
         }
-
+        
         // GET: Classes/Create
-        public ActionResult Create(string staffSearch, string studentSearch, string className, string warning, string student, string staff)
+        public ActionResult Create(string staffSearch, string tutorGroup, string yearGroup, string studentSearch, string className, string warning, string student, string staff)
         {
             EnrolmentViewModel evm = new EnrolmentViewModel();
             evm.Staff = db.Accounts.OfType<Staff>().ToList();
@@ -86,16 +86,27 @@ namespace eStar.Controllers
             ViewBag.className = className;
             ViewBag.Students = student;
             ViewBag.Staff = staff;
+
+            if (!String.IsNullOrEmpty(tutorGroup))
+            {
+                evm.Students = evm.Students.Where(st => st.Tutor_Group.Equals(tutorGroup)).ToList();
+            }
+            if (!String.IsNullOrEmpty(yearGroup))
+            {
+                evm.Students = evm.Students.Where(st => st.Year_Group.Equals(yearGroup)).ToList();
+            }
+            if (!String.IsNullOrEmpty(studentSearch))
+            {
+                var search = studentSearch.ToUpper();
+                evm.Students = evm.Students.Where(st => st.First_Name.ToUpper().Contains(search) || st.Surname.ToUpper().Contains(search)).ToList();
+            }
+
             if (!String.IsNullOrEmpty(staffSearch))
             {
                 var search = staffSearch.ToUpper();
                 evm.Staff = db.Accounts.OfType<Staff>().Where(st => st.First_Name.ToUpper().Contains(search) || st.Surname.ToUpper().Contains(search)).ToList();
             }
-            if (!String.IsNullOrEmpty(studentSearch))
-            {
-                var search = studentSearch.ToUpper();
-                evm.Students = db.Accounts.OfType<Student>().Where(st => st.First_Name.ToUpper().Contains(search) || st.Surname.ToUpper().Contains(search)).ToList();
-            }
+            
             if (!String.IsNullOrEmpty(warning))
             {
                 ViewBag.Error = warning;
@@ -221,7 +232,7 @@ namespace eStar.Controllers
         }
 
         // GET: Classes/Edit/5
-        public ActionResult Edit(int? id, string staffSearch, string studentSearch, string className, string warning, string student, string staff)
+        public ActionResult Edit(int? id, string staffSearch, string tutorGroup, string yearGroup, string studentSearch, string className, string warning, string student, string staff)
         {
             if (id == null)
             {
@@ -254,15 +265,23 @@ namespace eStar.Controllers
             }
             else
             {
-                if (!String.IsNullOrEmpty(staffSearch))
+                if (!String.IsNullOrEmpty(tutorGroup))
                 {
-                    var search = staffSearch.ToUpper();
-                    evm.Staff = db.Accounts.OfType<Staff>().Where(st => st.First_Name.ToUpper().Contains(search) || st.Surname.ToUpper().Contains(search)).ToList();
+                    evm.Students = evm.Students.Where(st => st.Tutor_Group.Equals(tutorGroup)).ToList();
+                }
+                if (!String.IsNullOrEmpty(yearGroup))
+                {
+                    evm.Students = evm.Students.Where(st => st.Year_Group.Equals(yearGroup)).ToList();
                 }
                 if (!String.IsNullOrEmpty(studentSearch))
                 {
                     var search = studentSearch.ToUpper();
-                    evm.Students = db.Accounts.OfType<Student>().Where(st => st.First_Name.ToUpper().Contains(search) || st.Surname.ToUpper().Contains(search)).ToList();
+                    evm.Students = evm.Students.Where(st => st.First_Name.ToUpper().Contains(search) || st.Surname.ToUpper().Contains(search)).ToList();
+                }
+                if (!String.IsNullOrEmpty(staffSearch))
+                {
+                    var search = staffSearch.ToUpper();
+                    evm.Staff = db.Accounts.OfType<Staff>().Where(st => st.First_Name.ToUpper().Contains(search) || st.Surname.ToUpper().Contains(search)).ToList();
                 }
                 if (!String.IsNullOrEmpty(staff))
                 {
